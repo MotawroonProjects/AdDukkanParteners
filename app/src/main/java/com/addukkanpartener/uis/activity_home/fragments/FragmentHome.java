@@ -1,5 +1,6 @@
 package com.addukkanpartener.uis.activity_home.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.FragmentHomeBinding;
+import com.addukkanpartener.uis.activity_add_prescription.PrescriptionActivity;
 import com.addukkanpartener.uis.activity_home.HomeActivity;
 
 import org.eazegraph.lib.models.ValueLinePoint;
@@ -55,6 +57,11 @@ public class FragmentHome extends Fragment {
 
         binding.cubiclinechart.addSeries(series);
         binding.cubiclinechart.startAnimation();
+
+        binding.llPrescription.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, PrescriptionActivity.class);
+            startActivity(intent);
+        });
     }
 
 
