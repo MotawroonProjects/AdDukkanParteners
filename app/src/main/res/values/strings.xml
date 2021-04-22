@@ -118,6 +118,9 @@
     <string name="prescriptions">Prescriptions</string>
     <string name="percentage_of_purchasing_written_prescriptions">Percentage of purchasing written prescriptions</string>
     <string name="patients">Patients</string>
-    <string name="Selected_treatments">Selected treatments</string>
+    <string name="selected_treatments">Selected treatments</string>
+    <string name="choose_company">Choose Company</string>
+    <string name="choose_treatment">Choose Treatment</string>
+    <string name="search_by_name">Search By Name</string>
 
 </resources>

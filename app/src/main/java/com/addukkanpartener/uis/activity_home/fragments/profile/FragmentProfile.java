@@ -17,6 +17,7 @@ import com.addukkanpartener.databinding.FragmentProfileBinding;
 import com.addukkanpartener.uis.activity_home.HomeActivity;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentMore;
 import com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild.FragmentPatients;
+import com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild.FragmentSelectedTreatments;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class FragmentProfile extends Fragment {
     private List<Fragment> getFragments() {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(FragmentPatients.newInstance());
-        fragmentList.add(FragmentMore.newInstance());
+        fragmentList.add(FragmentSelectedTreatments.newInstance());
 
 
         return fragmentList;
@@ -70,7 +71,7 @@ public class FragmentProfile extends Fragment {
     private List<String> getTitles() {
         List<String> titles = new ArrayList<>();
         titles.add(getString(R.string.patients));
-        titles.add(getString(R.string.Selected_treatments));
+        titles.add(getString(R.string.selected_treatments));
 
         return titles;
 

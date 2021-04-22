@@ -117,7 +117,10 @@
     <string name="prescriptions">الوصفات</string>
     <string name="percentage_of_purchasing_written_prescriptions">نسبة شراء الوصفات المكتوبة</string>
     <string name="patients">المرضى</string>
-    <string name="Selected_treatments">العلاجات المختارة</string>
+    <string name="selected_treatments">العلاجات المختارة</string>
+    <string name="choose_company">اختر الشركه</string>
+    <string name="choose_treatment">اختر الدواء</string>
+    <string name="search_by_name">بحث بالاسم</string>
 
 
 </resources>

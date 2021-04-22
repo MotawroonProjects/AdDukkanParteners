@@ -37,7 +37,7 @@ public class FragmentPatients extends Fragment {
         activity = (HomeActivity) getActivity();
         binding.recView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recView.setAdapter(new PatientsAdapter(activity));
-
+        binding.progBar.setVisibility(View.GONE);
     }
 
 
