@@ -12,6 +12,7 @@ import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.ActivityLoginBinding;
 import com.addukkanpartener.language.Language;
 import com.addukkanpartener.models.LoginModel;
+import com.addukkanpartener.uis.activity_home.HomeActivity;
 import com.addukkanpartener.uis.activity_sign_up.SignUpActivity;
 
 import io.paperdb.Paper;
@@ -56,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
        /* ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
