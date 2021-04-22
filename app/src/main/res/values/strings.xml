@@ -115,8 +115,9 @@
     <string name="reports">Reports</string>
     <string name="hello">Hello</string>
     <string name="we_show_you_some_statistics">We show you some statistics on the number of patients, prescriptions, and the status of their implementation for the patient</string>
-    <string name="patients">Patients</string>
     <string name="prescriptions">Prescriptions</string>
     <string name="percentage_of_purchasing_written_prescriptions">Percentage of purchasing written prescriptions</string>
+    <string name="patients">Patients</string>
+    <string name="Selected_treatments">Selected treatments</string>
 
 </resources>

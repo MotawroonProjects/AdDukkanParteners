@@ -1,6 +1,5 @@
-package com.addukkanpartener.uis.activity_home.fragments;
+package com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,38 +9,34 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.addukkanpartener.R;
-import com.addukkanpartener.databinding.FragmentProfileBinding;
+import com.addukkanpartener.adapters.PatientsAdapter;
+import com.addukkanpartener.databinding.FragmentPatientsBinding;
 import com.addukkanpartener.uis.activity_home.HomeActivity;
 
-import io.paperdb.Paper;
-
-public class FragmentProfile extends Fragment {
-    private FragmentProfileBinding binding;
+public class FragmentPatients extends Fragment {
+    private FragmentPatientsBinding binding;
     private HomeActivity activity;
-    private String lang = "ar";
 
 
-    public static FragmentProfile newInstance() {
-        return new FragmentProfile();
+    public static FragmentPatients newInstance() {
+        return new FragmentPatients();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_patients, container, false);
         initView();
         return binding.getRoot();
     }
 
     private void initView() {
         activity = (HomeActivity) getActivity();
-        Paper.init(activity);
-        lang = Paper.book().read("lang","ar");
-        binding.setLang(lang);
-
+        binding.recView.setLayoutManager(new LinearLayoutManager(activity));
+        binding.recView.setAdapter(new PatientsAdapter(activity));
 
     }
 

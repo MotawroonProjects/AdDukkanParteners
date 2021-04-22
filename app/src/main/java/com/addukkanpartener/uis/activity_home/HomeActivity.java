@@ -20,7 +20,7 @@ import com.addukkanpartener.preferences.Preferences;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentChat;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentHome;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentMore;
-import com.addukkanpartener.uis.activity_home.fragments.FragmentProfile;
+import com.addukkanpartener.uis.activity_home.fragments.profile.FragmentProfile;
 
 import java.util.List;
 

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    >
+   <TextView
+       android:id="@+id/tvTitle"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:textSize="12sp"
+
+       android:textColor="@color/black"
+       android:paddingLeft="2dp"
+       android:paddingRight="2dp"
+       android:singleLine="true"
+android:text="@string/patients"
+       android:layout_gravity="center"
+       android:textStyle="bold"
+       />
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="18"
+        android:padding="3dp"
+        android:background="@drawable/circle_primary"
+        android:textColor="@color/white"
+        android:singleLine="true"
+
+        />
+</LinearLayout>
+</FrameLayout>
