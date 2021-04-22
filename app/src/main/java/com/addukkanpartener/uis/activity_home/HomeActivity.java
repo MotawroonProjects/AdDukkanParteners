@@ -53,7 +53,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initView() {
         fragmentManager = getSupportFragmentManager();
-        binding.toolBar.setNavigationIcon(R.drawable.ic_toolbar_nav_icon);
         updateCartCount(0);
 
         displayFragmentHome();

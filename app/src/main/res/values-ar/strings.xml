@@ -112,6 +112,11 @@
     <string name="ch_spec">إختر التخصص</string>
     <string name="ch_location">حدد موقعك</string>
     <string name="reports">كل التقارير</string>
+    <string name="hello">أهلا</string>
+    <string name="we_show_you_some_statistics">نستعرض لك بعض الاحصائيات الخاصة بعدد المرضي والوصفات وحالة تنفيذها بالنسبة للمريض</string>
+    <string name="patients">المرضى</string>
+    <string name="prescriptions">الوصفات</string>
+    <string name="percentage_of_purchasing_written_prescriptions">نسبة شراء الوصفات المكتوبة</string>
 
 
 </resources>
