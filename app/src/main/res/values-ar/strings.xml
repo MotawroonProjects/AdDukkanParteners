@@ -126,6 +126,15 @@
     <string name="search_by_name">بحث بالاسم</string>
     <string name="patient_name">إسم المريض</string>
     <string name="prescription_name">إسم الوصفة</string>
+    <string name="add">إضافة</string>
+    <string name="total">الإجمالى :</string>
+    <string name="notes2">ملاحظات</string>
+    <string name="print">طباعة</string>
+    <string name="share_link">مشاركة</string>
+    <string name="you_can_scan_a_barcode_through_the_al_dukan_app">يمكنك عمل مسح للباركود من خلال تطبيق الدكان</string>
+    <string name="doctor_name">إسم الطبيب :</string>
+    <string name="patient_name2">إسم المريض :</string>
+    <string name="patient_phone">رقم جوال المريض :</string>
 
 
 </resources>

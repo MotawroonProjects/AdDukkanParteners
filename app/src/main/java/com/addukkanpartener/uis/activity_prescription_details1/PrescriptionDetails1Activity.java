@@ -1,4 +1,4 @@
-package com.addukkanpartener.uis.activity_add_prescription;
+package com.addukkanpartener.uis.activity_prescription_details1;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -10,19 +10,18 @@ import android.text.Html;
 
 import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.ActivityLoginBinding;
-import com.addukkanpartener.databinding.ActivityPrescriptionBinding;
+import com.addukkanpartener.databinding.ActivityPrescriptionDetails1Binding;
 import com.addukkanpartener.language.Language;
 import com.addukkanpartener.models.LoginModel;
-import com.addukkanpartener.uis.activity_prescription_details1.PrescriptionDetails1Activity;
+import com.addukkanpartener.uis.activity_print.PrintActivity;
 import com.addukkanpartener.uis.activity_sign_up.SignUpActivity;
 
 import io.paperdb.Paper;
 
-public class PrescriptionActivity extends AppCompatActivity {
+public class PrescriptionDetails1Activity extends AppCompatActivity {
 
-    private ActivityPrescriptionBinding binding;
+    private ActivityPrescriptionDetails1Binding binding;
     private String lang = "ar";
-    private int amount = 1;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -33,7 +32,7 @@ public class PrescriptionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_prescription);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_prescription_details1);
         initView();
     }
 
@@ -41,28 +40,10 @@ public class PrescriptionActivity extends AppCompatActivity {
         Paper.init(this);
         lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
-        binding.setAmount("1");
         binding.llBack.setOnClickListener(v -> finish());
 
-        binding.imageIncrease.setOnClickListener(v -> {
-            amount += 1;
-            binding.setAmount(String.valueOf(amount));
-        });
-
-        binding.imageDecrease.setOnClickListener(v -> {
-            if (amount > 1) {
-                amount -= 1;
-                binding.setAmount(String.valueOf(amount));
-            }
-
-        });
-
-        binding.llAdd.setOnClickListener(v -> {
-            amount = 1;
-            binding.setAmount(String.valueOf(amount));
-            binding.tvAutoComplete.setText(null);
-
-            Intent intent = new Intent(this, PrescriptionDetails1Activity.class);
+        binding.btnPrint.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PrintActivity.class);
             startActivity(intent);
         });
 
