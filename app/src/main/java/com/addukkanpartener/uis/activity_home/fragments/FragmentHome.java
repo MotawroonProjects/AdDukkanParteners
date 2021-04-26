@@ -39,6 +39,7 @@ public class FragmentHome extends Fragment {
 
     private void initView() {
         activity = (HomeActivity) getActivity();
+        binding.setNotCount("0");
         ValueLineSeries series = new ValueLineSeries();
         series.setColor(ContextCompat.getColor(activity,R.color.color3));
 

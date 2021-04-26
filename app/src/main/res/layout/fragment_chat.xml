@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -8,27 +9,111 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+
             android:background="@color/white"
             >
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recViewMainCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                />
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                >
 
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="0dp"/>
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:text="@string/duckan_chat"
+                        />
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_gravity="center_vertical|end"
+                        app:cardBackgroundColor="@color/gray10"
+                        app:cardCornerRadius="22dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+
+                            >
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/ic_search"
+                                app:tint="@color/book_trans" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/transparent"
+                                app:counterEnabled="false"
+                                app:errorEnabled="false"
+                                app:helperTextEnabled="false"
+                                app:hintAnimationEnabled="false"
+                                app:hintEnabled="false"
+                                app:hintTextColor="@color/gray10"
+
+
+                                >
+
+                                <EditText
+                                    android:id="@+id/editQuery"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@color/gray10"
+                                    android:gravity="center_vertical"
+                                    android:hint="@string/search2"
+                                    android:imeOptions="actionSearch"
+                                    android:padding="2dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/gray4"
+                                    android:textSize="14sp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.AppBarLayout>
+
             <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 >
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recViewSubCategory"
+                    android:id="@+id/recView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     />

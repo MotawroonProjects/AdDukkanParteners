@@ -135,6 +135,7 @@
     <string name="doctor_name">إسم الطبيب :</string>
     <string name="patient_name2">إسم المريض :</string>
     <string name="patient_phone">رقم جوال المريض :</string>
+    <string name="duckan_chat">شات الدكان</string>
 
 
 </resources>

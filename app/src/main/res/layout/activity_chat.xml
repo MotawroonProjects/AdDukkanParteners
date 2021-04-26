@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    >
+    <data>
+
+
+        <variable
+            name="lang"
+            type="String" />
+        <variable
+            name="backlistener"
+            type="com.addukkanpartener.interfaces.Listeners.BackListener" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".uis.activity_choose_order_type.ChooseOrderTypeActivity"
+        android:background="@color/white"
+        >
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/white"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            >
+            <LinearLayout
+                android:id="@+id/llBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->backlistener.back()}"
+
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_right_arrow"
+                    app:tint="@color/black"
+                    android:padding="8dp"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:rotation='@{lang.equals("en")?180:0}'
+                    />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:textColor="@color/black"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:textSize="16sp"
+                    android:maxEms="6"
+                    android:singleLine="true"
+                    android:text="محمد النجار"
+                    />
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toTopOf="@id/msgContent"
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="8dp"
+                />
+            <ProgressBar
+                android:id="@+id/progBar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+
+
+
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/msgContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:cardElevation="2dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                >
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+android:background="@drawable/small_rounded_stroke_primary"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:layout_gravity="center"
+
+
+                        >
+                        <EditText
+                            android:id="@+id/edtMessage"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:textColor="@color/black"
+                            android:minHeight="40dp"
+                            android:layout_weight="1"
+                            android:hint="@string/type_a_message"
+                            android:textSize="14sp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:inputType="textMultiLine"
+                            android:maxLines="5"
+
+                            />
+                        <ImageView
+                            android:id="@+id/imageSend"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/ic_send"
+                            android:padding="10dp"
+                            app:tint="@color/colorPrimary"
+                            android:layout_gravity="center_vertical"
+
+                            />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+                <ImageView
+                    android:id="@+id/imagefile"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+
+                    android:src="@drawable/ic_file"
+                    android:padding="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:rotation='@{lang.equals("ar")?180:0}'
+
+                    />
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

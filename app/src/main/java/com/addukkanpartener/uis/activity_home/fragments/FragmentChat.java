@@ -9,8 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.addukkanpartener.R;
+import com.addukkanpartener.adapters.RoomAdapter;
 import com.addukkanpartener.databinding.FragmentChatBinding;
 import com.addukkanpartener.uis.activity_home.HomeActivity;
 
@@ -33,7 +35,9 @@ public class FragmentChat extends Fragment {
 
     private void initView() {
         activity = (HomeActivity) getActivity();
-
+        binding.progBar.setVisibility(View.GONE);
+        binding.recView.setLayoutManager(new LinearLayoutManager(activity));
+        binding.recView.setAdapter(new RoomAdapter(activity));
     }
 
 
