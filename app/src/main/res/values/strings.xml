@@ -137,5 +137,7 @@
     <string name="patient_name2">Patient name :</string>
     <string name="patient_phone">Patient phone :</string>
     <string name="duckan_chat">Dukkan Chat</string>
+    <string name="choose_country">Choose Country</string>
+    <string name="choose_special">Choose Special</string>
 
 </resources>

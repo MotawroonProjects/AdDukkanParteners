@@ -3,6 +3,7 @@ package com.addukkanpartener.uis.activity_sign_up;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -16,6 +17,7 @@ import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,13 +28,21 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.addukkanpartener.R;
+import com.addukkanpartener.adapters.SpinnerCountryAdapter;
+import com.addukkanpartener.adapters.SpinnerSpecialAdapter;
 import com.addukkanpartener.databinding.ActivitySignUpBinding;
 import com.addukkanpartener.language.Language;
+import com.addukkanpartener.models.CountryDataModel;
+import com.addukkanpartener.models.CountryModel;
 import com.addukkanpartener.models.PlaceGeocodeData;
 import com.addukkanpartener.models.PlaceMapDetailsData;
 import com.addukkanpartener.models.SignUpModel;
+import com.addukkanpartener.models.SpecialDataModel;
+import com.addukkanpartener.models.SpecialModel;
+import com.addukkanpartener.preferences.Preferences;
 import com.addukkanpartener.remote.Api;
 import com.addukkanpartener.share.Common;
+import com.addukkanpartener.tags.Tags;
 import com.addukkanpartener.uis.FragmentMapTouchListener;
 import com.addukkanpartener.uis.activity_verification_code.VerificationCodeActivity;
 import com.google.android.gms.common.ConnectionResult;
@@ -59,6 +69,8 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.paperdb.Paper;
 import retrofit2.Call;
@@ -86,7 +98,9 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
     private final String fineLocPerm = Manifest.permission.ACCESS_FINE_LOCATION;
     private final int loc_req = 1225;
     private FragmentMapTouchListener fragment;
-
+    private List<CountryModel> countryModelList;
+    private List<SpecialModel> specialModelList;
+    private ProgressDialog dialog;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -102,6 +116,8 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private void initView() {
+        specialModelList = new ArrayList<>();
+        countryModelList = new ArrayList<>();
         Paper.init(this);
         lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
@@ -110,9 +126,9 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
         binding.setModel(signUpModel);
         binding.btnSignUp.setOnClickListener(v -> {
             if (signUpModel.isDataValid(this)) {
-                if (uri==null){
+                if (uri == null) {
                     signUpWithoutImage();
-                }else {
+                } else {
                     signUpWithImage();
                 }
             }
@@ -137,6 +153,7 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
         binding.btnCancel.setOnClickListener(view -> closeSheet());
 
         updateUI();
+        getCountries();
     }
 
     private void signUpWithoutImage() {
@@ -145,6 +162,167 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private void signUpWithImage() {
 
+    }
+
+    private void getCountries() {
+        dialog = Common.createProgressDialog(this, this.getString(R.string.wait));
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+        Api.getService(Tags.base_url)
+                .getCountries(lang)
+                .enqueue(new Callback<CountryDataModel>() {
+                    @Override
+                    public void onResponse(Call<CountryDataModel> call, Response<CountryDataModel> response) {
+                        binding.progBar.setVisibility(View.GONE);
+                        if (response.isSuccessful()) {
+
+                            if (response.body() != null && response.body().getStatus() == 200) {
+                                if (response.body().getData() != null) {
+                                    if (response.body().getData().size() > 0) {
+                                        updateCountryData(response.body().getData());
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(SignUpActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } else {
+                            binding.progBar.setVisibility(View.GONE);
+
+                            switch (response.code()) {
+                                case 500:
+                                    Toast.makeText(SignUpActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    Toast.makeText(SignUpActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                            try {
+                                Log.e("error_code", response.code() + "_");
+                            } catch (NullPointerException e) {
+
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<CountryDataModel> call, Throwable t) {
+                        try {
+                            binding.progBar.setVisibility(View.GONE);
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage());
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    Toast.makeText(SignUpActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                } else if (t.getMessage().toLowerCase().contains("socket") || t.getMessage().toLowerCase().contains("canceled")) {
+                                } else {
+                                    Toast.makeText(SignUpActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+
+    }
+
+    private void updateCountryData(List<CountryModel> data) {
+        countryModelList.clear();
+        CountryModel countryModel = new CountryModel();
+        countryModel.setCountry_setting_trans_fk(new CountryModel.CountrySettingTransFk(getResources().getString(R.string.choose_country)));
+        countryModelList.add(countryModel);
+        countryModelList.addAll(data);
+
+        SpinnerCountryAdapter spinnerCountryAdapter = new SpinnerCountryAdapter(countryModelList, this);
+        binding.spcountry.setAdapter(spinnerCountryAdapter);
+        getSpecilal();
+    }
+
+    private void getSpecilal() {
+
+        Api.getService(Tags.base_url)
+                .getSpecial(lang)
+                .enqueue(new Callback<SpecialDataModel>() {
+                    @Override
+                    public void onResponse(Call<SpecialDataModel> call, Response<SpecialDataModel> response) {
+                        dialog.dismiss();
+
+                        if (response.isSuccessful()) {
+
+                            if (response.body() != null && response.body().getStatus() == 200) {
+                                if (response.body().getData() != null) {
+                                    if (response.body().getData().size() > 0) {
+                                        updateSpecialData(response.body().getData());
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(SignUpActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } else {
+                            dialog.dismiss();
+
+                            switch (response.code()) {
+                                case 500:
+                                    Toast.makeText(SignUpActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    Toast.makeText(SignUpActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                            try {
+                                Log.e("error_code", response.code() + "_");
+                            } catch (NullPointerException e) {
+
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SpecialDataModel> call, Throwable t) {
+                        try {
+                            dialog.dismiss();
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage());
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    Toast.makeText(SignUpActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                } else if (t.getMessage().toLowerCase().contains("socket") || t.getMessage().toLowerCase().contains("canceled")) {
+                                } else {
+                                    Toast.makeText(SignUpActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+
+    }
+
+    private void updateSpecialData(List<SpecialModel> data) {
+        specialModelList.clear();
+        SpecialModel specialModel = new SpecialModel();
+        specialModel.setSpecialization_trans_fk(new SpecialModel.SpecializationTransFk(getResources().getString(R.string.choose_special)));
+        specialModelList.add(specialModel);
+        specialModelList.addAll(data);
+
+        SpinnerSpecialAdapter spinnerSpecialAdapter = new SpinnerSpecialAdapter(specialModelList, this);
+        binding.spspecial.setAdapter(spinnerSpecialAdapter);
     }
 
 
@@ -222,7 +400,7 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
             } else {
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
-        }else  if (requestCode == READ_REQ) {
+        } else if (requestCode == READ_REQ) {
 
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 SelectImage(requestCode);
@@ -248,7 +426,7 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
 
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
             startLocationUpdate();
-        }else if (requestCode == READ_REQ && resultCode == Activity.RESULT_OK && data != null) {
+        } else if (requestCode == READ_REQ && resultCode == Activity.RESULT_OK && data != null) {
 
             uri = data.getData();
             File file = new File(Common.getImagePath(this, uri));

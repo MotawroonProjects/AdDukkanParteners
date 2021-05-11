@@ -136,6 +136,8 @@
     <string name="patient_name2">إسم المريض :</string>
     <string name="patient_phone">رقم جوال المريض :</string>
     <string name="duckan_chat">شات الدكان</string>
+    <string name="choose_country">Choose Country</string>
+    <string name="choose_special">Choose Special</string>
 
 
 </resources>
