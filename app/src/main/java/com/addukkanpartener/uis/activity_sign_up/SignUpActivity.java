@@ -3,6 +3,7 @@ package com.addukkanpartener.uis.activity_sign_up;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +18,9 @@ import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,11 +29,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.addukkanpartener.R;
+import com.addukkanpartener.adapters.CountriesAdapter;
 import com.addukkanpartener.adapters.SpinnerCountryAdapter;
 import com.addukkanpartener.adapters.SpinnerSpecialAdapter;
 import com.addukkanpartener.databinding.ActivitySignUpBinding;
+import com.addukkanpartener.databinding.DialogCountriesBinding;
 import com.addukkanpartener.language.Language;
 import com.addukkanpartener.models.CountryDataModel;
 import com.addukkanpartener.models.CountryModel;
@@ -39,6 +45,7 @@ import com.addukkanpartener.models.PlaceMapDetailsData;
 import com.addukkanpartener.models.SignUpModel;
 import com.addukkanpartener.models.SpecialDataModel;
 import com.addukkanpartener.models.SpecialModel;
+import com.addukkanpartener.models.UserModel;
 import com.addukkanpartener.preferences.Preferences;
 import com.addukkanpartener.remote.Api;
 import com.addukkanpartener.share.Common;
@@ -70,6 +77,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.paperdb.Paper;
@@ -98,9 +106,10 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
     private final String fineLocPerm = Manifest.permission.ACCESS_FINE_LOCATION;
     private final int loc_req = 1225;
     private FragmentMapTouchListener fragment;
-    private List<CountryModel> countryModelList;
+    private List<CountryModel> countryModelList,countryModels;
     private List<SpecialModel> specialModelList;
     private ProgressDialog dialog;
+    private AlertDialog dialog2;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -118,6 +127,7 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
     private void initView() {
         specialModelList = new ArrayList<>();
         countryModelList = new ArrayList<>();
+        countryModels=new ArrayList<>();
         Paper.init(this);
         lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
@@ -127,13 +137,45 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
         binding.btnSignUp.setOnClickListener(v -> {
             if (signUpModel.isDataValid(this)) {
                 if (uri == null) {
-                    signUpWithoutImage();
+                    signUpModel.setImage("");
                 } else {
-                    signUpWithImage();
+                    signUpModel.setImage(uri.toString());
                 }
+                navigatetoVerficationCode();
             }
         });
+        binding.spcountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i != 0) {
+                    signUpModel.setCountry_id(countryModelList.get(i).getCode());
+                } else {
+                    signUpModel.setCountry_id("");
+                }
+                binding.setModel(signUpModel);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        binding.spspecial.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i != 0) {
+                    signUpModel.setSpecialize(specialModelList.get(i).getId());
+                } else {
+                    signUpModel.setSpecialize(0);
+                }
+                binding.setModel(signUpModel);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         binding.tvLogin.setOnClickListener(v -> finish());
 
         binding.llBack.setOnClickListener(v -> finish());
@@ -151,18 +193,46 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
         });
 
         binding.btnCancel.setOnClickListener(view -> closeSheet());
-
+binding.arrow.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        dialog2.show();
+    }
+});
         updateUI();
         getCountries();
-    }
-
-    private void signUpWithoutImage() {
 
     }
 
-    private void signUpWithImage() {
-
+    private void navigatetoVerficationCode() {
+        Intent intent=new Intent(SignUpActivity.this,VerificationCodeActivity.class);
+        intent.putExtra("data",signUpModel);
+        startActivity(intent);
     }
+
+
+    private void createCountriesDialog() {
+
+         dialog2 = new AlertDialog.Builder(this).create();
+        CountriesAdapter countriesAdapter = new CountriesAdapter(countryModels, this);
+
+        DialogCountriesBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_countries, null, false);
+        binding.recView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recView.setAdapter(countriesAdapter);
+
+        dialog2.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
+        dialog2.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
+        dialog2.setCanceledOnTouchOutside(false);
+        dialog2.setView(binding.getRoot());
+    }
+
+    private void sortCountries() {
+        Collections.sort(countryModelList, (country1, country2) -> {
+            return country1.getCountry_setting_trans_fk().getTitle().trim().compareToIgnoreCase(country2.getCountry_setting_trans_fk().getTitle().trim());
+        });
+    }
+
+
 
     private void getCountries() {
         dialog = Common.createProgressDialog(this, this.getString(R.string.wait));
@@ -175,6 +245,7 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onResponse(Call<CountryDataModel> call, Response<CountryDataModel> response) {
                         binding.progBar.setVisibility(View.GONE);
+                        binding.arrow.setVisibility(View.VISIBLE);
                         if (response.isSuccessful()) {
 
                             if (response.body() != null && response.body().getStatus() == 200) {
@@ -193,6 +264,7 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
 
                         } else {
                             binding.progBar.setVisibility(View.GONE);
+                            binding.arrow.setVisibility(View.VISIBLE);
 
                             switch (response.code()) {
                                 case 500:
@@ -215,6 +287,8 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onFailure(Call<CountryDataModel> call, Throwable t) {
                         try {
+                            binding.arrow.setVisibility(View.VISIBLE);
+
                             binding.progBar.setVisibility(View.GONE);
                             if (t.getMessage() != null) {
                                 Log.e("error", t.getMessage());
@@ -236,14 +310,22 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private void updateCountryData(List<CountryModel> data) {
         countryModelList.clear();
+
+        countryModels.addAll(data);
+
+
+        sortCountries();
+        createCountriesDialog();
+        countryModelList.clear();
+
         CountryModel countryModel = new CountryModel();
         countryModel.setCountry_setting_trans_fk(new CountryModel.CountrySettingTransFk(getResources().getString(R.string.choose_country)));
         countryModelList.add(countryModel);
         countryModelList.addAll(data);
-
         SpinnerCountryAdapter spinnerCountryAdapter = new SpinnerCountryAdapter(countryModelList, this);
         binding.spcountry.setAdapter(spinnerCountryAdapter);
         getSpecilal();
+
     }
 
     private void getSpecilal() {
@@ -637,4 +719,10 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
         }
     }
 
+    public void setItemData(CountryModel countryModel) {
+        signUpModel.setPhone_code(countryModel.getPhone_code());
+        binding.setModel(signUpModel);
+        dialog2.dismiss();
+        binding.tvCode.setText(countryModel.getPhone_code());
+    }
 }

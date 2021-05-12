@@ -245,6 +245,7 @@
                             android:layout_height="0dp" />
 
                         <TextView
+                            android:id="@+id/tvCode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -328,6 +329,8 @@
                             android:hint="@string/email"
                             android:textColorHint="@color/gray9"
                             android:singleLine="true"
+                            android:text="@={model.email}"
+                            error="@{model.error_email}"
                             android:textColor="@color/black"
                             android:textSize="15sp"
                             android:inputType="textEmailAddress"
@@ -398,6 +401,9 @@
                             android:singleLine="true"
                             android:textColor="@color/black"
                             android:textSize="15sp"
+                            error="@{model.error_center}"
+
+                            android:text="@={model.center}"
                             android:inputType="textEmailAddress"
                             />
                     </LinearLayout>
@@ -471,6 +477,9 @@
                             android:textColor="@color/black"
                             android:textSize="15sp"
                             android:gravity="top"
+                            error="@{model.error_cv}"
+
+                            android:text="@={model.cv}"
                             />
                     </LinearLayout>
 

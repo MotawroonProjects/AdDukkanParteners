@@ -12,14 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.PatientRowBinding;
+import com.addukkanpartener.models.UserModel;
+
+import java.util.List;
 
 
 public class PatientsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater inflater;
     private Context context;
+    private List<UserModel.User> list;
 
-    public PatientsAdapter(Context context) {
+    public PatientsAdapter(Context context, List<UserModel.User> list) {
         inflater = LayoutInflater.from(context);
+        this.list = list;
         this.context = context;
     }
 
@@ -35,13 +40,13 @@ public class PatientsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-
-
+        PatientHolder eventHolder = (PatientHolder) holder;
+eventHolder.binding.setModel(list.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 18;
+        return list.size();
     }
 
     public static class PatientHolder extends RecyclerView.ViewHolder {

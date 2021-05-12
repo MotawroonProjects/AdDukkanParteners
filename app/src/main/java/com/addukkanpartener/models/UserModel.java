@@ -18,20 +18,58 @@ public class UserModel implements Serializable {
 
     public static class User implements Serializable {
         private int id;
+        private String code;
+        private String user_type;
+        private String phone_code;
+        private String phone;
         private String name;
         private String email;
-        private String phone;
+        private int specialization_id;
+        private String country_code;
+        private String about_user;
+        private String hospital_place;
+        private String license_image;
+        private String address;
+        private double latitude;
+        private double longitude;
+        private String gender;
+        private String birthday;
         private String logo;
-        private String fireBaseToken;
-        private double total;
-        private List<Value> values;
-
-        public User() {
-        }
-
+        private String banner;
+        private String approved_status;
+        private String approved_by;
+        private String is_blocked;
+        private String is_login;
+        private String logout_time;
+        private String email_verified_at;
+        private String confirmation_code;
+        private String forget_password_code;
+        private String software_type;
+        private String deleted_at;
+        private String created_at;
+        private String upStringd_at;
+        private String token;
+        private SpecialModel user_specialization;
+        private CountryModel user_country;
 
         public int getId() {
             return id;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getUser_type() {
+            return user_type;
+        }
+
+        public String getPhone_code() {
+            return phone_code;
+        }
+
+        public String getPhone() {
+            return phone;
         }
 
         public String getName() {
@@ -42,80 +80,118 @@ public class UserModel implements Serializable {
             return email;
         }
 
-        public String getPhone() {
-            return phone;
+        public int getSpecialization_id() {
+            return specialization_id;
         }
 
-        public String getImage() {
+        public String getCountry_code() {
+            return country_code;
+        }
+
+        public String getAbout_user() {
+            return about_user;
+        }
+
+        public String getHospital_place() {
+            return hospital_place;
+        }
+
+        public String getLicense_image() {
+            return license_image;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public double getLatitude() {
+            return latitude;
+        }
+
+        public double getLongitude() {
+            return longitude;
+        }
+
+        public String getGender() {
+            return gender;
+        }
+
+        public String getBirthday() {
+            return birthday;
+        }
+
+        public String getLogo() {
             return logo;
         }
 
-
-        public String getFireBaseToken() {
-            return fireBaseToken;
+        public String getBanner() {
+            return banner;
         }
 
-        public void setFireBaseToken(String fireBaseToken) {
-            this.fireBaseToken = fireBaseToken;
+        public String getApproved_status() {
+            return approved_status;
         }
 
-        public double getTotal() {
-            return total;
+        public String getApproved_by() {
+            return approved_by;
         }
 
-        public List<Value> getValues() {
-            return values;
-        }
-    }
-
-    public static class Value implements Serializable{
-        private int id;
-        private int deal_id;
-        private int user_id;
-        private int describe_id;
-        private int percent;
-        private int value;
-        private String created_at;
-        private String updated_at;
-
-        public int getId() {
-            return id;
+        public String getIs_blocked() {
+            return is_blocked;
         }
 
-        public int getDeal_id() {
-            return deal_id;
+        public String getIs_login() {
+            return is_login;
         }
 
-        public int getUser_id() {
-            return user_id;
+        public String getLogout_time() {
+            return logout_time;
         }
 
-        public int getDescribe_id() {
-            return describe_id;
+        public String getEmail_verified_at() {
+            return email_verified_at;
         }
 
-        public int getPercent() {
-            return percent;
+        public String getConfirmation_code() {
+            return confirmation_code;
         }
 
-        public int getValue() {
-            return value;
+        public String getForget_password_code() {
+            return forget_password_code;
+        }
+
+        public String getSoftware_type() {
+            return software_type;
+        }
+
+        public String getDeleted_at() {
+            return deleted_at;
         }
 
         public String getCreated_at() {
             return created_at;
         }
 
-        public String getUpdated_at() {
-            return updated_at;
+        public String getUpStringd_at() {
+            return upStringd_at;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public SpecialModel getUser_specialization() {
+            return user_specialization;
+        }
+
+        public CountryModel getUser_country() {
+            return user_country;
         }
     }
+
     public int getStatus() {
         return status;
     }
-
-
-
 
 
 }

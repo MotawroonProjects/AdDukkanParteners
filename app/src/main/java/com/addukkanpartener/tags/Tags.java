@@ -2,7 +2,7 @@ package com.addukkanpartener.tags;
 
 public class Tags {
 
-    public static String base_url = "http://admin.alsafeer-tech.net/";
+    public static String base_url = "http://dokan.sray.live/";
     public static final String IMAGE_URL= base_url+"storage/uploads/";
     public static final String session_login = "login";
     public static final String session_logout = "logout";

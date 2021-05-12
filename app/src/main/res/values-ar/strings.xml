@@ -138,6 +138,7 @@
     <string name="duckan_chat">شات الدكان</string>
     <string name="choose_country">Choose Country</string>
     <string name="choose_special">Choose Special</string>
+    <string name="country_code">Country Code</string>
 
 
 </resources>

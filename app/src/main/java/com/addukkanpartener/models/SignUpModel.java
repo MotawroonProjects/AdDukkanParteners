@@ -1,6 +1,7 @@
 package com.addukkanpartener.models;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
 
@@ -14,7 +15,7 @@ import com.addukkanpartener.R;
 import java.io.Serializable;
 
 public class SignUpModel extends BaseObservable implements Serializable {
-    private int country_id;
+    private String country_id;
     private int specialize;
     private String name;
     private String phone_code;
@@ -26,6 +27,7 @@ public class SignUpModel extends BaseObservable implements Serializable {
     private double lng;
     private String cv;
     private String password;
+    private String image;
     public ObservableField<String> error_name = new ObservableField<>();
     public ObservableField<String> error_phone = new ObservableField<>();
     public ObservableField<String> error_email = new ObservableField<>();
@@ -43,13 +45,14 @@ public class SignUpModel extends BaseObservable implements Serializable {
         cv="";
         lat =0.0;
         lng=0.0;
-        country_id =0;
+        country_id ="";
         specialize = 0;
         password = "";
+        image="";
     }
 
     public boolean isDataValid(Context context) {
-        if (country_id!=0&&
+        if (!country_id.isEmpty()&&
                 specialize!=0&&
                 !name.isEmpty() &&
                 !phone.isEmpty() &&
@@ -69,8 +72,8 @@ public class SignUpModel extends BaseObservable implements Serializable {
             error_password.set(null);
             return true;
         } else {
-
-            if (country_id==0){
+            Log.e("ldldldl",country_id+" "+specialize+" "+name+" "+phone+" "+email+center+" "+address+" "+cv+" "+password);
+            if (country_id.isEmpty()){
                 Toast.makeText(context, R.string.ch_country, Toast.LENGTH_SHORT).show();
             }
             if (specialize==0){
@@ -169,11 +172,11 @@ public class SignUpModel extends BaseObservable implements Serializable {
         this.phone_code = phone_code;
     }
 
-    public int getCountry_id() {
+    public String getCountry_id() {
         return country_id;
     }
 
-    public void setCountry_id(int country_id) {
+    public void setCountry_id(String country_id) {
         this.country_id = country_id;
     }
 
@@ -239,5 +242,13 @@ public class SignUpModel extends BaseObservable implements Serializable {
         this.cv = cv;
         notifyPropertyChanged(BR.cv);
 
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

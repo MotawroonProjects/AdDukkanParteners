@@ -265,4 +265,8 @@ public class HomeActivity extends AppCompatActivity {
             displayFragmentHome();
         }
     }
+
+    public void updatecount(int count) {
+        fragmentProfile.updatecount(count);
+    }
 }

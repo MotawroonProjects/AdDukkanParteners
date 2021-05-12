@@ -3,9 +3,11 @@ package com.addukkanpartener.uis.activity_verification_code;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,27 +18,39 @@ import androidx.databinding.DataBindingUtil;
 import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.ActivityVerificationCodeBinding;
 import com.addukkanpartener.language.Language;
+import com.addukkanpartener.models.SignUpModel;
+import com.addukkanpartener.models.UserModel;
+import com.addukkanpartener.preferences.Preferences;
+import com.addukkanpartener.remote.Api;
 import com.addukkanpartener.share.Common;
+import com.addukkanpartener.tags.Tags;
+import com.addukkanpartener.uis.activity_home.HomeActivity;
+import com.addukkanpartener.uis.activity_sign_up.SignUpActivity;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import io.paperdb.Paper;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class VerificationCodeActivity extends AppCompatActivity {
     private ActivityVerificationCodeBinding binding;
-    private String phone_code = "";
-    private String phone = "";
     private boolean canSend = false;
     private CountDownTimer countDownTimer;
     private FirebaseAuth mAuth;
     private String verificationId;
     private String smsCode = "";
-
+    private SignUpModel signUpModel;
+    private String lang;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -55,15 +69,18 @@ public class VerificationCodeActivity extends AppCompatActivity {
     private void getDataFromIntent() {
         Intent intent = getIntent();
         if (intent != null) {
-            phone_code = intent.getStringExtra("phone_code");
-            phone = intent.getStringExtra("phone");
+            signUpModel = (SignUpModel) intent.getSerializableExtra("data");
+
 
         }
     }
 
     private void initView() {
+        Paper.init(this);
+        lang = Paper.book().read("lang", "ar");
+        binding.setLang(lang);
         mAuth = FirebaseAuth.getInstance();
-        String mPhone = phone_code + phone;
+        String mPhone = signUpModel.getPhone_code() + signUpModel.getPhone();
         binding.setPhone(mPhone);
 
 
@@ -83,6 +100,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
 
             }
         });
+        sendSmsCode();
     }
 
 
@@ -120,7 +138,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
         };
         PhoneAuthProvider.getInstance()
                 .verifyPhoneNumber(
-                        "+20" + phone,
+                        signUpModel.getPhone_code() + signUpModel.getPhone(),
                         120,
                         TimeUnit.SECONDS,
                         this,
@@ -170,13 +188,14 @@ public class VerificationCodeActivity extends AppCompatActivity {
 
                 String time = String.format(Locale.ENGLISH, "%02d:%02d", minutes, seconds);
                 onCounterStarted(time);
-
+                //binding.btnResendCode.setText(time);
 
             }
 
             @Override
             public void onFinish() {
                 onCounterFinished();
+                binding.btnResendCode.setText(getResources().getString(R.string.resend2));
 
 
             }
@@ -200,8 +219,174 @@ public class VerificationCodeActivity extends AppCompatActivity {
 
 
     public void onSuccessCode() {
-        setResult(RESULT_OK);
-        finish();
+
+        if (signUpModel.getImage().isEmpty()) {
+            signUpWithoutImage();
+        } else {
+            signUpWithImage();
+        }
+    }
+
+    private void signUpWithoutImage() {
+        ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+        Api.getService(Tags.base_url)
+                .signUp(signUpModel.getName(), signUpModel.getPhone_code(), signUpModel.getPhone(), signUpModel.getPassword(), "android", signUpModel.getCountry_id(), signUpModel.getAddress(), signUpModel.getCenter(), signUpModel.getLat(), signUpModel.getLng(), signUpModel.getSpecialize(), signUpModel.getEmail(), signUpModel.getCv())
+                .enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        dialog.dismiss();
+                        if (response.isSuccessful()) {
+
+                            if (response.body() != null && response.body().getStatus() == 200) {
+                                if (response.body() != null && response.body().getData() != null) {
+                                    Preferences preferences = Preferences.getInstance();
+                                    preferences.create_update_userdata(VerificationCodeActivity.this, response.body());
+                                    navigateToHomeActivty();
+                                }
+                            } else if (response.body() != null && response.body().getStatus() == 404) {
+                                Toast.makeText(VerificationCodeActivity.this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } else {
+                            dialog.dismiss();
+
+                            switch (response.code()) {
+                                case 500:
+                                    Toast.makeText(VerificationCodeActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                            try {
+                                Log.e("error_code", response.code() + "_");
+                            } catch (NullPointerException e) {
+
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        try {
+                            dialog.dismiss();
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage());
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    Toast.makeText(VerificationCodeActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                } else if (t.getMessage().toLowerCase().contains("socket") || t.getMessage().toLowerCase().contains("canceled")) {
+                                } else {
+                                    Toast.makeText(VerificationCodeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+    }
+
+    private void navigateToHomeActivty() {
+        Intent intent = new Intent(VerificationCodeActivity.this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    private void signUpWithImage() {
+
+        ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        RequestBody name_part = Common.getRequestBodyText(signUpModel.getName());
+        RequestBody email_part = Common.getRequestBodyText(signUpModel.getEmail());
+        RequestBody password_part = Common.getRequestBodyText(signUpModel.getPassword());
+        RequestBody phone_part = Common.getRequestBodyText(signUpModel.getPhone());
+        RequestBody phone_code_part = Common.getRequestBodyText(signUpModel.getPhone_code());
+        RequestBody address_part = Common.getRequestBodyText(signUpModel.getAddress());
+        RequestBody lat_part = Common.getRequestBodyText(signUpModel.getLat() + "");
+        RequestBody lng_part = Common.getRequestBodyText(signUpModel.getLng() + "");
+        RequestBody soft_part = Common.getRequestBodyText("android");
+        RequestBody cv_part = Common.getRequestBodyText(signUpModel.getCv());
+        RequestBody center_part = Common.getRequestBodyText(signUpModel.getCenter());
+        RequestBody country_part = Common.getRequestBodyText(signUpModel.getCountry_id());
+        RequestBody special_part = Common.getRequestBodyText(signUpModel.getSpecialize() + "");
+
+
+        MultipartBody.Part image = Common.getMultiPart(this, Uri.parse(signUpModel.getImage()), "logo");
+
+
+        Api.getService(Tags.base_url)
+                .signUpwithImage(name_part, phone_code_part, phone_part, password_part, soft_part, country_part, address_part, center_part, lat_part, lng_part, special_part, email_part, cv_part, image)
+                .enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        dialog.dismiss();
+                        if (response.isSuccessful()) {
+
+                            if (response.body() != null && response.body().getStatus() == 200) {
+                                if (response.body() != null && response.body().getData() != null) {
+                                    Preferences preferences = Preferences.getInstance();
+                                    preferences.create_update_userdata(VerificationCodeActivity.this, response.body());
+                                    navigateToHomeActivty();
+                                }
+                            } else if (response.body() != null && response.body().getStatus() == 404) {
+                                Toast.makeText(VerificationCodeActivity.this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } else {
+                            dialog.dismiss();
+
+                            switch (response.code()) {
+                                case 500:
+                                    Toast.makeText(VerificationCodeActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                            try {
+                                Log.e("error_code", response.code() + "_");
+                            } catch (NullPointerException e) {
+
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        try {
+                            dialog.dismiss();
+                            if (t.getMessage() != null) {
+                                Log.e("msg_category_error", t.getMessage() + "__");
+
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    Toast.makeText(VerificationCodeActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.e("Error", e.getMessage() + "__");
+                        }
+                    }
+                });
 
     }
 
@@ -214,7 +399,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
     public void onCounterFinished() {
         canSend = true;
         binding.btnResendCode.setText(R.string.resend);
-        binding.btnResendCode.setTextColor(ContextCompat.getColor(VerificationCodeActivity.this, R.color.gray4));
+        binding.btnResendCode.setTextColor(ContextCompat.getColor(VerificationCodeActivity.this, R.color.gray6));
         binding.btnResendCode.setBackgroundResource(R.color.white);
     }
 

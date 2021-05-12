@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.TextViewCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
@@ -29,7 +31,7 @@ public class FragmentProfile extends Fragment {
     private HomeActivity activity;
     private String lang = "ar";
     private PagerAdapter pagerAdapter;
-
+    private TextView tvCount;
 
     public static FragmentProfile newInstance() {
         return new FragmentProfile();
@@ -46,7 +48,7 @@ public class FragmentProfile extends Fragment {
     private void initView() {
         activity = (HomeActivity) getActivity();
         Paper.init(activity);
-        lang = Paper.book().read("lang","ar");
+        lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
         binding.tab.setupWithViewPager(binding.pager);
         pagerAdapter = new PagerAdapter(getChildFragmentManager());
@@ -54,10 +56,12 @@ public class FragmentProfile extends Fragment {
         pagerAdapter.addTitle(getTitles());
         binding.pager.setAdapter(pagerAdapter);
         View tab_item1 = LayoutInflater.from(activity).inflate(R.layout.tab_custom_view, null);
+        tvCount = tab_item1.findViewById(R.id.tvCount);
         binding.tab.getTabAt(0).setCustomView(tab_item1);
 
 
     }
+
     private List<Fragment> getFragments() {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(FragmentPatients.newInstance());
@@ -78,4 +82,8 @@ public class FragmentProfile extends Fragment {
     }
 
 
+    public void updatecount(int count) {
+      //  View tab_item1 = binding.tab.getTabAt(0).getCustomView();
+tvCount.setText(count+"");
+    }
 }
