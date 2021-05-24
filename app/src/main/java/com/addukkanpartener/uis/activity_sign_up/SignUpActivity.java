@@ -208,6 +208,7 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
         Intent intent = new Intent(SignUpActivity.this, VerificationCodeActivity.class);
         intent.putExtra("data", signUpModel);
         startActivity(intent);
+        finish();
     }
 
 

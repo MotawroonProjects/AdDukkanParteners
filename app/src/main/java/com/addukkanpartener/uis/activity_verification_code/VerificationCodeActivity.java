@@ -302,6 +302,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
     private void navigateToHomeActivty() {
         Intent intent = new Intent(VerificationCodeActivity.this, HomeActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void signUpWithImage() {
