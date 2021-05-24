@@ -106,8 +106,6 @@
 
 
         <service
-
-
             android:name=".uis.activity_chat.ServiceUploadAttachment"
             android:enabled="true"
             android:stopWithTask="false" />
