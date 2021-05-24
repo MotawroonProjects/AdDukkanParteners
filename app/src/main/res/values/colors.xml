@@ -33,4 +33,6 @@
     <color name="trans_black">#55000000</color>
     <color name="gray5_tans">#22c3c3c3</color>
     <color name="rate_color">#FFD800</color>
+
+    <color name="color_primary_trans">#553AB54A</color>
 </resources>

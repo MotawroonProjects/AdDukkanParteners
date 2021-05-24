@@ -1,10 +1,17 @@
 package com.addukkanpartener.services;
 
 import com.addukkanpartener.models.AllUserModel;
+import com.addukkanpartener.models.CompanyDataModel;
 import com.addukkanpartener.models.CountryDataModel;
+import com.addukkanpartener.models.DoctorTreatmentDataModel;
+import com.addukkanpartener.models.MessageDataModel;
 import com.addukkanpartener.models.PlaceGeocodeData;
 import com.addukkanpartener.models.PlaceMapDetailsData;
+import com.addukkanpartener.models.ResponseModel;
+import com.addukkanpartener.models.RoomDataModel;
+import com.addukkanpartener.models.SingleMessageDataModel;
 import com.addukkanpartener.models.SpecialDataModel;
+import com.addukkanpartener.models.TreatmentDataModel;
 import com.addukkanpartener.models.UserModel;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -92,4 +99,71 @@ public interface Service {
     Call<AllUserModel> getPatient(@Query("search_key") String search_key,
                                   @Query("pagination") String pagination);
 
+    @GET("api/companies")
+    Call<CompanyDataModel> getCompany(@Query("search_key") String search_key);
+
+    @GET("api/medicine")
+    Call<TreatmentDataModel> getTreatments(@Query("search_name") String search_name,
+                                           @Query("country_code") String country_code,
+                                           @Query("company_id") int company_id
+    );
+
+    @FormUrlEncoded
+    @POST("api/add-medicine")
+    Call<ResponseModel> addTreatment(@Header("Authorization") String user_token,
+                                     @Field("doctor_id") int doctor_id,
+                                     @Field("product_id") int product_id,
+                                     @Field("product_company_id") int product_company_id
+    );
+
+
+    @GET("api/doctor-medicine")
+    Call<DoctorTreatmentDataModel> getMyTreatment(@Header("Authorization") String user_token,
+                                                  @Header("lang") String lang,
+                                                  @Query("doctor_id") int doctor_id
+    );
+
+    @FormUrlEncoded
+    @POST("api/delete-medicine")
+    Call<ResponseModel> deleteTreatment(@Header("Authorization") String user_token,
+                                        @Field("doctor_id") int doctor_id,
+                                        @Field("product_id") int product_id);
+
+
+    @GET("api/user-rooms")
+    Call<RoomDataModel> getRoom(@Header("Authorization") String user_token,
+                                @Query("user_id") int user_id
+    );
+
+    @GET("api/room-messages")
+    Call<MessageDataModel> getChatMessages(@Header("Authorization") String bearer_token,
+                                           @Query(value = "pagination") String pagination,
+                                           @Query(value = "per_page") int per_page,
+                                           @Query(value = "page") int page,
+                                           @Query(value = "room_id") int room_id,
+                                           @Query(value = "user_id") int user_id
+
+    );
+
+    @FormUrlEncoded
+    @POST("api/send-chat-message")
+    Call<SingleMessageDataModel> sendChatMessage(@Header("Authorization") String bearer_token,
+                                                 @Field("user_room_id") int room_id,
+                                                 @Field("from_user_id") int from_user_id,
+                                                 @Field("to_user_id") int to_user_id,
+                                                 @Field("type") String type,
+                                                 @Field("message") String message
+
+
+    );
+
+    @Multipart
+    @POST("api/send-chat-message")
+    Call<SingleMessageDataModel> sendChatAttachment(@Header("Authorization") String user_token,
+                                                    @Part("user_room_id") RequestBody room_id,
+                                                    @Part("from_user_id") RequestBody from_user_id,
+                                                    @Part("to_user_id") RequestBody to_user_id,
+                                                    @Part("type") RequestBody message_type,
+                                                    @Part MultipartBody.Part attachment
+    );
 }

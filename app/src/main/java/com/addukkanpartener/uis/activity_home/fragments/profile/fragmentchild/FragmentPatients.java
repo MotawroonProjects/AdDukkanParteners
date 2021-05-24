@@ -37,6 +37,7 @@ public class FragmentPatients extends Fragment {
     private List<UserModel.User> userList;
     private PatientsAdapter patientsAdapter;
     private String query;
+    private Call<AllUserModel> call;
 
     public static FragmentPatients newInstance() {
         return new FragmentPatients();
@@ -79,72 +80,79 @@ public class FragmentPatients extends Fragment {
     }
 
     private void getPatinets() {
+        userList.clear();
+        binding.tvNoData.setVisibility(View.GONE);
+        binding.progBar.setVisibility(View.VISIBLE);
+        patientsAdapter.notifyDataSetChanged();
 
-        Api.getService(Tags.base_url)
-                .getPatient(query, "off")
-                .enqueue(new Callback<AllUserModel>() {
-                    @Override
-                    public void onResponse(Call<AllUserModel> call, Response<AllUserModel> response) {
-                        binding.progBar.setVisibility(View.GONE);
-                        if (response.isSuccessful()) {
+        if (call != null) {
+            call.cancel();
+        }
+        call = Api.getService(Tags.base_url)
+                .getPatient(query, "off");
+        call.enqueue(new Callback<AllUserModel>() {
+            @Override
+            public void onResponse(Call<AllUserModel> call, Response<AllUserModel> response) {
+                binding.progBar.setVisibility(View.GONE);
+                if (response.isSuccessful()) {
 
-                            if (response.body() != null && response.body().getStatus() == 200) {
-                                if (response.body().getData() != null) {
-                                    if (response.body().getData().size() > 0) {
-                                        binding.tvNoData.setVisibility(View.GONE);
-                                        updatePatientData(response.body());
-                                    } else {
-                                        activity.updatecount(0);
-                                        binding.tvNoData.setVisibility(View.VISIBLE);
-
-                                    }
-                                }
+                    if (response.body() != null && response.body().getStatus() == 200) {
+                        if (response.body().getData() != null) {
+                            if (response.body().getData().size() > 0) {
+                                binding.tvNoData.setVisibility(View.GONE);
+                                updatePatientData(response.body());
                             } else {
-                                //    Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                activity.updatecount(0);
+                                binding.tvNoData.setVisibility(View.VISIBLE);
 
                             }
+                        }
+                    } else {
+                        //    Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                    }
 
 
+                } else {
+                    binding.progBar.setVisibility(View.GONE);
+
+                    switch (response.code()) {
+                        case 500:
+                            //  Toast.makeText(CountryActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            // Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                    try {
+                        Log.e("error_code", response.code() + "_");
+                    } catch (NullPointerException e) {
+
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<AllUserModel> call, Throwable t) {
+                try {
+                    binding.progBar.setVisibility(View.GONE);
+                    if (t.getMessage() != null) {
+                        Log.e("error", t.getMessage());
+                        if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                            //Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                        } else if (t.getMessage().toLowerCase().contains("socket") || t.getMessage().toLowerCase().contains("canceled")) {
                         } else {
-                            binding.progBar.setVisibility(View.GONE);
-
-                            switch (response.code()) {
-                                case 500:
-                                    //  Toast.makeText(CountryActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
-                                    break;
-                                default:
-                                    // Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
-                                    break;
-                            }
-                            try {
-                                Log.e("error_code", response.code() + "_");
-                            } catch (NullPointerException e) {
-
-                            }
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<AllUserModel> call, Throwable t) {
-                        try {
-                            binding.progBar.setVisibility(View.GONE);
-                            if (t.getMessage() != null) {
-                                Log.e("error", t.getMessage());
-                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
-                                    //Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
-                                } else if (t.getMessage().toLowerCase().contains("socket") || t.getMessage().toLowerCase().contains("canceled")) {
-                                } else {
-                                    //Toast.makeText(CountryActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                        } catch (Exception e) {
-
+                            //Toast.makeText(CountryActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+
+                } catch (Exception e) {
+
+                }
+            }
+        });
 
     }
 

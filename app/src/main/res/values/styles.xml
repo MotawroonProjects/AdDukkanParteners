@@ -23,5 +23,16 @@
         <item name="android:fontFamily">@fonts/Tajawal-Regular.ttf</item>
     </style>
 
+    <style name="custom_horizontal_progress_bar_right" parent="Widget.AppCompat.ProgressBar.Horizontal"
+        >
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/custom_horizontal_progress_bar_right</item>
+    </style>
+    <style name="custom_horizontal_progress_bar_left" parent="Widget.AppCompat.ProgressBar.Horizontal"
+        >
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/custom_horizontal_progress_bar_left</item>
+    </style>
+
 
 </resources>

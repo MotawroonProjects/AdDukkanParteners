@@ -18,11 +18,6 @@
 
             >
             <shape android:shape="rectangle">
-                <padding
-                    android:bottom="5dp"
-                    android:left="15dp"
-                    android:right="15dp"
-                    android:top="5dp" />
                 <solid android:color="@color/colorPrimary" />
                 <corners
                     android:bottomLeftRadius="5dp"

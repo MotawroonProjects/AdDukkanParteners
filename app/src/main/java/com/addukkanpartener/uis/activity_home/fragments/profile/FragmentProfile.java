@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import com.addukkanpartener.R;
 import com.addukkanpartener.adapters.PagerAdapter;
 import com.addukkanpartener.databinding.FragmentProfileBinding;
+import com.addukkanpartener.models.UserModel;
+import com.addukkanpartener.preferences.Preferences;
 import com.addukkanpartener.uis.activity_home.HomeActivity;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentMore;
 import com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild.FragmentPatients;
@@ -32,6 +34,8 @@ public class FragmentProfile extends Fragment {
     private String lang = "ar";
     private PagerAdapter pagerAdapter;
     private TextView tvCount;
+    private Preferences preferences;
+    private UserModel userModel;
 
     public static FragmentProfile newInstance() {
         return new FragmentProfile();
@@ -50,6 +54,9 @@ public class FragmentProfile extends Fragment {
         Paper.init(activity);
         lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
+        preferences = Preferences.getInstance();
+        userModel = preferences.getUserData(activity);
+        binding.setModel(userModel);
         binding.tab.setupWithViewPager(binding.pager);
         pagerAdapter = new PagerAdapter(getChildFragmentManager());
         pagerAdapter.addFragment(getFragments());
@@ -83,7 +90,7 @@ public class FragmentProfile extends Fragment {
 
 
     public void updatecount(int count) {
-      //  View tab_item1 = binding.tab.getTabAt(0).getCustomView();
-tvCount.setText(count+"");
+        //  View tab_item1 = binding.tab.getTabAt(0).getCustomView();
+        tvCount.setText(count + "");
     }
 }

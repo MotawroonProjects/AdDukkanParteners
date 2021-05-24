@@ -1,9 +1,7 @@
 package com.addukkanpartener.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,32 +9,33 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.addukkanpartener.R;
-import com.addukkanpartener.databinding.UserSearchRowBinding;
-import com.addukkanpartener.models.RoomModel;
-import com.addukkanpartener.uis.activity_chat.ChatActivity;
-import com.addukkanpartener.uis.activity_home.fragments.FragmentChat;
+import com.addukkanpartener.databinding.ChooseRowBinding;
+import com.addukkanpartener.models.CompanyModel;
+import com.addukkanpartener.models.TreatmentModel;
+import com.addukkanpartener.uis.activity_company.ChooseCompanyActivity;
+import com.addukkanpartener.uis.activity_treatments.ChooseTreatmentActivity;
 
 import java.util.List;
 
 
-public class RoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TreatmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater inflater;
     private Context context;
-    private List<RoomModel> list;
-    private FragmentChat fragmentChat;
+    private List<TreatmentModel> list;
+    private ChooseTreatmentActivity activity;
 
-    public RoomAdapter(Context context,List<RoomModel> list,FragmentChat fragmentChat) {
+    public TreatmentAdapter(Context context, List<TreatmentModel> list) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
-        this.fragmentChat = fragmentChat;
+        activity = (ChooseTreatmentActivity) context;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        UserSearchRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.user_search_row, parent, false);
+        ChooseRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.choose_row, parent, false);
         return new MyHolder(binding);
 
 
@@ -45,15 +44,10 @@ public class RoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         MyHolder myHolder = (MyHolder) holder;
-        myHolder.binding.setModel(list.get(position));
+        myHolder.binding.setTitle(list.get(position).getProduct_trans_fk().getTitle());
         myHolder.itemView.setOnClickListener(v -> {
-            RoomModel roomModel = list.get(myHolder.getAdapterPosition());
-            roomModel.setUnread_messages_count(0);
-            list.set(myHolder.getAdapterPosition(),roomModel);
-            notifyItemChanged(myHolder.getAdapterPosition());
-            fragmentChat.setItemData(roomModel);
+            activity.setItemData(list.get(myHolder.getAdapterPosition()));
         });
-
     }
 
     @Override
@@ -62,9 +56,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public static class MyHolder extends RecyclerView.ViewHolder {
-        private UserSearchRowBinding binding;
+        private ChooseRowBinding binding;
 
-        public MyHolder(UserSearchRowBinding binding) {
+        public MyHolder(ChooseRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
