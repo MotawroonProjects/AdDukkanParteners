@@ -37,8 +37,8 @@ public interface Service {
 
 
     @FormUrlEncoded
-    @POST("api/login")
-    Call<UserModel> login(@Field("phone") String email,
+    @POST("api/login-doctor")
+    Call<UserModel> login(@Field("phone_email") String phone_email,
                           @Field("password") String password);
 
     @GET("api/setting-country")

@@ -1,9 +1,12 @@
 package com.addukkanpartener.uis.activity_login;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -12,10 +15,18 @@ import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.ActivityLoginBinding;
 import com.addukkanpartener.language.Language;
 import com.addukkanpartener.models.LoginModel;
+import com.addukkanpartener.models.UserModel;
+import com.addukkanpartener.preferences.Preferences;
+import com.addukkanpartener.remote.Api;
+import com.addukkanpartener.share.Common;
+import com.addukkanpartener.tags.Tags;
 import com.addukkanpartener.uis.activity_home.HomeActivity;
 import com.addukkanpartener.uis.activity_sign_up.SignUpActivity;
 
 import io.paperdb.Paper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
@@ -57,9 +68,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
-       /* ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
         dialog.show();
@@ -71,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                         dialog.dismiss();
                         if (response.isSuccessful()) {
 
-                            if (response.body().getStatus()==200){
+                            if (response.body()!=null&&response.body().getStatus()==200){
                                 if (response.body() != null&&response.body().getData()!=null){
                                     Preferences preferences = Preferences.getInstance();
                                     preferences.create_update_userdata(LoginActivity.this,response.body());
@@ -79,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(intent);
                                     finish();
                                 }
-                            }else if (response.body().getStatus()==404){
+                            }else if (response.body()!=null&&response.body().getStatus()==404){
                                 Toast.makeText(LoginActivity.this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
 
                             }else {
@@ -128,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         }
                     }
-                });*/
+                });
 
 
     }

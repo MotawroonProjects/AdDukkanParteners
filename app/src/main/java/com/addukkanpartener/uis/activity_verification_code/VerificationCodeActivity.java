@@ -83,6 +83,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
         String mPhone = signUpModel.getPhone_code() + signUpModel.getPhone();
         binding.setPhone(mPhone);
 
+        Log.e("mphone", mPhone + "_");
 
         binding.btnConfirm.setOnClickListener(v -> {
             String sms = binding.edtCode.getText().toString().trim();
@@ -100,7 +101,8 @@ public class VerificationCodeActivity extends AppCompatActivity {
 
             }
         });
-        sendSmsCode();
+        //sendSmsCode();
+        onSuccessCode();
     }
 
 
@@ -391,14 +393,17 @@ public class VerificationCodeActivity extends AppCompatActivity {
     }
 
     public void onCounterStarted(String time) {
-        binding.btnResendCode.setText(String.format(Locale.ENGLISH, "%s %s", getString(R.string.resend2), time));
+        binding.tvResend.setText(R.string.resend);
+        binding.btnResendCode.setText(String.format(Locale.ENGLISH, "%s", time));
         binding.btnResendCode.setTextColor(ContextCompat.getColor(VerificationCodeActivity.this, R.color.colorPrimary));
         binding.btnResendCode.setBackgroundResource(R.color.transparent);
     }
 
     public void onCounterFinished() {
         canSend = true;
-        binding.btnResendCode.setText(R.string.resend);
+        binding.tvResend.setText("");
+
+        binding.btnResendCode.setText(R.string.resend2);
         binding.btnResendCode.setTextColor(ContextCompat.getColor(VerificationCodeActivity.this, R.color.gray6));
         binding.btnResendCode.setBackgroundResource(R.color.white);
     }

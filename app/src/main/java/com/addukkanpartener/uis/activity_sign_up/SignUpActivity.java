@@ -106,7 +106,7 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
     private final String fineLocPerm = Manifest.permission.ACCESS_FINE_LOCATION;
     private final int loc_req = 1225;
     private FragmentMapTouchListener fragment;
-    private List<CountryModel> countryModelList,countryModels;
+    private List<CountryModel> countryModelList, countryModels;
     private List<SpecialModel> specialModelList;
     private ProgressDialog dialog;
     private AlertDialog dialog2;
@@ -127,7 +127,7 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
     private void initView() {
         specialModelList = new ArrayList<>();
         countryModelList = new ArrayList<>();
-        countryModels=new ArrayList<>();
+        countryModels = new ArrayList<>();
         Paper.init(this);
         lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
@@ -193,27 +193,27 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
         });
 
         binding.btnCancel.setOnClickListener(view -> closeSheet());
-binding.arrow.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        dialog2.show();
-    }
-});
+        binding.arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog2.show();
+            }
+        });
         updateUI();
         getCountries();
 
     }
 
     private void navigatetoVerficationCode() {
-        Intent intent=new Intent(SignUpActivity.this,VerificationCodeActivity.class);
-        intent.putExtra("data",signUpModel);
+        Intent intent = new Intent(SignUpActivity.this, VerificationCodeActivity.class);
+        intent.putExtra("data", signUpModel);
         startActivity(intent);
     }
 
 
     private void createCountriesDialog() {
 
-         dialog2 = new AlertDialog.Builder(this).create();
+        dialog2 = new AlertDialog.Builder(this).create();
         CountriesAdapter countriesAdapter = new CountriesAdapter(countryModels, this);
 
         DialogCountriesBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_countries, null, false);
@@ -231,7 +231,6 @@ binding.arrow.setOnClickListener(new View.OnClickListener() {
             return country1.getCountry_setting_trans_fk().getTitle().trim().compareToIgnoreCase(country2.getCountry_setting_trans_fk().getTitle().trim());
         });
     }
-
 
 
     private void getCountries() {
