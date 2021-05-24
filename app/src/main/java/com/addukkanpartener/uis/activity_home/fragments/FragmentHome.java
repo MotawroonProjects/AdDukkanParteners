@@ -2,6 +2,7 @@ package com.addukkanpartener.uis.activity_home.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +15,30 @@ import androidx.fragment.app.Fragment;
 
 import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.FragmentHomeBinding;
+import com.addukkanpartener.models.NotificationCountModel;
+import com.addukkanpartener.models.UserModel;
+import com.addukkanpartener.preferences.Preferences;
+import com.addukkanpartener.remote.Api;
+import com.addukkanpartener.tags.Tags;
 import com.addukkanpartener.uis.activity_add_prescription.PrescriptionActivity;
 import com.addukkanpartener.uis.activity_home.HomeActivity;
+import com.addukkanpartener.uis.activity_notification.NotificationActivity;
 
 import org.eazegraph.lib.models.ValueLinePoint;
 import org.eazegraph.lib.models.ValueLineSeries;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FragmentHome extends Fragment {
     private FragmentHomeBinding binding;
     private HomeActivity activity;
 
-
+    private Preferences preferences;
+    private UserModel userModel;
     public static FragmentHome newInstance() {
         return new FragmentHome();
     }
@@ -40,6 +54,8 @@ public class FragmentHome extends Fragment {
     private void initView() {
         activity = (HomeActivity) getActivity();
         binding.setNotCount("0");
+        preferences= Preferences.getInstance();
+        userModel=preferences.getUserData(activity);
         ValueLineSeries series = new ValueLineSeries();
         series.setColor(ContextCompat.getColor(activity,R.color.color3));
 
@@ -63,7 +79,63 @@ public class FragmentHome extends Fragment {
             Intent intent = new Intent(activity, PrescriptionActivity.class);
             startActivity(intent);
         });
-    }
+        if(userModel!=null){
+            getNotificationCount();
+        }
+        binding.flNotifcation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (userModel == null) {
+                    activity.navigateToLoginActivity();
+                } else {
+                    binding.setNotCount("0");
+                    Intent intent = new Intent(activity, NotificationActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
+    }
+    private void getNotificationCount() {
+        if (userModel == null) {
+            binding.setNotCount("0");
+
+            return;
+        }
+        Api.getService(Tags.base_url).getNotificationCount(userModel.getData().getToken(), userModel.getData().getId())
+                .enqueue(new Callback<NotificationCountModel>() {
+                    @Override
+                    public void onResponse(Call<NotificationCountModel> call, Response<NotificationCountModel> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body() != null && response.body().getStatus() == 200) {
+                                binding.setNotCount(String.valueOf(response.body().getData().getCount()));
+                            }
+                        } else {
+
+                            try {
+                                Log.e("error", response.code() + "_" + response.errorBody().string());
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<NotificationCountModel> call, Throwable t) {
+                        try {
+
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage() + "__");
+
+                            }
+
+
+                        } catch (Exception e) {
+                        }
+
+                    }
+                });
+    }
 
 }

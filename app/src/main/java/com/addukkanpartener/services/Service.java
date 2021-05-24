@@ -3,10 +3,13 @@ package com.addukkanpartener.services;
 import com.addukkanpartener.models.AllUserModel;
 import com.addukkanpartener.models.CompanyDataModel;
 import com.addukkanpartener.models.CountryDataModel;
+import com.addukkanpartener.models.NotificationCountModel;
+import com.addukkanpartener.models.NotificationDataModel;
 import com.addukkanpartener.models.DoctorTreatmentDataModel;
 import com.addukkanpartener.models.MessageDataModel;
 import com.addukkanpartener.models.PlaceGeocodeData;
 import com.addukkanpartener.models.PlaceMapDetailsData;
+import com.addukkanpartener.models.ResponseModel;
 import com.addukkanpartener.models.ResponseModel;
 import com.addukkanpartener.models.RoomDataModel;
 import com.addukkanpartener.models.SingleMessageDataModel;
@@ -98,6 +101,19 @@ public interface Service {
     @GET("api/clients")
     Call<AllUserModel> getPatient(@Query("search_key") String search_key,
                                   @Query("pagination") String pagination);
+    @GET("api/count-unread")
+    Call<NotificationCountModel> getNotificationCount(@Header("Authorization") String bearer_token,
+                                                      @Query("user_id") int user_id
+    );
+    @GET("api/my-notification")
+    Call<NotificationDataModel> getNotifications(@Header("Authorization") String bearer_token,
+                                                 @Query("user_id") int user_id
+    );
+
+    @FormUrlEncoded
+    @POST("api/delete-notification")
+    Call<ResponseModel> deleteNotification(@Header("Authorization") String bearer_token,
+                                           @Field("notification_id") int notification_id);
 
     @GET("api/companies")
     Call<CompanyDataModel> getCompany(@Query("search_key") String search_key);
@@ -166,4 +182,6 @@ public interface Service {
                                                     @Part("type") RequestBody message_type,
                                                     @Part MultipartBody.Part attachment
     );
+
+
 }

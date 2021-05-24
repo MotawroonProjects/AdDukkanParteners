@@ -3,6 +3,7 @@ package com.addukkanpartener.uis.activity_home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,20 +17,30 @@ import androidx.fragment.app.FragmentManager;
 import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.ActivityHomeBinding;
 import com.addukkanpartener.language.Language;
+import com.addukkanpartener.models.NotificationCountModel;
+import com.addukkanpartener.models.UserModel;
 import com.addukkanpartener.preferences.Preferences;
+import com.addukkanpartener.remote.Api;
+import com.addukkanpartener.tags.Tags;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentChat;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentHome;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentMore;
 import com.addukkanpartener.uis.activity_home.fragments.profile.FragmentProfile;
+import com.addukkanpartener.uis.activity_login.LoginActivity;
 
+import java.io.IOException;
 import java.util.List;
 
 import io.paperdb.Paper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
     private String lang = "";
     private Preferences preferences;
+    private UserModel userModel;
     private FragmentManager fragmentManager;
     private FragmentHome fragmentHome;
     private FragmentChat fragmentChat;
@@ -53,16 +64,63 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initView() {
         fragmentManager = getSupportFragmentManager();
-        updateCartCount(0);
-
+        updateNotCount(0);
+preferences=Preferences.getInstance();
+userModel=preferences.getUserData(this);
         displayFragmentHome();
         binding.llHome.setOnClickListener(v -> displayFragmentHome());
         binding.llProfile.setOnClickListener(v -> displayFragmentProfile());
         binding.llChat.setOnClickListener(v -> displayFragmentChat());
         binding.llMore.setOnClickListener(v -> displayFragmentMore());
+        if(userModel!=null){
+            getNotificationCount();
+        }
+
+    }
+    private void getNotificationCount() {
+        if (userModel == null) {
+            binding.setNotCount("0");
+
+            return;
+        }
+        Api.getService(Tags.base_url).getNotificationCount(userModel.getData().getToken(), userModel.getData().getId())
+                .enqueue(new Callback<NotificationCountModel>() {
+                    @Override
+                    public void onResponse(Call<NotificationCountModel> call, Response<NotificationCountModel> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body() != null && response.body().getStatus() == 200) {
+                                binding.setNotCount(String.valueOf(response.body().getData().getCount()));
+                            }
+                        } else {
+
+                            try {
+                                Log.e("error", response.code() + "_" + response.errorBody().string());
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<NotificationCountModel> call, Throwable t) {
+                        try {
+
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage() + "__");
+
+                            }
+
+
+                        } catch (Exception e) {
+                        }
+
+                    }
+                });
     }
 
-    private void updateCartCount(int count) {
+
+    private void updateNotCount(int count) {
         binding.setNotCount(String.valueOf(count));
     }
 
@@ -268,5 +326,10 @@ public class HomeActivity extends AppCompatActivity {
 
     public void updatecount(int count) {
         fragmentProfile.updatecount(count);
+    }
+
+    public void navigateToLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent, 100);
     }
 }
