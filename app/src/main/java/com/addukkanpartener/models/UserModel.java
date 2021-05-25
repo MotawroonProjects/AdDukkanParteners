@@ -3,10 +3,9 @@ package com.addukkanpartener.models;
 import java.io.Serializable;
 import java.util.List;
 
-public class UserModel implements Serializable {
+public class UserModel extends ResponseModel implements Serializable {
 
     private User data;
-    private int status;
 
     public User getData() {
         return data;
@@ -51,6 +50,14 @@ public class UserModel implements Serializable {
         private String token;
         private SpecialModel user_specialization;
         private CountryModel user_country;
+
+        public User() {
+        }
+
+        public User(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
 
         public int getId() {
             return id;
@@ -189,9 +196,6 @@ public class UserModel implements Serializable {
         }
     }
 
-    public int getStatus() {
-        return status;
-    }
 
 
 }

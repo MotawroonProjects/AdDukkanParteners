@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="model"
+            type="com.addukkanpartener.models.OrderModel.PrescriptionDetailsFk" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        >
+        <FrameLayout
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/status"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="start|center_vertical"
+                />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight=".5"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:text="@{model.product_data.product_trans_fk.title}"
+            android:layout_gravity="center_vertical"
+            android:maxLines="2"
+
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight=".2"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:text="@{String.valueOf(model.amount)}"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight=".3"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:text="@{String.valueOf(model.price)}"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"/>
+
+        <FrameLayout
+            android:id="@+id/flView"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center_vertical"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@color/gray12"
+                android:layout_gravity="center"
+                />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:padding="3dp"
+                android:src="@drawable/ic_view"
+                app:tint="@color/white"
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</layout>

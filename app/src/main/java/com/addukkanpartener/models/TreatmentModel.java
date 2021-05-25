@@ -19,6 +19,7 @@ public class TreatmentModel implements Serializable {
     private double offer_bonus;
     private String is_published;
     private ProductTransFk product_trans_fk;
+    private ProductDefaultPrice product_default_price;
 
     public int getId() {
         return id;
@@ -84,6 +85,10 @@ public class TreatmentModel implements Serializable {
         return product_trans_fk;
     }
 
+    public ProductDefaultPrice getProduct_default_price() {
+        return product_default_price;
+    }
+
     public static class ProductTransFk implements Serializable{
         private int id;
         private int product_id;
@@ -114,6 +119,49 @@ public class TreatmentModel implements Serializable {
 
         public String getLang() {
             return lang;
+        }
+    }
+
+    public static class ProductDefaultPrice implements Serializable{
+        private int id;
+        private int product_id;
+        private int product_set_id;
+        private int vendor_id;
+        private int price;
+        private int stock;
+        private String is_default;
+        private String country_code;
+
+        public int getId() {
+            return id;
+        }
+
+        public int getProduct_id() {
+            return product_id;
+        }
+
+        public int getProduct_set_id() {
+            return product_set_id;
+        }
+
+        public int getVendor_id() {
+            return vendor_id;
+        }
+
+        public int getPrice() {
+            return price;
+        }
+
+        public int getStock() {
+            return stock;
+        }
+
+        public String getIs_default() {
+            return is_default;
+        }
+
+        public String getCountry_code() {
+            return country_code;
         }
     }
 }

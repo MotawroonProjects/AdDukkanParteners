@@ -139,6 +139,10 @@
     <string name="choose_country">إختر الدولة</string>
     <string name="choose_special">إختر التخصص</string>
     <string name="country_code">كود الدولة</string>
+    <string name="add_client">إضافة عميل</string>
+    <string name="ch_client">إختر عميل</string>
+    <string name="ph_exist">رقم الجوال موجود مسبقا</string>
+    <string name="ch_presc">إختر الوصفات</string>
 
 
 </resources>

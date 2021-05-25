@@ -11,6 +11,13 @@
         <variable
             name="amount"
             type="String" />
+        <variable
+            name="total"
+            type="Double" />
+        <variable
+            name="model"
+            type="com.addukkanpartener.models.AddPrescriptionModel" />
+
 
     </data>
     <LinearLayout
@@ -81,65 +88,30 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
-                            android:paddingStart="20dp"
-                            android:paddingEnd="20dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
                             android:layout_marginTop="5dp"
                             android:background="@drawable/small_rounded_gray13"
                             >
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_user"
-                                app:tint="@color/gray9"
-                                />
-
-                            <Space
-                                android:layout_width="16dp"
-                                android:layout_height="0dp" />
-
-                            <EditText
+                            <Spinner
+                                android:id="@+id/spinner"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@color/transparent"
-                                android:hint="@string/patient_name"
-                                android:textColorHint="@color/gray9"
-                                android:singleLine="true"
-                                android:textColor="@color/black"
-                                android:textSize="15sp" />
+                                android:layout_height="match_parent"/>
                         </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:paddingStart="20dp"
-                            android:paddingEnd="20dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/small_rounded_gray13"
-                            >
 
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_phone"
-                                app:tint="@color/gray9"
-                                />
-
-                            <Space
-                                android:layout_width="16dp"
-                                android:layout_height="0dp" />
-
-                            <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@color/transparent"
-                                android:hint="@string/user_phone"
-                                android:textColorHint="@color/gray9"
-                                android:singleLine="true"
-                                android:textColor="@color/black"
-                                android:textSize="15sp" />
-                        </LinearLayout>
+                        <Button
+                            android:id="@+id/btnAddClient"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/small_rounded_primary"
+                            android:layout_marginBottom="8dp"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:text="@string/add_client"/>
 
                     </LinearLayout>
 
@@ -175,6 +147,7 @@
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
                         >
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -183,8 +156,10 @@
                             android:text="@string/amount"
                             android:layout_gravity="center_vertical"/>
                         <Space
-                            android:layout_width="36dp"
-                            android:layout_height="0dp"/>
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            tools:ignore="NestedWeights" />
                         <ImageView
                             android:id="@+id/imageIncrease"
                             android:layout_width="24dp"
@@ -294,7 +269,7 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-
+                    android:id="@+id/recView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
@@ -325,7 +300,9 @@
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:gravity="center"
-                        android:layout_gravity="center_vertical"/>
+                        android:layout_gravity="center_vertical"
+                        android:text="@{String.valueOf(total)}"
+                        />
 
                 </LinearLayout>
 
@@ -365,9 +342,12 @@
                     android:layout_marginEnd="16dp"
                     android:padding="8dp"
                     android:gravity="top"
+                    android:textColor="@color/black"
+                    android:text="@={model.note}"
                     />
 
                 <Button
+                    android:id="@+id/btnConfirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_primary"

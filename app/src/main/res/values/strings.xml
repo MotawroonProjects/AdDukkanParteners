@@ -126,7 +126,7 @@
     <string name="choose_treatment">Choose Treatment</string>
     <string name="search_by_name">Search By Name</string>
     <string name="patient_name">Patient name</string>
-    <string name="prescription_name">Prescription name</string>
+    <string name="prescription_name">Name</string>
     <string name="add">Add</string>
     <string name="total">Total:</string>
     <string name="notes2">Notes</string>
@@ -140,5 +140,9 @@
     <string name="choose_country">Choose Country</string>
     <string name="choose_special">Choose Special</string>
     <string name="country_code">Country Code</string>
+    <string name="add_client">Add client</string>
+    <string name="ch_client">Choose client</string>
+    <string name="ph_exist">Phone exist</string>
+    <string name="ch_presc">Choose prescriptions</string>
 
 </resources>

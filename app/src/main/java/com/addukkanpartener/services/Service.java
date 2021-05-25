@@ -1,5 +1,6 @@
 package com.addukkanpartener.services;
 
+import com.addukkanpartener.models.AddPrescriptionModel;
 import com.addukkanpartener.models.AllUserModel;
 import com.addukkanpartener.models.CompanyDataModel;
 import com.addukkanpartener.models.CountryDataModel;
@@ -13,6 +14,7 @@ import com.addukkanpartener.models.ResponseModel;
 import com.addukkanpartener.models.ResponseModel;
 import com.addukkanpartener.models.RoomDataModel;
 import com.addukkanpartener.models.SingleMessageDataModel;
+import com.addukkanpartener.models.SingleOrderDataModel;
 import com.addukkanpartener.models.SpecialDataModel;
 import com.addukkanpartener.models.TreatmentDataModel;
 import com.addukkanpartener.models.UserModel;
@@ -21,6 +23,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -101,10 +104,12 @@ public interface Service {
     @GET("api/clients")
     Call<AllUserModel> getPatient(@Query("search_key") String search_key,
                                   @Query("pagination") String pagination);
+
     @GET("api/count-unread")
     Call<NotificationCountModel> getNotificationCount(@Header("Authorization") String bearer_token,
                                                       @Query("user_id") int user_id
     );
+
     @GET("api/my-notification")
     Call<NotificationDataModel> getNotifications(@Header("Authorization") String bearer_token,
                                                  @Query("user_id") int user_id
@@ -121,7 +126,13 @@ public interface Service {
     @GET("api/medicine")
     Call<TreatmentDataModel> getTreatments(@Query("search_name") String search_name,
                                            @Query("country_code") String country_code,
-                                           @Query("company_id") int company_id
+                                           @Query("company_id") String company_id
+    );
+
+    @GET("api/medicine")
+    Call<TreatmentDataModel> getTreatments2(
+                                            @Query("search_name") String search_name,
+                                            @Query("country_code") String country_code
     );
 
     @FormUrlEncoded
@@ -182,6 +193,23 @@ public interface Service {
                                                     @Part("type") RequestBody message_type,
                                                     @Part MultipartBody.Part attachment
     );
+
+
+    @FormUrlEncoded
+    @POST("api/add-clinent")
+    Call<UserModel> addClient(@Header("Authorization") String bearer_token,
+                              @Field("name") String name,
+                              @Field("phone_code") String phone_code,
+                              @Field("phone") String phone,
+                              @Field("password") String password,
+                              @Field("country_code") String country_code
+
+
+    );
+
+    @POST("api/create-prescription")
+    Call<SingleOrderDataModel> addOrder(@Header("Authorization") String bearer_token,
+                                        @Body AddPrescriptionModel model);
 
 
 }

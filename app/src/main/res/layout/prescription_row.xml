@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="model"
+            type="com.addukkanpartener.models.AddPrescriptionModel.ItemModel" />
+    </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -15,7 +20,10 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:maxLines="2"
+            android:text="@{model.name}"
+            />
 
         <TextView
             android:layout_width="0dp"
@@ -24,6 +32,7 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:gravity="center"
+            android:text="@{String.valueOf(model.amount)}"
             android:layout_gravity="center_vertical"/>
 
         <TextView
@@ -33,7 +42,10 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:gravity="center"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:text="@{String.valueOf(model.price)}"
+
+            />
 
     </LinearLayout>
 

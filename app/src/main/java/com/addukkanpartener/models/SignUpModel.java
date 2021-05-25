@@ -134,6 +134,41 @@ public class SignUpModel extends BaseObservable implements Serializable {
         }
     }
 
+    //add-client
+    public boolean isData2Valid(Context context) {
+        if (!country_id.isEmpty()&&
+                !name.isEmpty() &&
+                !phone.isEmpty()
+        ) {
+            error_name.set(null);
+            error_phone.set(null);
+            return true;
+        } else {
+            if (country_id.isEmpty()){
+                Toast.makeText(context, R.string.ch_country, Toast.LENGTH_SHORT).show();
+            }
+
+
+            if (name.isEmpty()) {
+                error_name.set(context.getString(R.string.field_required));
+            } else {
+                error_name.set(null);
+
+            }
+
+            if (phone.isEmpty()) {
+                error_phone.set(context.getString(R.string.field_required));
+            } else {
+                error_phone.set(null);
+
+            }
+
+
+            return false;
+        }
+    }
+
+
     @Bindable
     public String getName() {
         return name;

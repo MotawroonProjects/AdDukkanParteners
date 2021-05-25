@@ -12,6 +12,11 @@ public class CountryModel implements Serializable {
     private CountrySettingTransFk country_setting_trans_fk;
     private boolean isSelected = false;
 
+    public CountryModel() {
+        this.phone_code = "+966";
+        this.code ="";
+    }
+
     public void setId(int id) {
         this.id = id;
     }

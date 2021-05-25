@@ -40,10 +40,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray9"
-                android:textSize="14sp"
+                android:textSize="11sp"
                 android:text="@{model.product_data.product_trans_fk.title}"
                 android:layout_gravity="center_vertical"
-                android:lines="1"
+                android:lines="2"
+                android:ellipsize="end"
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -9,8 +9,8 @@
             name="lang"
             type="String" />
         <variable
-            name="amount"
-            type="String" />
+            name="model"
+            type="com.addukkanpartener.models.OrderModel" />
 
     </data>
     <LinearLayout
@@ -94,7 +94,9 @@
                     android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"/>
+                    android:layout_marginBottom="8dp"
+                    image="@{model.image}"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -118,6 +120,7 @@
                         android:textColor="@color/black"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
+                        android:text="@{model.doctor_fk.name}"
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -144,6 +147,7 @@
                         android:textColor="@color/black"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
+                        android:text="@{model.user_fk.name}"
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -168,6 +172,7 @@
                         android:textColor="@color/black"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
+                        android:text='@{model.user_fk.phone_code+model.user_fk.phone_code}'
                         />
                 </LinearLayout>
 
@@ -213,7 +218,7 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-
+                    android:id="@+id/recView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
@@ -252,6 +257,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:textColor="@color/black"
+                    android:text="@{model.note}"
                     />
 
 
@@ -264,6 +270,7 @@
             android:orientation="horizontal"
             >
             <Button
+                android:id="@+id/btnPrint"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
