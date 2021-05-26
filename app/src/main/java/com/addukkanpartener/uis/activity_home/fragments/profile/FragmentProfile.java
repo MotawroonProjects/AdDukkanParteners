@@ -1,5 +1,7 @@
 package com.addukkanpartener.uis.activity_home.fragments.profile;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.addukkanpartener.uis.activity_home.HomeActivity;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentMore;
 import com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild.FragmentPatients;
 import com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild.FragmentSelectedTreatments;
+import com.addukkanpartener.uis.activity_sign_up.SignUpActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +69,10 @@ public class FragmentProfile extends Fragment {
         tvCount = tab_item1.findViewById(R.id.tvCount);
         binding.tab.getTabAt(0).setCustomView(tab_item1);
 
+        binding.editProfile.setOnClickListener(view -> {
+            Intent intent = new Intent(activity, SignUpActivity.class);
+            startActivityForResult(intent,100);
+        });
 
     }
 
@@ -92,5 +99,15 @@ public class FragmentProfile extends Fragment {
     public void updatecount(int count) {
         //  View tab_item1 = binding.tab.getTabAt(0).getCustomView();
         tvCount.setText(count + "");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==100&&resultCode== Activity.RESULT_OK){
+            userModel = preferences.getUserData(activity);
+            binding.setModel(userModel);
+
+        }
     }
 }

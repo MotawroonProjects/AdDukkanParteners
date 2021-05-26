@@ -13,6 +13,7 @@ import com.addukkanpartener.models.PlaceMapDetailsData;
 import com.addukkanpartener.models.ResponseModel;
 import com.addukkanpartener.models.ResponseModel;
 import com.addukkanpartener.models.RoomDataModel;
+import com.addukkanpartener.models.SettingDataModel;
 import com.addukkanpartener.models.SingleMessageDataModel;
 import com.addukkanpartener.models.SingleOrderDataModel;
 import com.addukkanpartener.models.SpecialDataModel;
@@ -22,6 +23,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -82,24 +84,65 @@ public interface Service {
 
     @Multipart
     @POST("api/doctor-register")
-    Call<UserModel> signUpwithImage(
-            @Part("name") RequestBody name,
-            @Part("phone_code") RequestBody phone_code,
-            @Part("phone") RequestBody phone,
-            @Part("password") RequestBody password,
-            @Part("software_type") RequestBody software_type,
-            @Part("country_code") RequestBody country_code,
-            @Part("address") RequestBody address,
-            @Part("hospital_place") RequestBody hospital_place,
-            @Part("latitude") RequestBody latitude,
-            @Part("longitude") RequestBody longitude,
-            @Part("specialization_id") RequestBody specialization_id,
-            @Part("email") RequestBody email,
-            @Part("about_user") RequestBody about_user,
-            @Part MultipartBody.Part logo
+    Call<UserModel> signUpwithImage(@Part("name") RequestBody name,
+                                    @Part("phone_code") RequestBody phone_code,
+                                    @Part("phone") RequestBody phone,
+                                    @Part("password") RequestBody password,
+                                    @Part("software_type") RequestBody software_type,
+                                    @Part("country_code") RequestBody country_code,
+                                    @Part("address") RequestBody address,
+                                    @Part("hospital_place") RequestBody hospital_place,
+                                    @Part("latitude") RequestBody latitude,
+                                    @Part("longitude") RequestBody longitude,
+                                    @Part("specialization_id") RequestBody specialization_id,
+                                    @Part("email") RequestBody email,
+                                    @Part("about_user") RequestBody about_user,
+                                    @Part MultipartBody.Part logo
 
 
     );
+
+    @FormUrlEncoded
+    @POST("api/update-doctor-profile")
+    Call<UserModel> updateWithoutImage(@Header("Authorization") String bearer_token,
+                                       @Field("user_id") int user_id,
+                                       @Field("name") String name,
+                                       @Field("phone_code") String phone_code,
+                                       @Field("phone") String phone,
+                                       @Field("software_type") String software_type,
+                                       @Field("country_code") String country_code,
+                                       @Field("address") String address,
+                                       @Field("hospital_place") String hospital_place,
+                                       @Field("latitude") double latitude,
+                                       @Field("longitude") double longitude,
+                                       @Field("specialization_id") int specialization_id,
+                                       @Field("email") String email,
+                                       @Field("about_user") String about_user
+
+
+    );
+
+    @Multipart
+    @POST("api/update-doctor-profile")
+    Call<UserModel> updateWithImage(@Header("Authorization") String bearer_token,
+                                    @Part("user_id") RequestBody user_id,
+                                    @Part("name") RequestBody name,
+                                    @Part("phone_code") RequestBody phone_code,
+                                    @Part("phone") RequestBody phone,
+                                    @Part("software_type") RequestBody software_type,
+                                    @Part("country_code") RequestBody country_code,
+                                    @Part("address") RequestBody address,
+                                    @Part("hospital_place") RequestBody hospital_place,
+                                    @Part("latitude") RequestBody latitude,
+                                    @Part("longitude") RequestBody longitude,
+                                    @Part("specialization_id") RequestBody specialization_id,
+                                    @Part("email") RequestBody email,
+                                    @Part("about_user") RequestBody about_user,
+                                    @Part MultipartBody.Part logo
+
+
+    );
+
 
     @GET("api/clients")
     Call<AllUserModel> getPatient(@Query("search_key") String search_key,
@@ -213,5 +256,19 @@ public interface Service {
     Call<SingleOrderDataModel> addOrder(@Header("Authorization") String bearer_token,
                                         @Body AddPrescriptionModel model);
 
+
+    @GET("api/setting")
+    Call<SettingDataModel> getSetting(@Header("lang") String lang
+    );
+
+    @FormUrlEncoded
+    @POST("api/contact-us")
+    Call<ResponseModel> contactUs(@Field("name") String name,
+                                  @Field("email") String email,
+                                  @Field("phone") String phone,
+                                  @Field("message") String message
+
+
+    );
 
 }

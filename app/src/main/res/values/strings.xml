@@ -144,5 +144,8 @@
     <string name="ch_client">Choose client</string>
     <string name="ph_exist">Phone exist</string>
     <string name="ch_presc">Choose prescriptions</string>
+    <string name="not_ava">Not available now</string>
+    <string name="message">Message</string>
+    <string name="update_profile">Update profile</string>
 
 </resources>

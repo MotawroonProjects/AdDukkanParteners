@@ -77,7 +77,7 @@
     <string name="suc">تم بنجاح!</string>
     <string name="no_notifications_to_show">لاتوجد إشعارات لعرضها</string>
     <string name="name">الإسم</string>
-    <string name="update">تعديل الملف الشخصي</string>
+    <string name="update">تحديث</string>
     <string name="next">التالي</string>
     <string name="order">طلب</string>
     <string name="ok2">حسنا</string>
@@ -143,6 +143,9 @@
     <string name="ch_client">إختر عميل</string>
     <string name="ph_exist">رقم الجوال موجود مسبقا</string>
     <string name="ch_presc">إختر الوصفات</string>
+    <string name="not_ava">غير متاح الان</string>
+    <string name="message">الرسالة</string>
+    <string name="update_profile">تحديث الملف الشخصي</string>
 
 
 </resources>

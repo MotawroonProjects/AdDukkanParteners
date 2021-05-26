@@ -47,6 +47,7 @@
                             android:rotation='@{lang.equals("ar")?180:0}'
                             />
                         <TextView
+                            android:id="@+id/tvTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
@@ -339,6 +340,7 @@
 
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tiPassword"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:paddingStart="10dp"

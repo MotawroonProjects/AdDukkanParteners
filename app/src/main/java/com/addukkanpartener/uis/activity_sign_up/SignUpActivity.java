@@ -51,6 +51,7 @@ import com.addukkanpartener.remote.Api;
 import com.addukkanpartener.share.Common;
 import com.addukkanpartener.tags.Tags;
 import com.addukkanpartener.uis.FragmentMapTouchListener;
+import com.addukkanpartener.uis.activity_login.LoginActivity;
 import com.addukkanpartener.uis.activity_verification_code.VerificationCodeActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -81,6 +82,8 @@ import java.util.Collections;
 import java.util.List;
 
 import io.paperdb.Paper;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -110,6 +113,8 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
     private List<SpecialModel> specialModelList;
     private ProgressDialog dialog;
     private AlertDialog dialog2;
+    private UserModel userModel;
+    private Preferences preferences;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -132,16 +137,56 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
         lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
         binding.tvLogin.setText(Html.fromHtml(getString(R.string.sign_up_text)));
+        preferences = Preferences.getInstance();
+        userModel = preferences.getUserData(this);
         signUpModel = new SignUpModel();
+
+        if (userModel!=null){
+            String url = Tags.IMAGE_URL+userModel.getData().getLogo();
+            Log.e("url",url);
+            Picasso.get().load(Uri.parse(url)).placeholder(R.drawable.ic_avatar).into(binding.image);
+            signUpModel.setAddress(userModel.getData().getAddress());
+            signUpModel.setCenter(userModel.getData().getHospital_place());
+            signUpModel.setName(userModel.getData().getName());
+            signUpModel.setPhone_code(userModel.getData().getPhone_code());
+            signUpModel.setPhone(userModel.getData().getPhone());
+            signUpModel.setEmail(userModel.getData().getEmail());
+            signUpModel.setPassword("123456");
+            signUpModel.setLat(userModel.getData().getLatitude());
+            signUpModel.setLng(userModel.getData().getLongitude());
+            signUpModel.setCv(userModel.getData().getAbout_user());
+            signUpModel.setCountry_id(userModel.getData().getCountry_code());
+            signUpModel.setSpecialize(userModel.getData().getSpecialization_id());
+            binding.tvLogin.setVisibility(View.GONE);
+            binding.tiPassword.setVisibility(View.GONE);
+            binding.btnSignUp.setText(getString(R.string.update));
+            binding.tvCode.setText(signUpModel.getPhone_code());
+            binding.tvTitle.setText(R.string.update_profile);
+        }
+
         binding.setModel(signUpModel);
         binding.btnSignUp.setOnClickListener(v -> {
             if (signUpModel.isDataValid(this)) {
-                if (uri == null) {
-                    signUpModel.setImage("");
-                } else {
-                    signUpModel.setImage(uri.toString());
+
+
+                if (userModel==null){
+                    if (uri == null) {
+                        signUpModel.setImage("");
+                    } else {
+                        signUpModel.setImage(uri.toString());
+                    }
+                    navigatetoVerficationCode();
+
+                }else {
+                    if (uri == null) {
+                        signUpModel.setImage("");
+                        updateProfileWithoutImage();
+                    } else {
+                        signUpModel.setImage(uri.toString());
+                        updateWithImage();
+                    }
+
                 }
-                navigatetoVerficationCode();
             }
         });
         binding.spcountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -176,9 +221,9 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
 
             }
         });
-        binding.tvLogin.setOnClickListener(v -> finish());
+        binding.tvLogin.setOnClickListener(v -> navigateToLoginActivity());
 
-        binding.llBack.setOnClickListener(v -> finish());
+        binding.llBack.setOnClickListener(v -> onBackPressed());
 
 
         binding.fl.setOnClickListener(view -> openSheet());
@@ -193,15 +238,16 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
         });
 
         binding.btnCancel.setOnClickListener(view -> closeSheet());
-        binding.arrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog2.show();
-            }
-        });
+        binding.arrow.setOnClickListener(v -> dialog2.show());
         updateUI();
         getCountries();
 
+    }
+
+    private void navigateToLoginActivity() {
+        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void navigatetoVerficationCode() {
@@ -343,8 +389,6 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
                                 if (response.body().getData() != null) {
                                     if (response.body().getData().size() > 0) {
                                         updateSpecialData(response.body().getData());
-                                    } else {
-
                                     }
                                 }
                             } else {
@@ -402,11 +446,181 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
         specialModel.setSpecialization_trans_fk(new SpecialModel.SpecializationTransFk(getResources().getString(R.string.choose_special)));
         specialModelList.add(specialModel);
         specialModelList.addAll(data);
-
         SpinnerSpecialAdapter spinnerSpecialAdapter = new SpinnerSpecialAdapter(specialModelList, this);
         binding.spspecial.setAdapter(spinnerSpecialAdapter);
+
+        if (userModel!=null){
+            int country_pos = getCountryPos();
+            int specialize_pos = getSpecializePos();
+            binding.spcountry.setSelection(country_pos);
+            binding.spspecial.setSelection(specialize_pos);
+
+        }
+
     }
 
+    private int getCountryPos() {
+        int pos = -1;
+        for (int index = 0;index<countryModelList.size();index++){
+            if (userModel.getData().getCountry_code().equals(countryModelList.get(index).getCode())){
+                pos = index;
+                return pos;
+            }
+        }
+        return pos;
+    }
+
+    private int getSpecializePos() {
+        int pos = -1;
+        for (int index = 0;index<specialModelList.size();index++){
+            if (userModel.getData().getSpecialization_id()==specialModelList.get(index).getId()){
+                pos = index;
+                return pos;
+            }
+        }
+        return pos;
+    }
+
+    private void updateProfileWithoutImage() {
+        ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+        Api.getService(Tags.base_url)
+                .updateWithoutImage("Bearer "+userModel.getData().getToken(),userModel.getData().getId(),signUpModel.getName(), signUpModel.getPhone_code(), signUpModel.getPhone(), "android", signUpModel.getCountry_id(), signUpModel.getAddress(), signUpModel.getCenter(), signUpModel.getLat(), signUpModel.getLng(), signUpModel.getSpecialize(), signUpModel.getEmail(), signUpModel.getCv())
+                .enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        dialog.dismiss();
+                        if (response.isSuccessful()) {
+
+                            if (response.body() != null && response.body().getStatus() == 200) {
+                                if (response.body() != null && response.body().getData() != null) {
+                                    Preferences preferences = Preferences.getInstance();
+                                    preferences.create_update_userdata(SignUpActivity.this, response.body());
+                                    setResult(RESULT_OK);
+                                    finish();
+                                }
+                            }
+
+
+                        } else {
+                            dialog.dismiss();
+
+                            switch (response.code()) {
+                                case 500:
+                                    break;
+                                default:
+                                    break;
+                            }
+                            try {
+                                Log.e("error_code", response.code() + "_");
+                            } catch (NullPointerException e) {
+
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        try {
+                            dialog.dismiss();
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage());
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                } else if (t.getMessage().toLowerCase().contains("socket") || t.getMessage().toLowerCase().contains("canceled")) {
+                                } else {
+                                }
+                            }
+
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+    }
+
+    private void updateWithImage() {
+
+        ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        RequestBody user_id_part = Common.getRequestBodyText(String.valueOf(userModel.getData().getId()));
+        RequestBody name_part = Common.getRequestBodyText(signUpModel.getName());
+        RequestBody email_part = Common.getRequestBodyText(signUpModel.getEmail());
+        RequestBody password_part = Common.getRequestBodyText(signUpModel.getPassword());
+        RequestBody phone_part = Common.getRequestBodyText(signUpModel.getPhone());
+        RequestBody phone_code_part = Common.getRequestBodyText(signUpModel.getPhone_code());
+        RequestBody address_part = Common.getRequestBodyText(signUpModel.getAddress());
+        RequestBody lat_part = Common.getRequestBodyText(signUpModel.getLat() + "");
+        RequestBody lng_part = Common.getRequestBodyText(signUpModel.getLng() + "");
+        RequestBody soft_part = Common.getRequestBodyText("android");
+        RequestBody cv_part = Common.getRequestBodyText(signUpModel.getCv());
+        RequestBody center_part = Common.getRequestBodyText(signUpModel.getCenter());
+        RequestBody country_part = Common.getRequestBodyText(signUpModel.getCountry_id());
+        RequestBody special_part = Common.getRequestBodyText(signUpModel.getSpecialize() + "");
+
+
+        MultipartBody.Part image = Common.getMultiPart(this, Uri.parse(signUpModel.getImage()), "logo");
+
+
+        Api.getService(Tags.base_url)
+                .updateWithImage("Bearer "+userModel.getData().getToken(),user_id_part,name_part, phone_code_part, phone_part, soft_part, country_part, address_part, center_part, lat_part, lng_part, special_part, email_part, cv_part, image)
+                .enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        dialog.dismiss();
+                        if (response.isSuccessful()) {
+
+                            if (response.body() != null && response.body().getStatus() == 200) {
+                                if (response.body() != null && response.body().getData() != null) {
+                                    Preferences preferences = Preferences.getInstance();
+                                    preferences.create_update_userdata(SignUpActivity.this, response.body());
+                                    setResult(RESULT_OK);
+                                    finish();
+                                }
+                            }
+
+
+                        } else {
+                            dialog.dismiss();
+
+                            switch (response.code()) {
+                                case 500:
+                                    break;
+                                default:
+                                    break;
+                            }
+                            try {
+                                Log.e("error_code", response.code() + "_");
+                            } catch (NullPointerException e) {
+
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        try {
+                            dialog.dismiss();
+                            if (t.getMessage() != null) {
+                                Log.e("msg_category_error", t.getMessage() + "__");
+
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                } else {
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.e("Error", e.getMessage() + "__");
+                        }
+                    }
+                });
+
+    }
 
     public void openSheet() {
         binding.expandLayout.setExpanded(true, true);
@@ -618,7 +832,12 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
             mMap.setIndoorEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             fragment.setListener(() -> binding.scrollView.requestDisallowInterceptTouchEvent(true));
-            checkPermission();
+            if (userModel==null){
+                checkPermission();
+
+            }else {
+                addMarker(new LatLng(userModel.getData().getLatitude(),userModel.getData().getLongitude()));
+            }
 
             mMap.setOnMapClickListener(latLng -> {
                 lat = latLng.latitude;
@@ -724,5 +943,14 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
         binding.setModel(signUpModel);
         dialog2.dismiss();
         binding.tvCode.setText(countryModel.getPhone_code());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (userModel!=null){
+            finish();
+        }else {
+            navigateToLoginActivity();
+        }
     }
 }

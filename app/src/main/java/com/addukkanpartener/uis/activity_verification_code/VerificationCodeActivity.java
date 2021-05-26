@@ -229,6 +229,12 @@ public class VerificationCodeActivity extends AppCompatActivity {
         }
     }
 
+
+    private void navigateToHomeActivty() {
+        Intent intent = new Intent(VerificationCodeActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
     private void signUpWithoutImage() {
         ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
         dialog.setCanceledOnTouchOutside(false);
@@ -297,12 +303,6 @@ public class VerificationCodeActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    private void navigateToHomeActivty() {
-        Intent intent = new Intent(VerificationCodeActivity.this, HomeActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     private void signUpWithImage() {

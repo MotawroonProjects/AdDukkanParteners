@@ -60,6 +60,7 @@
                 android:layout_margin="16dp"
                 >
                 <LinearLayout
+                    android:id="@+id/llReport"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -142,6 +143,7 @@
                     android:background="@drawable/stroke_line"
                     />
                 <LinearLayout
+                    android:id="@+id/llContactUs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -176,6 +178,7 @@
                     />
 
                 <LinearLayout
+                    android:id="@+id/llAboutApp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -210,6 +213,7 @@
                     />
 
                 <LinearLayout
+                    android:id="@+id/llTerms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -257,6 +261,7 @@
                 android:layout_marginTop="16sp"
                 >
                 <ImageView
+                    android:id="@+id/imageFacebook"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/facebook"
@@ -268,6 +273,7 @@
 
 
                 <ImageView
+                    android:id="@+id/imageInstagram"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/instagram"
@@ -279,6 +285,7 @@
                     android:layout_height="0dp"/>
 
                 <ImageView
+                    android:id="@+id/imageTwitter"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/twitter"
@@ -291,6 +298,7 @@
 
 
                 <ImageView
+                    android:id="@+id/imageWhatsApp"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/whatsapp"
