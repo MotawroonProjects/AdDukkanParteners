@@ -404,7 +404,7 @@ public class PrescriptionActivity extends AppCompatActivity {
         }
 
         call = Api.getService(Tags.base_url)
-                .getTreatments2(query, userModel.getData().getCountry_code());
+                .getTreatments2(lang,query, userModel.getData().getCountry_code());
         call.enqueue(new Callback<TreatmentDataModel>() {
             @Override
             public void onResponse(Call<TreatmentDataModel> call, Response<TreatmentDataModel> response) {

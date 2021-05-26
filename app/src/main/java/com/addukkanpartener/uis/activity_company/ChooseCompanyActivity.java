@@ -100,7 +100,7 @@ public class ChooseCompanyActivity extends AppCompatActivity implements Listener
         }
 
         call = Api.getService(Tags.base_url)
-                .getCompany(query);
+                .getCompany(lang,query);
         call.enqueue(new Callback<CompanyDataModel>() {
             @Override
             public void onResponse(Call<CompanyDataModel> call, Response<CompanyDataModel> response) {

@@ -3,6 +3,7 @@ package com.addukkanpartener.uis.activity_home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -331,5 +332,19 @@ userModel=preferences.getUserData(this);
     public void navigateToLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, 100);
+    }
+
+    public void refreshActivity(String lang) {
+        Paper.book().write("lang", lang);
+        Language.setNewLocale(this, lang);
+        new Handler()
+                .postDelayed(() -> {
+
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                }, 500);
+
+
     }
 }

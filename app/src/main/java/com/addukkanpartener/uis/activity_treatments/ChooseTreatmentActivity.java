@@ -119,7 +119,7 @@ public class ChooseTreatmentActivity extends AppCompatActivity implements Listen
         }
 
         call = Api.getService(Tags.base_url)
-                .getTreatments(query,userModel.getData().getCountry_code(),String.valueOf(company_id));
+                .getTreatments(lang,query,userModel.getData().getCountry_code(),String.valueOf(company_id));
         call.enqueue(new Callback<TreatmentDataModel>() {
             @Override
             public void onResponse(Call<TreatmentDataModel> call, Response<TreatmentDataModel> response) {

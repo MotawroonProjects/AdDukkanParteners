@@ -121,16 +121,18 @@ public interface Service {
                                            @Field("notification_id") int notification_id);
 
     @GET("api/companies")
-    Call<CompanyDataModel> getCompany(@Query("search_key") String search_key);
+    Call<CompanyDataModel> getCompany(@Header("lang") String lang,
+                                      @Query("search_key") String search_key);
 
     @GET("api/medicine")
-    Call<TreatmentDataModel> getTreatments(@Query("search_name") String search_name,
+    Call<TreatmentDataModel> getTreatments(@Header("lang") String lang,
+                                           @Query("search_name") String search_name,
                                            @Query("country_code") String country_code,
                                            @Query("company_id") String company_id
     );
 
     @GET("api/medicine")
-    Call<TreatmentDataModel> getTreatments2(
+    Call<TreatmentDataModel> getTreatments2(@Header("lang") String lang,
                                             @Query("search_name") String search_name,
                                             @Query("country_code") String country_code
     );
