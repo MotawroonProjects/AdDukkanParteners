@@ -143,7 +143,6 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
 
         if (userModel!=null){
             String url = Tags.IMAGE_URL+userModel.getData().getLogo();
-            Log.e("url",url);
             Picasso.get().load(Uri.parse(url)).placeholder(R.drawable.ic_avatar).into(binding.image);
             signUpModel.setAddress(userModel.getData().getAddress());
             signUpModel.setCenter(userModel.getData().getHospital_place());

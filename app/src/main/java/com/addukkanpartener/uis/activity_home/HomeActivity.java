@@ -1,10 +1,13 @@
 package com.addukkanpartener.uis.activity_home;
 
+import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,15 +22,20 @@ import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.ActivityHomeBinding;
 import com.addukkanpartener.language.Language;
 import com.addukkanpartener.models.NotificationCountModel;
+import com.addukkanpartener.models.ResponseModel;
 import com.addukkanpartener.models.UserModel;
 import com.addukkanpartener.preferences.Preferences;
 import com.addukkanpartener.remote.Api;
+import com.addukkanpartener.share.Common;
 import com.addukkanpartener.tags.Tags;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentChat;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentHome;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentMore;
 import com.addukkanpartener.uis.activity_home.fragments.profile.FragmentProfile;
 import com.addukkanpartener.uis.activity_login.LoginActivity;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.List;
@@ -66,18 +74,23 @@ public class HomeActivity extends AppCompatActivity {
     private void initView() {
         fragmentManager = getSupportFragmentManager();
         updateNotCount(0);
-preferences=Preferences.getInstance();
-userModel=preferences.getUserData(this);
+        preferences = Preferences.getInstance();
+        userModel = preferences.getUserData(this);
         displayFragmentHome();
         binding.llHome.setOnClickListener(v -> displayFragmentHome());
         binding.llProfile.setOnClickListener(v -> displayFragmentProfile());
         binding.llChat.setOnClickListener(v -> displayFragmentChat());
         binding.llMore.setOnClickListener(v -> displayFragmentMore());
-        if(userModel!=null){
+        if (userModel != null) {
             getNotificationCount();
+        }
+        if (userModel != null) {
+            updateTokenFireBase();
+
         }
 
     }
+
     private void getNotificationCount() {
         if (userModel == null) {
             binding.setNotCount("0");
@@ -314,6 +327,129 @@ userModel=preferences.getUserData(this);
         }
     }
 
+    private void updateTokenFireBase() {
+
+        FirebaseInstanceId.getInstance()
+                .getInstanceId().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                String token = task.getResult().getToken();
+
+                try {
+                    Api.getService(Tags.base_url)
+                            .updateFirebaseToken("Bearer "+userModel.getData().getToken(),token, userModel.getData().getId(), "android")
+                            .enqueue(new Callback<ResponseModel>() {
+                                @Override
+                                public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                                    if (response.isSuccessful() && response.body() != null) {
+
+                                        if (response.body().getStatus() == 200) {
+                                            userModel.getData().setFirebase_token(token);
+                                            preferences.create_update_userdata(HomeActivity.this, userModel);
+                                            Log.e("token", "updated successfully");
+
+                                        }
+                                    } else {
+                                        try {
+
+                                            Log.e("errorToken", response.code() + "_" + response.errorBody().string());
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseModel> call, Throwable t) {
+                                    try {
+
+                                        if (t.getMessage() != null) {
+                                            Log.e("errorToken2", t.getMessage());
+                                            if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                                //Toast.makeText(HomeActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                //Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            });
+                } catch (Exception e) {
+
+
+                }
+
+            }
+        });
+    }
+
+    public void logout() {
+        ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(true);
+        dialog.show();
+        Api.getService(Tags.base_url)
+                .logout("Bearer " + userModel.getData().getToken(),userModel.getData().getFirebase_token(),userModel.getData().getId(),"android")
+                .enqueue(new Callback<ResponseModel>() {
+                    @Override
+                    public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                        dialog.dismiss();
+                        if (response.isSuccessful()) {
+                            if (response.body() != null && response.body().getStatus() == 200) {
+                                preferences.clear(HomeActivity.this);
+                                NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                if (manager != null) {
+                                    manager.cancel(Tags.not_tag, Tags.not_id);
+                                }
+                                navigateToSignInActivity();
+                            } else {
+                                Toast.makeText(HomeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } else {
+                            dialog.dismiss();
+                            try {
+                                Log.e("error", response.code() + "__" + response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            if (response.code() == 500) {
+                               // Toast.makeText(HomeActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                            } else {
+                                //Toast.makeText(HomeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseModel> call, Throwable t) {
+                        try {
+                            dialog.dismiss();
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage() + "__");
+
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    //Toast.makeText(HomeActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    //Toast.makeText(HomeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.e("Error", e.getMessage() + "__");
+                        }
+                    }
+                });
+    }
+
+    private void navigateToSignInActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     public void onBackPressed() {

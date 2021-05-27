@@ -50,7 +50,7 @@ public class UserModel extends ResponseModel implements Serializable {
         private String token;
         private SpecialModel user_specialization;
         private CountryModel user_country;
-
+        private String firebase_token;
         public User() {
         }
 
@@ -193,6 +193,14 @@ public class UserModel extends ResponseModel implements Serializable {
 
         public CountryModel getUser_country() {
             return user_country;
+        }
+
+        public String getFirebase_token() {
+            return firebase_token;
+        }
+
+        public void setFirebase_token(String firebase_token) {
+            this.firebase_token = firebase_token;
         }
     }
 

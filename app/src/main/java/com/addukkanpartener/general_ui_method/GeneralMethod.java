@@ -114,6 +114,17 @@ public class GeneralMethod {
         textView.setText(d);
     }
 
+    @BindingAdapter("date2")
+    public static void date2(TextView textView,String date){
+        String d = date.split(" ")[0];
+        textView.setText(d);
+    }
+
+    @BindingAdapter("time")
+    public static void time(TextView textView,String time){
+        String t = time.split(" ")[1];
+        textView.setText(t);
+    }
 }
 
 

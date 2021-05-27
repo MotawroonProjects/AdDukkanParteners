@@ -146,6 +146,12 @@
     <string name="not_ava">غير متاح الان</string>
     <string name="message">الرسالة</string>
     <string name="update_profile">تحديث الملف الشخصي</string>
+    <string name="prescription_num">رقم الوصفة:</string>
+    <string name="status">الحالة:</string>
+    <string name="in_cart">في السلة</string>
+    <string name="done2">تم الشراء</string>
+    <string name="total2">الاجمالي:</string>
+    <string name="dr">د/</string>
 
 
 </resources>

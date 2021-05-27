@@ -54,193 +54,213 @@
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
-        <ScrollView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fillViewport="true"
-            >
+            android:layout_height="match_parent">
             <LinearLayout
+                android:id="@+id/llData"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:visibility="gone"
                 >
-
-
-
-
-
-                <LinearLayout
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/small_rounded_gray"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:fillViewport="true"
                     >
-                    <View
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center_vertical"
-                        />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight=".5"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:text="@string/prescription_name"
-                        android:layout_gravity="center_vertical"/>
+                        android:orientation="vertical"
+                        >
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight=".2"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:text="@string/amount"
-                        android:gravity="center"
-                        android:layout_gravity="center_vertical"/>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight=".3"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:text="@string/price"
-                        android:gravity="center"
-                        android:layout_gravity="center_vertical"/>
 
-                    <View
-                        android:layout_width="36dp"
-                        android:layout_height="0dp"
-                        android:layout_gravity="center_vertical"
-                        />
 
-                </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@drawable/small_rounded_gray"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginTop="8dp"
+                            >
+                            <View
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight=".5"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                android:text="@string/prescription_name"
+                                android:layout_gravity="center_vertical"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight=".2"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                android:text="@string/amount"
+                                android:gravity="center"
+                                android:layout_gravity="center_vertical"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight=".3"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                android:text="@string/price"
+                                android:gravity="center"
+                                android:layout_gravity="center_vertical"/>
+
+                            <View
+                                android:layout_width="36dp"
+                                android:layout_height="0dp"
+                                android:layout_gravity="center_vertical"
+                                />
+
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@drawable/small_rounded_gray"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            >
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight=".7"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:text="@string/total"
+                                android:layout_gravity="center_vertical"/>
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight=".3"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                android:gravity="center"
+                                android:text="@{String.valueOf(model.total_price)}"
+                                android:layout_gravity="center_vertical"/>
+
+
+                            <View
+                                android:layout_width="36dp"
+                                android:layout_height="0dp"
+                                android:layout_gravity="center_vertical"
+                                />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            >
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:background="@color/colorPrimary"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:text="@string/notes2"
+                                />
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:textColor="@color/black"
+                            android:text="@{model.note}"
+                            />
+
+
+
+                    </LinearLayout>
+                </ScrollView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/small_rounded_gray"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    >
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight=".7"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:text="@string/total"
-                        android:layout_gravity="center_vertical"/>
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight=".3"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:gravity="center"
-                        android:text="@{String.valueOf(model.total_price)}"
-                        android:layout_gravity="center_vertical"/>
-
-
-                    <View
-                        android:layout_width="36dp"
-                        android:layout_height="0dp"
-                        android:layout_gravity="center_vertical"
-                        />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     >
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:background="@color/colorPrimary"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/black"
+                        android:background="@color/colorPrimary"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/white"
                         android:textSize="16sp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="@string/notes2"
+                        android:text="@string/share_link"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+
                         />
+                    <Button
+                        android:id="@+id/btnPrint"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/stroke_primary"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp"
+                        android:text="@string/print"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+
+                        />
+
                 </LinearLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:textColor="@color/black"
-                    android:text="@{model.note}"
-                    />
-
-
 
             </LinearLayout>
-        </ScrollView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <ProgressBar
+                android:id="@+id/progBar"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:text="@string/share_link"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-
+                android:layout_gravity="center"
                 />
-            <Button
-                android:id="@+id/btnPrint"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="@drawable/stroke_primary"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
-                android:text="@string/print"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+        </FrameLayout>
 
-                />
-
-        </LinearLayout>
     </LinearLayout>
 </layout>

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.PatientRowBinding;
 import com.addukkanpartener.models.UserModel;
+import com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild.FragmentPatients;
 
 import java.util.List;
 
@@ -21,11 +22,12 @@ public class PatientsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private LayoutInflater inflater;
     private Context context;
     private List<UserModel.User> list;
-
-    public PatientsAdapter(Context context, List<UserModel.User> list) {
+    private FragmentPatients fragmentPatients;
+    public PatientsAdapter(Context context, List<UserModel.User> list,FragmentPatients fragmentPatients) {
         inflater = LayoutInflater.from(context);
         this.list = list;
         this.context = context;
+        this.fragmentPatients = fragmentPatients;
     }
 
     @NonNull
@@ -41,7 +43,11 @@ public class PatientsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         PatientHolder eventHolder = (PatientHolder) holder;
-eventHolder.binding.setModel(list.get(position));
+        eventHolder.binding.setModel(list.get(position));
+        eventHolder.binding.btnDetails.setOnClickListener(v -> {
+            UserModel.User user = list.get(eventHolder.getAdapterPosition());
+            fragmentPatients.setItemData(user);
+        });
     }
 
     @Override

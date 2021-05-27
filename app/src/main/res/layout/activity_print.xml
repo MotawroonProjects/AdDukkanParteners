@@ -116,11 +116,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:textColor="@color/black"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:text="@{model.doctor_fk.name}"
+                        android:textStyle="bold"
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -143,11 +144,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:textColor="@color/black"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:text="@{model.user_fk.name}"
+                        android:textStyle="bold"
+
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -168,11 +171,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:textColor="@color/black"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:text='@{model.user_fk.phone_code+model.user_fk.phone_code}'
+                        android:text='@{model.user_fk.phone_code+model.user_fk.phone}'
+                        android:textStyle="bold"
+
                         />
                 </LinearLayout>
 
@@ -247,6 +252,8 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:text="@string/notes2"
+                        android:textStyle="bold"
+
                         />
                 </LinearLayout>
                 <TextView

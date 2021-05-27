@@ -2,12 +2,14 @@ package com.addukkanpartener.services;
 
 import com.addukkanpartener.models.AddPrescriptionModel;
 import com.addukkanpartener.models.AllUserModel;
+import com.addukkanpartener.models.ClientPrescriptionDetailsDataModel;
 import com.addukkanpartener.models.CompanyDataModel;
 import com.addukkanpartener.models.CountryDataModel;
 import com.addukkanpartener.models.NotificationCountModel;
 import com.addukkanpartener.models.NotificationDataModel;
 import com.addukkanpartener.models.DoctorTreatmentDataModel;
 import com.addukkanpartener.models.MessageDataModel;
+import com.addukkanpartener.models.OrderDataModel;
 import com.addukkanpartener.models.PlaceGeocodeData;
 import com.addukkanpartener.models.PlaceMapDetailsData;
 import com.addukkanpartener.models.ResponseModel;
@@ -269,6 +271,38 @@ public interface Service {
                                   @Field("message") String message
 
 
+    );
+
+    @GET("api/show-user-prescriptions")
+    Call<ClientPrescriptionDetailsDataModel> getClientPrescription(@Header("Authorization") String bearer_token,
+                                                                   @Query(value = "lang") String lang,
+                                                                   @Query(value = "client_id") int client_id
+
+    );
+
+    @GET("api/show-one-prescription")
+    Call<SingleOrderDataModel> getClientPrescriptionDetails(@Header("Authorization") String bearer_token,
+                                                            @Query(value = "lang") String lang,
+                                                            @Query(value = "country_code") String country_code,
+                                                            @Query(value = "id") int id
+
+    );
+
+    @FormUrlEncoded
+    @POST("api/update-firebase")
+    Call<ResponseModel> updateFirebaseToken(@Header("Authorization") String bearer_token,
+                                            @Field("phone_token") String phone_token,
+                                            @Field("user_id") int user_id,
+                                            @Field("software_type") String software_type
+
+    );
+
+    @FormUrlEncoded
+    @POST("api/logout")
+    Call<ResponseModel> logout(@Header("Authorization") String user_token,
+                               @Field("phone_token") String phone_token,
+                               @Field("user_id") int user_id,
+                               @Field("software_type") String software_type
     );
 
 }

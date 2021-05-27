@@ -11,33 +11,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.PrescriptionDetailsRowBinding;
+import com.addukkanpartener.databinding.PrescriptionRow2Binding;
 import com.addukkanpartener.databinding.PrescriptionRowBinding;
-import com.addukkanpartener.models.AddPrescriptionModel;
 import com.addukkanpartener.models.OrderModel;
-import com.addukkanpartener.uis.activity_add_prescription.PrescriptionActivity;
 import com.addukkanpartener.uis.activity_prescription_details1.PrescriptionDetails1Activity;
+import com.addukkanpartener.uis.activity_print.PrintActivity;
 
 import java.util.List;
 
 
-public class PrescriptionItemDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PrescriptionItemDetailsAdapter2 extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater inflater;
     private Context context;
     private List<OrderModel.PrescriptionDetailsFk> list;
-    private AppCompatActivity activity;
 
-    public PrescriptionItemDetailsAdapter(Context context, List<OrderModel.PrescriptionDetailsFk> list) {
+    public PrescriptionItemDetailsAdapter2(Context context, List<OrderModel.PrescriptionDetailsFk> list) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
-        activity = (AppCompatActivity) context;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        PrescriptionDetailsRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.prescription_details_row, parent, false);
+        PrescriptionRow2Binding binding = DataBindingUtil.inflate(inflater, R.layout.prescription_row2, parent, false);
         return new MyHolder(binding);
 
 
@@ -48,24 +46,10 @@ public class PrescriptionItemDetailsAdapter extends RecyclerView.Adapter<Recycle
         MyHolder myHolder = (MyHolder) holder;
         OrderModel.PrescriptionDetailsFk model = list.get(position);
 
-        if (model.getStatus().equals("old")){
-            myHolder.binding.status.setImageResource(R.color.colorPrimary);
-        }else if (model.getStatus().equals("in_cart")){
-            myHolder.binding.status.setImageResource(R.color.color5);
-        }else if (model.getStatus().equals("part")){
-            myHolder.binding.status.setImageResource(R.color.gray12);
-
-        }
         myHolder.binding.setModel(model);
 
 
-        myHolder.itemView.setOnClickListener(v -> {
-            if (activity instanceof PrescriptionDetails1Activity){
-                PrescriptionDetails1Activity prescriptionDetails1Activity = (PrescriptionDetails1Activity) activity;
-                prescriptionDetails1Activity.setItemData(list.get(myHolder.getAdapterPosition()));
-            }
 
-        });
     }
 
     @Override
@@ -74,9 +58,9 @@ public class PrescriptionItemDetailsAdapter extends RecyclerView.Adapter<Recycle
     }
 
     public static class MyHolder extends RecyclerView.ViewHolder {
-        private PrescriptionDetailsRowBinding binding;
+        private PrescriptionRow2Binding binding;
 
-        public MyHolder(PrescriptionDetailsRowBinding binding) {
+        public MyHolder(PrescriptionRow2Binding binding) {
             super(binding.getRoot());
             this.binding = binding;
 

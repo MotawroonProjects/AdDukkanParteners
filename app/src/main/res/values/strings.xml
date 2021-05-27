@@ -147,5 +147,11 @@
     <string name="not_ava">Not available now</string>
     <string name="message">Message</string>
     <string name="update_profile">Update profile</string>
+    <string name="prescription_num">Prescription Num:</string>
+    <string name="status">Status:</string>
+    <string name="in_cart">In cart</string>
+    <string name="done2">Done</string>
+    <string name="total2">Total:</string>
+    <string name="dr">Dr.</string>
 
 </resources>

@@ -56,34 +56,34 @@ public class FragmentMore extends Fragment {
     private void initView() {
         activity = (HomeActivity) getActivity();
         Paper.init(activity);
-        lang = Paper.book().read("lang","ar");
+        lang = Paper.book().read("lang", "ar");
 
         getSetting();
         binding.llChangeLanguage.setOnClickListener(v -> {
             Intent intent = new Intent(activity, LanguageActivity.class);
-            startActivityForResult(intent,100);
+            startActivityForResult(intent, 100);
         });
 
         binding.llReport.setOnClickListener(v -> {
-            if (settings!=null){
-                String url ="";
-                if (!url.isEmpty()){
+            if (settings != null) {
+                String url = "";
+                if (!url.isEmpty()) {
                     navigateToWebView(url);
                 }
 
-            }else {
+            } else {
                 Toast.makeText(activity, R.string.not_ava, Toast.LENGTH_SHORT).show();
             }
         });
 
         binding.llAboutApp.setOnClickListener(v -> {
-            if (settings!=null){
-                String url ="";
-                if (!url.isEmpty()){
+            if (settings != null) {
+                String url = "";
+                if (!url.isEmpty()) {
                     navigateToWebView(url);
                 }
 
-            }else {
+            } else {
                 Toast.makeText(activity, R.string.not_ava, Toast.LENGTH_SHORT).show();
             }
         });
@@ -92,65 +92,68 @@ public class FragmentMore extends Fragment {
             startActivity(intent);
         });
         binding.llTerms.setOnClickListener(v -> {
-            if (settings!=null){
-                String url ="";
-                if (!url.isEmpty()){
+            if (settings != null) {
+                String url = "";
+                if (!url.isEmpty()) {
                     navigateToWebView(url);
                 }
 
-            }else {
+            } else {
                 Toast.makeText(activity, R.string.not_ava, Toast.LENGTH_SHORT).show();
             }
         });
 
         binding.imageFacebook.setOnClickListener(v -> {
-            if (settings!=null&&!settings.getFacebook().isEmpty()){
-                String url =settings.getFacebook();
+            if (settings != null && !settings.getFacebook().isEmpty()) {
+                String url = settings.getFacebook();
                 openSocialMedia(url);
 
 
-            }else {
+            } else {
                 Toast.makeText(activity, R.string.not_ava, Toast.LENGTH_SHORT).show();
             }
         });
 
         binding.imageInstagram.setOnClickListener(v -> {
-            if (settings!=null&&!settings.getInstagram().isEmpty()){
-                String url =settings.getInstagram();
+            if (settings != null && !settings.getInstagram().isEmpty()) {
+                String url = settings.getInstagram();
                 openSocialMedia(url);
 
 
-            }else {
+            } else {
                 Toast.makeText(activity, R.string.not_ava, Toast.LENGTH_SHORT).show();
             }
         });
 
         binding.imageTwitter.setOnClickListener(v -> {
-            if (settings!=null&&!settings.getTwitter().isEmpty()){
-                String url =settings.getTwitter();
+            if (settings != null && !settings.getTwitter().isEmpty()) {
+                String url = settings.getTwitter();
                 openSocialMedia(url);
 
 
-            }else {
+            } else {
                 Toast.makeText(activity, R.string.not_ava, Toast.LENGTH_SHORT).show();
             }
         });
 
         binding.imageWhatsApp.setOnClickListener(v -> {
-            if (settings!=null&&!settings.getWhatup().isEmpty()){
-                String number =settings.getWhatup();
+            if (settings != null && !settings.getWhatup().isEmpty()) {
+                String number = settings.getWhatup();
                 openWhatsApp(number);
 
 
-            }else {
+            } else {
                 Toast.makeText(activity, R.string.not_ava, Toast.LENGTH_SHORT).show();
             }
         });
+
+        binding.llLogout.setOnClickListener(v -> {
+            activity.logout();
+        });
     }
 
-    private void getSetting()
-    {
-        ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
+    private void getSetting() {
+        ProgressDialog dialog = Common.createProgressDialog(activity, getString(R.string.wait));
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
         dialog.show();
@@ -211,31 +214,31 @@ public class FragmentMore extends Fragment {
                     }
                 });
     }
-    private void navigateToWebView(String url)
-    {
-        Intent intent  = new Intent(activity, ViewActivity.class);
-        intent.putExtra("url",url);
+
+    private void navigateToWebView(String url) {
+        Intent intent = new Intent(activity, ViewActivity.class);
+        intent.putExtra("url", url);
         startActivity(intent);
     }
-    private void openSocialMedia(String url)
-    {
+
+    private void openSocialMedia(String url) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);
     }
-    private void openWhatsApp(String number)
-    {
-        if (!number.startsWith("+")){
-            number = "+"+number;
+
+    private void openWhatsApp(String number) {
+        if (!number.startsWith("+")) {
+            number = "+" + number;
         }
 
 
-        String url = "https://api.whatsapp.com/send?phone="+number;
+        String url = "https://api.whatsapp.com/send?phone=" + number;
 
         try {
             PackageManager packageManager = activity.getPackageManager();
-            packageManager.getPackageInfo("com.whatsapp",PackageManager.GET_ACTIVITIES);
+            packageManager.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(url));
@@ -249,9 +252,9 @@ public class FragmentMore extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable  Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==100&&resultCode== Activity.RESULT_OK&&data!=null){
+        if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
             String lang = data.getStringExtra("lang");
             activity.refreshActivity(lang);
         }

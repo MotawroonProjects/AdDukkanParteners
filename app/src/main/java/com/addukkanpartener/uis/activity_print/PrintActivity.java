@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.addukkanpartener.R;
 import com.addukkanpartener.adapters.PrescriptionItemDetailsAdapter;
+import com.addukkanpartener.adapters.PrescriptionItemDetailsAdapter2;
 import com.addukkanpartener.databinding.ActivityPrescriptionDetails1Binding;
 import com.addukkanpartener.databinding.ActivityPrintBinding;
 import com.addukkanpartener.language.Language;
@@ -29,7 +30,7 @@ public class PrintActivity extends AppCompatActivity {
     private ActivityPrintBinding binding;
     private String lang = "ar";
     private OrderModel orderModel;
-    private PrescriptionItemDetailsAdapter adapter;
+    private PrescriptionItemDetailsAdapter2 adapter;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -56,7 +57,7 @@ public class PrintActivity extends AppCompatActivity {
         binding.setLang(lang);
         binding.setModel(orderModel);
         binding.recView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new PrescriptionItemDetailsAdapter(this, orderModel.getPrescription_details_fk());
+        adapter = new PrescriptionItemDetailsAdapter2(this, orderModel.getPrescription_details_fk());
         binding.recView.setAdapter(adapter);
         binding.llBack.setOnClickListener(v -> finish());
 

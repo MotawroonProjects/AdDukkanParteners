@@ -222,7 +222,7 @@ public class PrescriptionActivity extends AppCompatActivity {
                         if (response.isSuccessful() && response.body() != null) {
                             if (response.body().getStatus() == 200) {
                                 Intent intent = new Intent(PrescriptionActivity.this, PrescriptionDetails1Activity.class);
-                                intent.putExtra("data", response.body().getData());
+                                intent.putExtra("data", response.body().getData().getId());
                                 startActivity(intent);
                                 finish();
                             }

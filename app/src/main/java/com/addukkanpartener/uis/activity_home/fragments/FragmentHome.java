@@ -56,6 +56,7 @@ public class FragmentHome extends Fragment {
         binding.setNotCount("0");
         preferences= Preferences.getInstance();
         userModel=preferences.getUserData(activity);
+        binding.setModel(userModel);
         ValueLineSeries series = new ValueLineSeries();
         series.setColor(ContextCompat.getColor(activity,R.color.color3));
 

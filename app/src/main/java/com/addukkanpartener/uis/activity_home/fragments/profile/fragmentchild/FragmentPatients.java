@@ -1,5 +1,6 @@
 package com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,6 +23,7 @@ import com.addukkanpartener.models.AllUserModel;
 import com.addukkanpartener.models.UserModel;
 import com.addukkanpartener.remote.Api;
 import com.addukkanpartener.tags.Tags;
+import com.addukkanpartener.uis.activity_client_prescription.ClientPrescriptionActivity;
 import com.addukkanpartener.uis.activity_home.HomeActivity;
 
 import java.util.ArrayList;
@@ -54,7 +56,7 @@ public class FragmentPatients extends Fragment {
     private void initView() {
         userList = new ArrayList<>();
         activity = (HomeActivity) getActivity();
-        patientsAdapter = new PatientsAdapter(activity, userList);
+        patientsAdapter = new PatientsAdapter(activity, userList,this);
         binding.recView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recView.setAdapter(patientsAdapter);
         // binding.progBar.setVisibility(View.GONE);
@@ -163,4 +165,10 @@ public class FragmentPatients extends Fragment {
     }
 
 
+    public void setItemData(UserModel.User user) {
+        Intent intent = new Intent(activity, ClientPrescriptionActivity.class);
+        intent.putExtra("data", user);
+        startActivity(intent);
+
+    }
 }
