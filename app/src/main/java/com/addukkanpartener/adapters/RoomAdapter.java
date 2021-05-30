@@ -1,9 +1,7 @@
 package com.addukkanpartener.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,9 +9,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.addukkanpartener.R;
-import com.addukkanpartener.databinding.UserSearchRowBinding;
+import com.addukkanpartener.databinding.RoomRowBinding;
 import com.addukkanpartener.models.RoomModel;
-import com.addukkanpartener.uis.activity_chat.ChatActivity;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentChat;
 
 import java.util.List;
@@ -25,7 +22,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<RoomModel> list;
     private FragmentChat fragmentChat;
 
-    public RoomAdapter(Context context,List<RoomModel> list,FragmentChat fragmentChat) {
+    public RoomAdapter(Context context, List<RoomModel> list,FragmentChat fragmentChat) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -36,7 +33,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        UserSearchRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.user_search_row, parent, false);
+        RoomRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.room_row, parent, false);
         return new MyHolder(binding);
 
 
@@ -62,9 +59,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public static class MyHolder extends RecyclerView.ViewHolder {
-        private UserSearchRowBinding binding;
+        private RoomRowBinding binding;
 
-        public MyHolder(UserSearchRowBinding binding) {
+        public MyHolder(RoomRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 

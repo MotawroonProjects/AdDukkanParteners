@@ -141,7 +141,7 @@ public class FragmentChat extends Fragment {
 
     public void setItemData(RoomModel roomModel) {
 
-        ChatRoomModel chatRoomModel = new ChatRoomModel(roomModel.getOther_user().getId(),roomModel.getId(),roomModel.getOther_user().getLogo(),roomModel.getOther_user().getName());
+        ChatRoomModel chatRoomModel = new ChatRoomModel(roomModel.getId(),roomModel.getOther_user().getId(),roomModel.getOther_user().getLogo(),roomModel.getOther_user().getName());
         Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra("data", chatRoomModel);
         startActivity(intent);

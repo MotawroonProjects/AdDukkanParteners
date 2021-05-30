@@ -215,6 +215,7 @@ public class ChatActivity extends AppCompatActivity {
         if (loadMoreCall != null) {
             loadMoreCall.cancel();
         }
+        Log.e("data", userModel.getData().getToken()+"__"+chatRoomModel.getRoom_id());
         Api.getService(Tags.base_url)
                 .getChatMessages("Bearer " + userModel.getData().getToken(), "on", 40, 1,chatRoomModel.getRoom_id(),userModel.getData().getId())
                 .enqueue(new Callback<MessageDataModel>() {
