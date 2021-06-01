@@ -83,8 +83,6 @@ public class VerificationCodeActivity extends AppCompatActivity {
         String mPhone = signUpModel.getPhone_code() + signUpModel.getPhone();
         binding.setPhone(mPhone);
 
-        Log.e("mphone", mPhone + "_");
-
         binding.btnConfirm.setOnClickListener(v -> {
             String sms = binding.edtCode.getText().toString().trim();
             if (!sms.isEmpty()) {
@@ -257,6 +255,9 @@ public class VerificationCodeActivity extends AppCompatActivity {
                             } else if (response.body() != null && response.body().getStatus() == 404) {
                                 Toast.makeText(VerificationCodeActivity.this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
 
+                            }else if (response.body() != null && response.body().getStatus() == 409) {
+                                Toast.makeText(VerificationCodeActivity.this, R.string.ph_found, Toast.LENGTH_SHORT).show();
+
                             } else {
                                 Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
 
@@ -344,6 +345,9 @@ public class VerificationCodeActivity extends AppCompatActivity {
                                 }
                             } else if (response.body() != null && response.body().getStatus() == 404) {
                                 Toast.makeText(VerificationCodeActivity.this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
+
+                            }else if (response.body() != null && response.body().getStatus() == 409) {
+                                Toast.makeText(VerificationCodeActivity.this, R.string.ph_found, Toast.LENGTH_SHORT).show();
 
                             } else {
                                 Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();

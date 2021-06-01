@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +43,8 @@ import com.addukkanpartener.preferences.Preferences;
 import com.addukkanpartener.remote.Api;
 import com.addukkanpartener.tags.Tags;
 import com.addukkanpartener.uis.activity_home.HomeActivity;
+import com.addukkanpartener.uis.activity_image.ImageActivity;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -122,7 +125,7 @@ public class ChatActivity extends AppCompatActivity {
         Paper.init(this);
         lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
-        binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.color1), PorterDuff.Mode.SRC_IN);
+        binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         manager = new LinearLayoutManager(this);
         binding.setModel(chatRoomModel);
         adapter = new ChatAdapter(messageModelList, this, userModel.getData().getId());
@@ -231,6 +234,7 @@ public class ChatActivity extends AppCompatActivity {
                                     messageModelList.addAll(response.body().getData());
                                     adapter.notifyDataSetChanged();
                                     binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size() - 1), 200);
+
 
                                 }
                             }
@@ -654,6 +658,21 @@ public class ChatActivity extends AppCompatActivity {
 
 
         finish();
+    }
+
+    public void openImage(String url, RoundedImageView image) {
+        Intent intent = new Intent(this, ImageActivity.class);
+        intent.putExtra("title", getString(R.string.back));
+        intent.putExtra("url", url);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, image, image.getTransitionName());
+            startActivity(intent, optionsCompat.toBundle());
+
+        } else {
+            startActivity(intent);
+
+        }
     }
 
 }

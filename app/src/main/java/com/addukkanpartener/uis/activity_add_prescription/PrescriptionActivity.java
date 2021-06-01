@@ -512,11 +512,12 @@ public class PrescriptionActivity extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         Api.getService(Tags.base_url)
-                .addClient("Bearer " + userModel.getData().getToken(),model.getName(),model.getPhone_code(),model.getPhone_code(),password,model.getCountry_id())
+                .addClient("Bearer " + userModel.getData().getToken(),model.getName(),model.getPhone_code(),model.getPhone(),password,model.getCountry_id())
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                         dialog.dismiss();
+                        Log.e("code", response.body().getStatus()+"__");
                         if (response.isSuccessful() && response.body() != null) {
                             if (response.body().getStatus() == 200) {
                                 binding.setModel(new SignUpModel());

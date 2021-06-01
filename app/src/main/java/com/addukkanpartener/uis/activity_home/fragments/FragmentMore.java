@@ -66,7 +66,7 @@ public class FragmentMore extends Fragment {
 
         binding.llReport.setOnClickListener(v -> {
             if (settings != null) {
-                String url = "";
+                String url = Tags.base_url;
                 if (!url.isEmpty()) {
                     navigateToWebView(url);
                 }
@@ -78,7 +78,7 @@ public class FragmentMore extends Fragment {
 
         binding.llAboutApp.setOnClickListener(v -> {
             if (settings != null) {
-                String url = "";
+                String url = settings.getAbout_us_link();
                 if (!url.isEmpty()) {
                     navigateToWebView(url);
                 }
@@ -93,7 +93,7 @@ public class FragmentMore extends Fragment {
         });
         binding.llTerms.setOnClickListener(v -> {
             if (settings != null) {
-                String url = "";
+                String url = settings.getTerms_link();
                 if (!url.isEmpty()) {
                     navigateToWebView(url);
                 }

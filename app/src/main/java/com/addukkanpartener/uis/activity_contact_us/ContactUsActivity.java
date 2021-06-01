@@ -22,6 +22,7 @@ import com.addukkanpartener.tags.Tags;
 
 import java.io.IOException;
 
+import io.paperdb.Paper;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +33,7 @@ public class ContactUsActivity extends AppCompatActivity {
     private Preferences preferences;
     private UserModel userModel;
     private ContactUsModel contactUsModel;
+    private String lang;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(Language.updateResources(newBase,"ar"));
@@ -47,8 +49,11 @@ public class ContactUsActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        Paper.init(this);
+        lang = Paper.book().read("lang","ar");
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);
+        binding.setLang(lang);
         contactUsModel = new ContactUsModel();
         if (userModel!=null){
             contactUsModel.setName(userModel.getData().getName());
@@ -57,13 +62,15 @@ public class ContactUsActivity extends AppCompatActivity {
             binding.setContactModel(contactUsModel);
         }
 
-
+        binding.setContactModel(contactUsModel);
 
         binding.btnSend.setOnClickListener(view -> {
             if (contactUsModel.isDataValid(this)){
                 contactUs();
             }
         });
+
+        binding.llBack.setOnClickListener(v -> finish());
     }
 
     private void contactUs() {

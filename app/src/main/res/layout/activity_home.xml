@@ -27,138 +27,147 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <LinearLayout
+            <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 >
-
                 <LinearLayout
-                    android:id="@+id/llHome"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:background="@color/white"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-
                     >
 
-                    <androidx.constraintlayout.utils.widget.ImageFilterView
-                        android:id="@+id/iconHome"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/nav_home"
-                        app:saturation="1"
-                        />
-                    <TextView
-                        android:id="@+id/tvHome"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/llHome"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="@string/home"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorPrimary"
-                        />
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+
+                        >
+
+                        <androidx.constraintlayout.utils.widget.ImageFilterView
+                            android:id="@+id/iconHome"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/nav_home"
+                            app:saturation="1"
+                            />
+                        <TextView
+                            android:id="@+id/tvHome"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="@string/home"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPrimary"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llProfile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+
+                        >
+
+                        <androidx.constraintlayout.utils.widget.ImageFilterView
+                            android:id="@+id/iconProfile"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/nav_user"
+                            app:saturation="0"
+                            />
+                        <TextView
+                            android:id="@+id/tvProfile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="@string/profile"
+                            android:textSize="12sp"
+                            android:textColor="@color/gray9"
+                            />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/llChat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+
+                        >
+
+                        <androidx.constraintlayout.utils.widget.ImageFilterView
+                            android:id="@+id/iconChat"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_chat2"
+                            app:saturation="0"
+                            />
+                        <TextView
+                            android:id="@+id/tvChat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="@string/duckan_chat"
+                            android:textSize="12sp"
+                            android:textColor="@color/gray9"
+                            />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/llMore"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+
+                        >
+
+                        <androidx.constraintlayout.utils.widget.ImageFilterView
+                            android:id="@+id/iconMore"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_more"
+                            app:saturation="0"
+                            />
+                        <TextView
+                            android:id="@+id/tvMore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="@string/more"
+                            android:textSize="12sp"
+                            android:textColor="@color/gray9"
+                            />
+                    </LinearLayout>
+
+
+
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/llProfile"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
+            </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-                    >
-
-                    <androidx.constraintlayout.utils.widget.ImageFilterView
-                        android:id="@+id/iconProfile"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/nav_user"
-                        app:saturation="0"
-                        />
-                    <TextView
-                        android:id="@+id/tvProfile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="@string/profile"
-                        android:textSize="12sp"
-                        android:textColor="@color/gray9"
-                        />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/llChat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-
-                    >
-
-                    <androidx.constraintlayout.utils.widget.ImageFilterView
-                        android:id="@+id/iconChat"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_chat2"
-                        app:saturation="0"
-                        />
-                    <TextView
-                        android:id="@+id/tvChat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="@string/duckan_chat"
-                        android:textSize="12sp"
-                        android:textColor="@color/gray9"
-                        />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/llMore"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-
-                    >
-
-                    <androidx.constraintlayout.utils.widget.ImageFilterView
-                        android:id="@+id/iconMore"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_more"
-                        app:saturation="0"
-                        />
-                    <TextView
-                        android:id="@+id/tvMore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="@string/more"
-                        android:textSize="12sp"
-                        android:textColor="@color/gray9"
-                        />
-                </LinearLayout>
-
-
-
-            </LinearLayout>
         </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

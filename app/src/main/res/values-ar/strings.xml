@@ -152,6 +152,7 @@
     <string name="done2">تم الشراء</string>
     <string name="total2">الاجمالي:</string>
     <string name="dr">د/</string>
+    <string name="ph_found">رقم الجوال مستخدم</string>
 
 
 </resources>

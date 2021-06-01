@@ -153,5 +153,6 @@
     <string name="done2">Done</string>
     <string name="total2">Total:</string>
     <string name="dr">Dr.</string>
+    <string name="ph_found">Phone number found</string>
 
 </resources>

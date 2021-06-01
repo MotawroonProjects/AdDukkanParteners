@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
     >
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -96,6 +97,7 @@
             android:layout_gravity="center"
             android:textColor="@color/black"
             android:textSize="15sp"
+            android:visibility="gone"
             android:text="@string/no_data_to_show"
             />
     </FrameLayout>

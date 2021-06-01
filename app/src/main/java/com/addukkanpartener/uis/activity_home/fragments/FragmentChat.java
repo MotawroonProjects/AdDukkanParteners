@@ -2,6 +2,8 @@ package com.addukkanpartener.uis.activity_home.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +39,8 @@ import retrofit2.Response;
 public class FragmentChat extends Fragment {
     private FragmentChatBinding binding;
     private HomeActivity activity;
-    private List<RoomModel> list;
+    private List<RoomModel> list,roomModelList;
+
     private RoomAdapter adapter;
     private UserModel userModel;
     private Preferences preferences;
@@ -58,12 +61,29 @@ public class FragmentChat extends Fragment {
 
     private void initView() {
         list = new ArrayList<>();
+        roomModelList = new ArrayList<>();
         activity = (HomeActivity) getActivity();
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(activity);
         adapter = new RoomAdapter(activity,list,this);
         binding.recView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recView.setAdapter(adapter);
+        binding.editQuery.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchByName(s.toString());
+            }
+        });
         getRoom();
     }
 
@@ -84,6 +104,8 @@ public class FragmentChat extends Fragment {
                                     if (response.body().getData().size() > 0) {
                                         binding.tvNoData.setVisibility(View.GONE);
                                         list.addAll(response.body().getData());
+                                        roomModelList.clear();
+                                        roomModelList.addAll(response.body().getData());
                                         adapter.notifyDataSetChanged();
                                     } else {
                                         binding.tvNoData.setVisibility(View.VISIBLE);
@@ -138,6 +160,23 @@ public class FragmentChat extends Fragment {
                 });
     }
 
+    private void searchByName(String query){
+        list.clear();
+        if (query.isEmpty()){
+            list.addAll(roomModelList);
+            adapter.notifyDataSetChanged();
+        }else {
+            List<RoomModel> data = new ArrayList<>();
+            for (RoomModel roomModel:roomModelList){
+                if (roomModel.getOther_user().getName().startsWith(query)){
+                   data.add(roomModel);
+                }
+            }
+            list.addAll(data);
+            adapter.notifyDataSetChanged();
+
+        }
+    }
 
     public void setItemData(RoomModel roomModel) {
 

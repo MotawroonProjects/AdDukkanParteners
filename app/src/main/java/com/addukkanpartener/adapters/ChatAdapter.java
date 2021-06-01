@@ -17,8 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.addukkanpartener.uis.activity_chat.ChatActivity;
-import com.squareup.picasso.Picasso;
 import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.ChatImageLeftRowBinding;
 import com.addukkanpartener.databinding.ChatImageRightRowBinding;
@@ -28,6 +26,8 @@ import com.addukkanpartener.databinding.ChatMessageLeftRowBinding;
 import com.addukkanpartener.databinding.ChatMessageRightRowBinding;
 import com.addukkanpartener.models.MessageModel;
 import com.addukkanpartener.tags.Tags;
+import com.addukkanpartener.uis.activity_chat.ChatActivity;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -120,10 +120,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }else if (holder instanceof SoundRightHolder){
                 SoundRightHolder soundRightHolder = (SoundRightHolder) holder;
 
-               MessageModel model2 = list.get(soundRightHolder.getAdapterPosition());
+                MessageModel model2 = list.get(soundRightHolder.getAdapterPosition());
 
                 createMediaPlayer(model2,soundRightHolder.getAdapterPosition());
-
             }
 
 
@@ -211,12 +210,27 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holderImageLeft.binding.setModel(model);
             holderImageLeft.binding.tvTime.setText(model.getCreated_at());
             Picasso.get().load(Uri.parse(Tags.IMAGE_URL+model.getImage())).into(holderImageLeft.binding.imageChat);
+            String url = Tags.IMAGE_URL+model.getImage();
+            Picasso.get().load(Uri.parse(url)).into(holderImageLeft.binding.imageChat);
+
+            holderImageLeft.itemView.setOnClickListener(v -> {
+                MessageModel messageModel = list.get(holderImageLeft.getAdapterPosition());
+                String url2 = Tags.IMAGE_URL+messageModel.getImage();
+                activity.openImage(url2,holderImageLeft.binding.imageChat);
+            });
 
         } else if (holder instanceof HolderImageRight) {
             HolderImageRight holderImageRight = (HolderImageRight) holder;
+            holderImageRight.binding.setModel(model);
             holderImageRight.binding.tvTime.setText(model.getCreated_at());
-            Picasso.get().load(Uri.parse(Tags.IMAGE_URL+model.getImage())).into(holderImageRight.binding.image);
+            String url = Tags.IMAGE_URL+model.getImage();
+            Picasso.get().load(Uri.parse(url)).into(holderImageRight.binding.image);
 
+            holderImageRight.itemView.setOnClickListener(v -> {
+                MessageModel messageModel = list.get(holderImageRight.getAdapterPosition());
+                String url2 = Tags.IMAGE_URL+messageModel.getImage();
+                activity.openImage(url2,holderImageRight.binding.image);
+            });
 
 
 
@@ -236,7 +250,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 }
             });
-
 
 
         } else if (holder instanceof SoundLeftHolder) {
@@ -486,6 +499,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         protected void onPostExecute(MediaPlayer mediaPlayer) {
             super.onPostExecute(mediaPlayer);
             if (mediaPlayer!=null){
+                Log.e("model", messageModel.getVoice()+"__");
+
                 mediaPlayerList.put(pos,mediaPlayer);
                 messageModel.setLoaded(true);
                 messageModel.setMax_duration(mediaPlayer.getDuration());

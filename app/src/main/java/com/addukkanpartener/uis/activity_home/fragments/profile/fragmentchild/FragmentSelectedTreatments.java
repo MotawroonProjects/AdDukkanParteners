@@ -74,7 +74,7 @@ public class FragmentSelectedTreatments extends Fragment {
         lang = Paper.book().read("lang","ar");
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(activity);
-        binding.recView.setLayoutManager(new GridLayoutManager(activity, 3));
+        binding.recView.setLayoutManager(new GridLayoutManager(activity, 2));
         adapter = new DoctorTreatmentAdapter(activity,list,this);
         binding.recView.setAdapter(adapter);
         binding.llchoosetreatment.setOnClickListener(v -> {

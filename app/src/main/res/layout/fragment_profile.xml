@@ -116,7 +116,7 @@
                 app:tabIndicatorColor="@color/colorPrimary"
                 app:tabIndicatorHeight="1dp"
                 app:tabMode="fixed"
-
+                app:tabTextAppearance="@style/tab_text"
                 app:tabSelectedTextColor="@color/black"
                 app:tabTextColor="@color/black" />
 

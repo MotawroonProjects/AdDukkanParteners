@@ -500,6 +500,9 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
                                     setResult(RESULT_OK);
                                     finish();
                                 }
+                            }else if (response.body() != null && response.body().getStatus() == 409) {
+                                Toast.makeText(SignUpActivity.this, R.string.ph_found, Toast.LENGTH_SHORT).show();
+
                             }
 
 
@@ -580,6 +583,9 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
                                     setResult(RESULT_OK);
                                     finish();
                                 }
+                            }else if (response.body() != null && response.body().getStatus() == 409) {
+                                Toast.makeText(SignUpActivity.this, R.string.ph_found, Toast.LENGTH_SHORT).show();
+
                             }
 
 

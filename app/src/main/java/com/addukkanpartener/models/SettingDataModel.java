@@ -28,6 +28,9 @@ public class SettingDataModel extends ResponseModel implements Serializable {
         private String safe_payment;
         private String client_support;
         private String login_banner;
+        private String terms_link;
+        private String about_us_link;
+
 
         public String getLogo() {
             return logo;
@@ -99,6 +102,14 @@ public class SettingDataModel extends ResponseModel implements Serializable {
 
         public String getLogin_banner() {
             return login_banner;
+        }
+
+        public String getTerms_link() {
+            return terms_link;
+        }
+
+        public String getAbout_us_link() {
+            return about_us_link;
         }
     }
 }
