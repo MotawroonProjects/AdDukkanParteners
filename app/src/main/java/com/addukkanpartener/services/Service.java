@@ -2,6 +2,7 @@ package com.addukkanpartener.services;
 
 import com.addukkanpartener.models.AddPrescriptionModel;
 import com.addukkanpartener.models.AllUserModel;
+import com.addukkanpartener.models.ChartDataModel;
 import com.addukkanpartener.models.ClientPrescriptionDetailsDataModel;
 import com.addukkanpartener.models.CompanyDataModel;
 import com.addukkanpartener.models.CountryDataModel;
@@ -304,5 +305,13 @@ public interface Service {
                                @Field("user_id") int user_id,
                                @Field("software_type") String software_type
     );
+
+
+    @GET("api/home-doctor")
+    Call<ChartDataModel> getCharts(@Header("Authorization") String bearer_token,
+                                   @Query(value = "doctor_id") int doctor_id
+
+    );
+
 
 }

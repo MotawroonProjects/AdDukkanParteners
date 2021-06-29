@@ -122,7 +122,9 @@ public class GeneralMethod {
 
     @BindingAdapter("time")
     public static void time(TextView textView,String time){
-        String t = time.split(" ")[1];
+        Log.e("time",time+"_");
+
+        String t = time.split(" ").length>=2?time.split(" ")[1]:"";
         textView.setText(t);
     }
 }

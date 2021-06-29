@@ -415,7 +415,6 @@ public class PrescriptionActivity extends AppCompatActivity {
                             if (response.body().getData().size() > 0) {
                                 list.clear();
                                 list.addAll(response.body().getData());
-                                Log.e("size", list.size()+"__");
                                 runOnUiThread(() -> prescriptionAdapter.notifyDataSetChanged());
                             }
                         }

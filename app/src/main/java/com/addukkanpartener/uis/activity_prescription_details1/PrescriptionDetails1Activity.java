@@ -79,6 +79,13 @@ public class PrescriptionDetails1Activity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        binding.btnShare.setOnClickListener(v -> {
+            String shareLink = Tags.base_url+"api/share/user_id/"+orderModel.getUser_id()+"/code/"+orderModel.getCode();
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT,shareLink);
+            startActivity(intent);
+        });
         getOrderData();
     }
 
