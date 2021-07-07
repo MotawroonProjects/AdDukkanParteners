@@ -154,5 +154,6 @@
     <string name="total2">Total:</string>
     <string name="dr">Dr.</string>
     <string name="ph_found">Phone number found</string>
-
+    <string name="voice_uploaded">Voice uploaded</string>
+    <string name="image_uploaded">Image uploaded</string>
 </resources>

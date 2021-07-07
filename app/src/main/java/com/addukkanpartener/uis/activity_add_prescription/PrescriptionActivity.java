@@ -325,8 +325,7 @@ public class PrescriptionActivity extends AppCompatActivity {
 
     }
 
-    private void getPatients()
-    {
+    private void getPatients() {
         clientList.clear();
         clientList.add(new UserModel.User(0, getString(R.string.ch_client)));
         spinnerClientAdapter.notifyDataSetChanged();
@@ -396,8 +395,8 @@ public class PrescriptionActivity extends AppCompatActivity {
                 });
 
     }
-    private void getTreatments(String query)
-    {
+
+    private void getTreatments(String query) {
 
         if (call != null) {
             call.cancel();
@@ -464,8 +463,8 @@ public class PrescriptionActivity extends AppCompatActivity {
         });
 
     }
-    private void createCountryDialogAlert()
-    {
+
+    private void createCountryDialogAlert() {
         dialog = new AlertDialog.Builder(this)
                 .create();
 
@@ -503,8 +502,7 @@ public class PrescriptionActivity extends AppCompatActivity {
 
     }
 
-    private void addClient(SignUpModel model, ClientDialogBinding binding)
-    {
+    private void addClient(SignUpModel model, ClientDialogBinding binding) {
         String password = getRandomPassword(6);
         ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
         dialog.setCancelable(true);

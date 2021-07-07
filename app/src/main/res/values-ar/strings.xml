@@ -153,6 +153,7 @@
     <string name="total2">الاجمالي:</string>
     <string name="dr">د/</string>
     <string name="ph_found">رقم الجوال مستخدم</string>
-
+    <string name="voice_uploaded">تم إرفاق صوت</string>
+    <string name="image_uploaded">تم إرفاق صورة</string>
 
 </resources>

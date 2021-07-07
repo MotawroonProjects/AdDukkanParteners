@@ -99,8 +99,8 @@ public class VerificationCodeActivity extends AppCompatActivity {
 
             }
         });
-        //sendSmsCode();
-        onSuccessCode();
+        sendSmsCode();
+        //onSuccessCode();
     }
 
 
