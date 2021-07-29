@@ -246,10 +246,13 @@ public interface Service {
     @FormUrlEncoded
     @POST("api/add-clinent")
     Call<UserModel> addClient(@Header("Authorization") String bearer_token,
+                              @Field("doctor_id") String doctor_id,
+
                               @Field("name") String name,
                               @Field("phone_code") String phone_code,
                               @Field("phone") String phone,
                               @Field("password") String password,
+                              @Field("email") String email,
                               @Field("country_code") String country_code
 
 

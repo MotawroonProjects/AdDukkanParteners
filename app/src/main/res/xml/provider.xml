@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <files-path
+        name="share"
+        path="/storage/emulated/11/"/>
+
+        <root-path name="share" path="." />
+
+</paths>

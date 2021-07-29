@@ -142,6 +142,16 @@ public class SignUpModel extends BaseObservable implements Serializable {
         ) {
             error_name.set(null);
             error_phone.set(null);
+            if (!email.isEmpty()){
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    error_email.set(context.getString(R.string.inv_email));
+
+                    return false;
+                }else {
+                    error_email.set(null);
+
+                }
+            }
             return true;
         } else {
             if (country_id.isEmpty()){

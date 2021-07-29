@@ -21,6 +21,8 @@ import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.FragmentMoreBinding;
 import com.addukkanpartener.models.RoomDataModel;
 import com.addukkanpartener.models.SettingDataModel;
+import com.addukkanpartener.models.UserModel;
+import com.addukkanpartener.preferences.Preferences;
 import com.addukkanpartener.remote.Api;
 import com.addukkanpartener.share.Common;
 import com.addukkanpartener.tags.Tags;
@@ -40,6 +42,8 @@ public class FragmentMore extends Fragment {
     private HomeActivity activity;
     private String lang;
     private SettingDataModel.Settings settings;
+    private Preferences preferences;
+    private UserModel userModel;
 
     public static FragmentMore newInstance() {
         return new FragmentMore();
@@ -58,6 +62,8 @@ public class FragmentMore extends Fragment {
         Paper.init(activity);
         lang = Paper.book().read("lang", "ar");
 
+        preferences = Preferences.getInstance();
+        userModel = preferences.getUserData(activity);
         getSetting();
         binding.llChangeLanguage.setOnClickListener(v -> {
             Intent intent = new Intent(activity, LanguageActivity.class);
@@ -66,10 +72,9 @@ public class FragmentMore extends Fragment {
 
         binding.llReport.setOnClickListener(v -> {
             if (settings != null) {
-                String url = Tags.base_url;
-                if (!url.isEmpty()) {
-                    navigateToWebView(url);
-                }
+                String url = Tags.base_url+lang+"/charts?doctor_id="+userModel.getData().getId()+"&view_type=webView";
+                navigateToWebView(url);
+
 
             } else {
                 Toast.makeText(activity, R.string.not_ava, Toast.LENGTH_SHORT).show();

@@ -1,5 +1,6 @@
 package com.addukkanpartener.uis.activity_add_prescription;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -8,13 +9,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.addukkanpartener.R;
@@ -40,8 +51,12 @@ import com.addukkanpartener.share.Common;
 import com.addukkanpartener.tags.Tags;
 import com.addukkanpartener.uis.activity_prescription_details1.PrescriptionDetails1Activity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -49,6 +64,8 @@ import io.paperdb.Paper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.os.Build.VERSION_CODES.KITKAT;
 
 public class PrescriptionActivity extends AppCompatActivity {
 
@@ -509,7 +526,7 @@ public class PrescriptionActivity extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         Api.getService(Tags.base_url)
-                .addClient("Bearer " + userModel.getData().getToken(),model.getName(),model.getPhone_code(),model.getPhone(),password,model.getCountry_id())
+                .addClient("Bearer " + userModel.getData().getToken(),userModel.getData().getId()+"",model.getName(),model.getPhone_code(),model.getPhone(),password,model.getEmail(),model.getCountry_id())
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -521,7 +538,7 @@ public class PrescriptionActivity extends AppCompatActivity {
                                 clientList.add(1, response.body().getData());
                                 runOnUiThread(() -> spinnerClientAdapter.notifyDataSetChanged());
                             }else if (response.body().getStatus() == 409  ){
-                                Toast.makeText(PrescriptionActivity.this, R.string.ph_exist, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PrescriptionActivity.this, R.string.ph_em_found, Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             dialog.dismiss();
@@ -573,6 +590,7 @@ public class PrescriptionActivity extends AppCompatActivity {
             sb.append(num.charAt(rnd.nextInt(num.length())));
         return sb.toString();
     }
+
 
 
 }

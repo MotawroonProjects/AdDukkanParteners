@@ -168,6 +168,43 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/small_rounded_gray13"
+                >
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_mail"
+                    app:tint="@color/gray9"
+                    />
+
+                <Space
+                    android:layout_width="16dp"
+                    android:layout_height="0dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:hint="@string/email"
+                    android:textColorHint="@color/gray9"
+                    android:singleLine="true"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:text="@={model.email}"
+                    error="@{model.error_email}"
+
+                    />
+            </LinearLayout>
+
 
         </LinearLayout>
 

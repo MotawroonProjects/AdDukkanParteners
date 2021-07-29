@@ -1,17 +1,29 @@
 package com.addukkanpartener.uis.activity_prescription_details1;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.ScrollView;
 
 import com.addukkanpartener.R;
+import com.addukkanpartener.adapters.PdfDocumentAdpter;
 import com.addukkanpartener.adapters.PrescriptionItemDetailsAdapter;
 import com.addukkanpartener.databinding.ActivityLoginBinding;
 import com.addukkanpartener.databinding.ActivityPrescriptionDetails1Binding;
@@ -27,11 +39,23 @@ import com.addukkanpartener.remote.Api;
 import com.addukkanpartener.tags.Tags;
 import com.addukkanpartener.uis.activity_print.PrintActivity;
 import com.addukkanpartener.uis.activity_sign_up.SignUpActivity;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.DocumentException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 
 import io.paperdb.Paper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.os.Build.VERSION_CODES.KITKAT;
 
 public class PrescriptionDetails1Activity extends AppCompatActivity {
 
@@ -100,7 +124,6 @@ public class PrescriptionDetails1Activity extends AppCompatActivity {
                             if (response.body() != null && response.body().getStatus() == 200) {
                                 if (response.body().getData() != null) {
                                     orderModel = response.body().getData();
-
                                     updateUi();
                                 }
                             } else {
@@ -159,4 +182,7 @@ public class PrescriptionDetails1Activity extends AppCompatActivity {
 
 
     }
+
+
+
 }
