@@ -5,6 +5,9 @@
         <variable
             name="lang"
             type="String" />
+        <variable
+            name="model"
+            type="com.addukkanpartener.models.UserModel" />
 
     </data>
     <LinearLayout
@@ -59,6 +62,53 @@
                 android:orientation="vertical"
                 android:layout_margin="16dp"
                 >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp"
+                    >
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_user"
+                        app:tint="@color/black"
+                        android:padding="3dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:text="@string/my_account"
+                        />
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text='@{String.valueOf(model.data.balance)}'
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layerType="software"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/stroke_line"
+                    />
                 <LinearLayout
                     android:id="@+id/llReport"
                     android:layout_width="match_parent"

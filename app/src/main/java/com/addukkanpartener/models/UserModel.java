@@ -31,6 +31,7 @@ public class UserModel extends ResponseModel implements Serializable {
         private String address;
         private double latitude;
         private double longitude;
+        private double balance;
         private String gender;
         private String birthday;
         private String logo;
@@ -201,6 +202,10 @@ public class UserModel extends ResponseModel implements Serializable {
 
         public void setFirebase_token(String firebase_token) {
             this.firebase_token = firebase_token;
+        }
+
+        public double getBalance() {
+            return balance;
         }
     }
 

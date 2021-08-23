@@ -156,5 +156,8 @@
     <string name="voice_uploaded">تم إرفاق صوت</string>
     <string name="image_uploaded">تم إرفاق صورة</string>
     <string name="ph_em_found">رقم الجوال او البريد الالكتروني موجود من قبل</string>
+    <string name="not_approved">لم يتم الموافقة علية</string>
+    <string name="my_account">حسابي</string>
+    <string name="we_will_review">سيتم مراجعة حسابك من قبل الادارة, برجاء انتظار الرد على سيادتكم</string>
 
 </resources>

@@ -64,6 +64,7 @@ public class FragmentMore extends Fragment {
 
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(activity);
+        binding.setModel(userModel);
         getSetting();
         binding.llChangeLanguage.setOnClickListener(v -> {
             Intent intent = new Intent(activity, LanguageActivity.class);
@@ -220,6 +221,69 @@ public class FragmentMore extends Fragment {
                 });
     }
 
+    public void getUser(){
+        ProgressDialog dialog = Common.createProgressDialog(activity, getString(R.string.wait));
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+        Api.getService(Tags.base_url)
+                .getUserById("Bearer "+userModel.getData().getToken(),userModel.getData().getId())
+                .enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        dialog.dismiss();
+                        if (response.isSuccessful()) {
+                            if (response.body() != null && response.body().getStatus() == 200) {
+                                if (response.body().getData() != null) {
+                                   userModel = response.body();
+                                   binding.setModel(userModel);
+                                }
+                            } else {
+                                //    Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } else {
+                            dialog.dismiss();
+                            switch (response.code()) {
+                                case 500:
+                                    //  Toast.makeText(CountryActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    // Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                            try {
+                                Log.e("error_code", response.code() + "_");
+                            } catch (NullPointerException e) {
+
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        try {
+                            dialog.dismiss();
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage());
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    //Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                } else if (t.getMessage().toLowerCase().contains("socket") || t.getMessage().toLowerCase().contains("canceled")) {
+                                } else {
+                                    //Toast.makeText(CountryActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+    }
     private void navigateToWebView(String url) {
         Intent intent = new Intent(activity, ViewActivity.class);
         intent.putExtra("url", url);

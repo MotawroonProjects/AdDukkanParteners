@@ -20,8 +20,10 @@ import com.addukkanpartener.preferences.Preferences;
 import com.addukkanpartener.remote.Api;
 import com.addukkanpartener.share.Common;
 import com.addukkanpartener.tags.Tags;
+import com.addukkanpartener.uis.activity_approved.ApprovedActivity;
 import com.addukkanpartener.uis.activity_home.HomeActivity;
 import com.addukkanpartener.uis.activity_sign_up.SignUpActivity;
+import com.addukkanpartener.uis.activity_verification_code.VerificationCodeActivity;
 
 import io.paperdb.Paper;
 import retrofit2.Call;
@@ -84,11 +86,18 @@ public class LoginActivity extends AppCompatActivity {
 
                             if (response.body()!=null&&response.body().getStatus()==200){
                                 if (response.body() != null&&response.body().getData()!=null){
-                                    Preferences preferences = Preferences.getInstance();
-                                    preferences.create_update_userdata(LoginActivity.this,response.body());
-                                    Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    if (response.body().getData().getApproved_status().equals("new")){
+                                        navigateToApprove();
+                                    }else if (response.body().getData().getApproved_status().equals("accepted")){
+                                        Preferences preferences = Preferences.getInstance();
+                                        preferences.create_update_userdata(LoginActivity.this,response.body());
+                                        Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }else {
+                                        Toast.makeText(LoginActivity.this, R.string.not_approved, Toast.LENGTH_SHORT).show();
+                                    }
+
                                 }
                             }else if (response.body()!=null&&response.body().getStatus()==404){
                                 Toast.makeText(LoginActivity.this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
@@ -142,5 +151,11 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
 
+    }
+
+    private void navigateToApprove() {
+        Intent intent = new Intent(this, ApprovedActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

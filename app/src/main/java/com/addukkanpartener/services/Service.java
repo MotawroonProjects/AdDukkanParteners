@@ -316,5 +316,11 @@ public interface Service {
 
     );
 
+    @GET("api/get-profile")
+    Call<UserModel> getUserById(@Header("Authorization") String bearer_token,
+                                @Query(value = "user_id") int user_id
+
+    );
+
 
 }

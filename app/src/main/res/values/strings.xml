@@ -157,4 +157,7 @@
     <string name="voice_uploaded">Voice uploaded</string>
     <string name="image_uploaded">Image uploaded</string>
     <string name="ph_em_found">Phone or email found</string>
+    <string name="not_approved">Not approved</string>
+    <string name="my_account">My account</string>
+    <string name="we_will_review">We will review your account,Please wait until admin respond to you</string>
 </resources>

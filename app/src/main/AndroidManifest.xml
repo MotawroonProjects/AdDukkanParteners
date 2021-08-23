@@ -31,19 +31,20 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-
-        <activity android:name=".uis.activity_image.ImageActivity"
+        <activity
+            android:name=".uis.activity_approved.ApprovedActivity"
+            android:exported="true" />
+        <activity
+            android:name=".uis.activity_image.ImageActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
-        <activity android:name=".uis.activity_contact_us.ContactUsActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".uis.activity_contact_us.ContactUsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
-
-        <activity android:name=".uis.activity_client_prescription.ClientPrescriptionActivity"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".uis.activity_client_prescription.ClientPrescriptionActivity" />
         <activity
             android:name=".uis.activity_view.ViewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -58,9 +59,7 @@
             android:name=".uis.activity_chat.ChatActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-
-            />
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".uis.activity_print.PrintActivity" />
         <activity android:name=".uis.activity_prescription_details1.PrescriptionDetails1Activity" />
         <activity
@@ -143,8 +142,6 @@
             android:name=".uis.activity_chat.ServiceUploadAttachment"
             android:enabled="true"
             android:stopWithTask="false" />
-
-
         <service
             android:name=".notifications.FireBaseMessaging"
             android:enabled="true"
@@ -155,7 +152,6 @@
             </intent-filter>
         </service>
 
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -163,7 +159,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider"/>
+                android:resource="@xml/provider" />
         </provider>
     </application>
 

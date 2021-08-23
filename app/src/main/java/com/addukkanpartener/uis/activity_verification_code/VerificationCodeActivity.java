@@ -24,7 +24,9 @@ import com.addukkanpartener.preferences.Preferences;
 import com.addukkanpartener.remote.Api;
 import com.addukkanpartener.share.Common;
 import com.addukkanpartener.tags.Tags;
+import com.addukkanpartener.uis.activity_approved.ApprovedActivity;
 import com.addukkanpartener.uis.activity_home.HomeActivity;
+import com.addukkanpartener.uis.activity_login.LoginActivity;
 import com.addukkanpartener.uis.activity_sign_up.SignUpActivity;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -233,6 +235,13 @@ public class VerificationCodeActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    private void navigateToApproveActivity() {
+        Intent intent = new Intent(VerificationCodeActivity.this, ApprovedActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void signUpWithoutImage() {
         ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
         dialog.setCanceledOnTouchOutside(false);
@@ -248,9 +257,18 @@ public class VerificationCodeActivity extends AppCompatActivity {
 
                             if (response.body() != null && response.body().getStatus() == 200) {
                                 if (response.body() != null && response.body().getData() != null) {
-                                    Preferences preferences = Preferences.getInstance();
+                                    if (response.body().getData().getApproved_status().equals("new")){
+                                        navigateToApproveActivity();
+                                    }else if (response.body().getData().getApproved_status().equals("accepted")){
+                                        Preferences preferences = Preferences.getInstance();
+                                        preferences.create_update_userdata(VerificationCodeActivity.this,response.body());
+                                        navigateToHomeActivty();
+                                    }else {
+                                        Toast.makeText(VerificationCodeActivity.this, R.string.not_approved, Toast.LENGTH_SHORT).show();
+                                    }                                    navigateToApproveActivity();
+                                  /*  Preferences preferences = Preferences.getInstance();
                                     preferences.create_update_userdata(VerificationCodeActivity.this, response.body());
-                                    navigateToHomeActivty();
+                                    navigateToHomeActivty();*/
                                 }
                             } else if (response.body() != null && response.body().getStatus() == 404) {
                                 Toast.makeText(VerificationCodeActivity.this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
@@ -306,6 +324,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
                 });
     }
 
+
     private void signUpWithImage() {
 
         ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
@@ -339,9 +358,18 @@ public class VerificationCodeActivity extends AppCompatActivity {
 
                             if (response.body() != null && response.body().getStatus() == 200) {
                                 if (response.body() != null && response.body().getData() != null) {
-                                    Preferences preferences = Preferences.getInstance();
+                                    if (response.body().getData().getApproved_status().equals("new")){
+                                        navigateToApproveActivity();
+                                    }else if (response.body().getData().getApproved_status().equals("accepted")){
+                                        Preferences preferences = Preferences.getInstance();
+                                        preferences.create_update_userdata(VerificationCodeActivity.this,response.body());
+                                        navigateToHomeActivty();
+                                    }else {
+                                        Toast.makeText(VerificationCodeActivity.this, R.string.not_approved, Toast.LENGTH_SHORT).show();
+                                    }
+                                    /*Preferences preferences = Preferences.getInstance();
                                     preferences.create_update_userdata(VerificationCodeActivity.this, response.body());
-                                    navigateToHomeActivty();
+                                    navigateToHomeActivty();*/
                                 }
                             } else if (response.body() != null && response.body().getStatus() == 404) {
                                 Toast.makeText(VerificationCodeActivity.this, R.string.user_not_found, Toast.LENGTH_SHORT).show();

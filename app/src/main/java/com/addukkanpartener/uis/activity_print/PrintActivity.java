@@ -102,10 +102,8 @@ public class PrintActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, write_perm) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String[]{write_perm}, write_req);
-            Log.e("11", "111");
 
         } else {
-            Log.e("11", "111");
 
             takeScreenshot();
         }
