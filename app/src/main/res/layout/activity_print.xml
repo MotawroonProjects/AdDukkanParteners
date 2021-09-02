@@ -218,6 +218,7 @@
                         android:textSize="14sp"
                         android:text="@string/price"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:layout_gravity="center_vertical"/>
 
                 </LinearLayout>

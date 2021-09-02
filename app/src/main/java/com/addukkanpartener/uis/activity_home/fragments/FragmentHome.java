@@ -30,6 +30,7 @@ import org.eazegraph.lib.models.ValueLineSeries;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -217,7 +218,7 @@ public class FragmentHome extends Fragment {
         binding.cubiclinechart.addSeries(series);
         binding.cubiclinechart.startAnimation();
 
-        binding.tvRate.setText(data.getPercentage_purchase_prescriptions() + " %");
+        binding.tvRate.setText(String.format(Locale.ENGLISH, "%.2f",data.getPercentage_purchase_prescriptions()) + " %");
         binding.progressRate.setProgress((int) data.getPercentage_purchase_prescriptions());
     }
 

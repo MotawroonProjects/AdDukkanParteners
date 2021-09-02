@@ -160,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="16sp"
-                        android:text="@string/total2"
+                        android:text="@string/patient_name"
                         />
                     <Space
                         android:layout_width="0dp"
@@ -171,7 +171,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="14sp"
-                        android:text="@{String.valueOf(model.total_price)}"
+                        android:text="@{model.user_fk.name}"
                         />
                 </LinearLayout>
 

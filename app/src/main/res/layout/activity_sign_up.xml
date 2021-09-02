@@ -277,6 +277,7 @@
                             android:layout_gravity="center"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
+                            android:visibility="gone"
                             >
                             <ImageView
                                 android:id="@+id/arrow"

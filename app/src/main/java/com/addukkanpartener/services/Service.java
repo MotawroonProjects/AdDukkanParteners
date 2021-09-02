@@ -149,6 +149,7 @@ public interface Service {
 
     @GET("api/clients")
     Call<AllUserModel> getPatient(@Query("search_key") String search_key,
+                                  @Query("doctor_id") String doctor_id,
                                   @Query("pagination") String pagination);
 
     @GET("api/count-unread")
@@ -319,6 +320,13 @@ public interface Service {
     @GET("api/get-profile")
     Call<UserModel> getUserById(@Header("Authorization") String bearer_token,
                                 @Query(value = "user_id") int user_id
+
+    );
+
+
+    @GET("api/doctor-prescriptions")
+    Call<ClientPrescriptionDetailsDataModel> getMyPrescription(@Header("Authorization") String bearer_token,
+                                                               @Query(value = "doctor_id") int doctor_id
 
     );
 

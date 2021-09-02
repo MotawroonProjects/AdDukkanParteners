@@ -160,4 +160,8 @@
     <string name="not_approved">Not approved</string>
     <string name="my_account">My account</string>
     <string name="we_will_review">We will review your account,Please wait until admin respond to you</string>
+    <string name="partially_purchased">Partially purchased</string>
+    <string name="new1">New</string>
+    <string name="pending">Pending</string>
+    <string name="my_pres">Prescriptions</string>
 </resources>

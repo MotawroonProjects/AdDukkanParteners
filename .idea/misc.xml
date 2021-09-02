@@ -4,8 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/works/AdDukkanParteners/app/src/main/res/layout/activity_approved.xml" value="0.18" />
+        <entry key="..\:/works/AdDukkanParteners/app/src/main/res/layout/activity_prescription.xml" value="0.14444444444444443" />
         <entry key="..\:/works/AdDukkanParteners/app/src/main/res/layout/activity_prescription_details1.xml" value="0.1" />
+        <entry key="..\:/works/AdDukkanParteners/app/src/main/res/layout/activity_print.xml" value="0.25" />
+        <entry key="..\:/works/AdDukkanParteners/app/src/main/res/layout/activity_sign_up.xml" value="0.25" />
+        <entry key="..\:/works/AdDukkanParteners/app/src/main/res/layout/client_prescription_row.xml" value="0.25" />
+        <entry key="..\:/works/AdDukkanParteners/app/src/main/res/layout/doctor_prescription_row.xml" value="0.33" />
+        <entry key="..\:/works/AdDukkanParteners/app/src/main/res/layout/fragment_home.xml" value="0.14444444444444443" />
         <entry key="..\:/works/AdDukkanParteners/app/src/main/res/layout/fragment_more.xml" value="0.33" />
+        <entry key="..\:/works/AdDukkanParteners/app/src/main/res/layout/fragment_my_prescription.xml" value="0.14444444444444443" />
+        <entry key="..\:/works/AdDukkanParteners/app/src/main/res/layout/fragment_patients.xml" value="0.1" />
+        <entry key="..\:/works/AdDukkanParteners/app/src/main/res/layout/prescription_row2.xml" value="0.18" />
       </map>
     </option>
   </component>

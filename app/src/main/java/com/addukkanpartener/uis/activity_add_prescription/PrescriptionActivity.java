@@ -348,7 +348,7 @@ public class PrescriptionActivity extends AppCompatActivity {
         spinnerClientAdapter.notifyDataSetChanged();
 
         Api.getService(Tags.base_url)
-                .getPatient("all", "off")
+                .getPatient("all",userModel.getData().getId()+"", "off")
                 .enqueue(new Callback<AllUserModel>() {
                     @Override
                     public void onResponse(Call<AllUserModel> call, Response<AllUserModel> response) {

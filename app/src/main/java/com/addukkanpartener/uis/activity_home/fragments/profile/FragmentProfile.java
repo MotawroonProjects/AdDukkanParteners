@@ -22,6 +22,7 @@ import com.addukkanpartener.models.UserModel;
 import com.addukkanpartener.preferences.Preferences;
 import com.addukkanpartener.uis.activity_home.HomeActivity;
 import com.addukkanpartener.uis.activity_home.fragments.FragmentMore;
+import com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild.FragmentMyPrescriptions;
 import com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild.FragmentPatients;
 import com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild.FragmentSelectedTreatments;
 import com.addukkanpartener.uis.activity_sign_up.SignUpActivity;
@@ -74,12 +75,14 @@ public class FragmentProfile extends Fragment {
             startActivityForResult(intent,100);
         });
 
+        binding.pager.setOffscreenPageLimit(getFragments().size());
     }
 
     private List<Fragment> getFragments() {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(FragmentPatients.newInstance());
         fragmentList.add(FragmentSelectedTreatments.newInstance());
+        fragmentList.add(FragmentMyPrescriptions.newInstance());
 
 
         return fragmentList;
@@ -90,6 +93,7 @@ public class FragmentProfile extends Fragment {
         List<String> titles = new ArrayList<>();
         titles.add(getString(R.string.patients));
         titles.add(getString(R.string.selected_treatments));
+        titles.add(getString(R.string.my_pres));
 
         return titles;
 

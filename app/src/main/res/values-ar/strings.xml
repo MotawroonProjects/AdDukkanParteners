@@ -159,5 +159,9 @@
     <string name="not_approved">لم يتم الموافقة علية</string>
     <string name="my_account">حسابي</string>
     <string name="we_will_review">سيتم مراجعة حسابك من قبل الادارة, برجاء انتظار الرد على سيادتكم</string>
+    <string name="partially_purchased">تم الشراء جزئي</string>
+    <string name="new1">جديد</string>
+    <string name="pending">قيد التنفيز</string>
+    <string name="my_pres">وصفاتي</string>
 
 </resources>

@@ -10,32 +10,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.ClientPrescriptionRowBinding;
-import com.addukkanpartener.databinding.NotificationRowBinding;
+import com.addukkanpartener.databinding.DoctorPrescriptionRowBinding;
 import com.addukkanpartener.models.ClientPrescriptionDetailsModel;
-import com.addukkanpartener.models.NotificationModel;
 import com.addukkanpartener.uis.activity_client_prescription.ClientPrescriptionActivity;
-import com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild.FragmentPatients;
-import com.addukkanpartener.uis.activity_notification.NotificationActivity;
+import com.addukkanpartener.uis.activity_home.fragments.profile.fragmentchild.FragmentMyPrescriptions;
 
 import java.util.List;
 
-public class ClientPrescriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DoctorPrescriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ClientPrescriptionDetailsModel> list;
     private Context context;
     private LayoutInflater inflater;
-    private ClientPrescriptionActivity activity;
-    public ClientPrescriptionAdapter(List<ClientPrescriptionDetailsModel> list, Context context) {
+    private FragmentMyPrescriptions  fragment;
+    public DoctorPrescriptionAdapter(List<ClientPrescriptionDetailsModel> list, Context context,FragmentMyPrescriptions  fragment) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.list =list;
-        activity = (ClientPrescriptionActivity) context;
+        this.fragment = fragment;
 
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ClientPrescriptionRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.client_prescription_row, parent, false);
+        DoctorPrescriptionRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.doctor_prescription_row, parent, false);
         return new MyHolder(binding);
 
     }
@@ -70,7 +68,7 @@ public class ClientPrescriptionAdapter extends RecyclerView.Adapter<RecyclerView
             }
 
             myHolder.binding.btnDetails.setOnClickListener(v -> {
-                activity.setItemData(list.get(myHolder.getAdapterPosition()));
+                fragment.setItemData(list.get(myHolder.getAdapterPosition()));
             });
 
         }
@@ -83,9 +81,9 @@ public class ClientPrescriptionAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        public ClientPrescriptionRowBinding binding;
+        public DoctorPrescriptionRowBinding binding;
 
-        public MyHolder(@NonNull ClientPrescriptionRowBinding binding) {
+        public MyHolder(@NonNull DoctorPrescriptionRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 

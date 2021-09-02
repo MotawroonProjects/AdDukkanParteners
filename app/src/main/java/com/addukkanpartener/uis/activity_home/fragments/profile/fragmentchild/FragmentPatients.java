@@ -21,6 +21,7 @@ import com.addukkanpartener.adapters.PatientsAdapter;
 import com.addukkanpartener.databinding.FragmentPatientsBinding;
 import com.addukkanpartener.models.AllUserModel;
 import com.addukkanpartener.models.UserModel;
+import com.addukkanpartener.preferences.Preferences;
 import com.addukkanpartener.remote.Api;
 import com.addukkanpartener.tags.Tags;
 import com.addukkanpartener.uis.activity_client_prescription.ClientPrescriptionActivity;
@@ -37,6 +38,8 @@ public class FragmentPatients extends Fragment {
     private FragmentPatientsBinding binding;
     private HomeActivity activity;
     private List<UserModel.User> userList;
+    private Preferences preferences;
+    private UserModel userModel;
     private PatientsAdapter patientsAdapter;
     private String query;
     private Call<AllUserModel> call;
@@ -56,6 +59,8 @@ public class FragmentPatients extends Fragment {
     private void initView() {
         userList = new ArrayList<>();
         activity = (HomeActivity) getActivity();
+        preferences = Preferences.getInstance();
+        userModel = preferences.getUserData(activity);
         patientsAdapter = new PatientsAdapter(activity, userList,this);
         binding.recView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recView.setAdapter(patientsAdapter);
@@ -91,7 +96,7 @@ public class FragmentPatients extends Fragment {
             call.cancel();
         }
         call = Api.getService(Tags.base_url)
-                .getPatient(query, "off");
+                .getPatient(query,userModel.getData().getId()+"", "off");
         call.enqueue(new Callback<AllUserModel>() {
             @Override
             public void onResponse(Call<AllUserModel> call, Response<AllUserModel> response) {

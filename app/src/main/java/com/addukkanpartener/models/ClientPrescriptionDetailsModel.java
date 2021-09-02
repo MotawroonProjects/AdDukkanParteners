@@ -14,6 +14,7 @@ public class ClientPrescriptionDetailsModel implements Serializable {
     private int total_price;
     private String created_at;
     private String updated_at;
+    private UserModel.User user_fk;
 
 
     public int getId() {
@@ -58,5 +59,9 @@ public class ClientPrescriptionDetailsModel implements Serializable {
 
     public String getUpdated_at() {
         return updated_at;
+    }
+
+    public UserModel.User getUser_fk() {
+        return user_fk;
     }
 }

@@ -192,8 +192,14 @@ public class SignUpActivity extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i != 0) {
+                    signUpModel.setPhone_code(countryModelList.get(i).getPhone_code());
                     signUpModel.setCountry_id(countryModelList.get(i).getCode());
+                    binding.tvCode.setText(countryModelList.get(i).getPhone_code());
+
                 } else {
+                    binding.tvCode.setText("+966");
+                    signUpModel.setPhone_code("+966");
+
                     signUpModel.setCountry_id("");
                 }
                 binding.setModel(signUpModel);
