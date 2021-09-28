@@ -73,6 +73,7 @@ public class FragmentMore extends Fragment {
 
         binding.llReport.setOnClickListener(v -> {
             if (settings != null) {
+                Log.e("dddddd", userModel.getData().getId()+"");
                 String url = Tags.base_url+lang+"/charts?doctor_id="+userModel.getData().getId()+"&view_type=webView";
                 navigateToWebView(url);
 

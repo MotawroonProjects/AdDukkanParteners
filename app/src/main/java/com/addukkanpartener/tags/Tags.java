@@ -4,7 +4,7 @@ import android.os.Environment;
 
 public class Tags {
 
-    public static String base_url = "http://dokan.sray.live/";
+    public static String base_url = "http://ad-dukkan.com/";
     public static final String IMAGE_URL= base_url+"storage/";
     public static final String session_login = "login";
     public static final String session_logout = "logout";
