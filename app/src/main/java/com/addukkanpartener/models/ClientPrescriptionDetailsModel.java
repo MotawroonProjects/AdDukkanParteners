@@ -11,7 +11,7 @@ public class ClientPrescriptionDetailsModel implements Serializable {
     private String image;
     private String status;
     private String note;
-    private int total_price;
+    private double total_price;
     private String created_at;
     private String updated_at;
     private UserModel.User user_fk;
@@ -49,7 +49,7 @@ public class ClientPrescriptionDetailsModel implements Serializable {
         return note;
     }
 
-    public int getTotal_price() {
+    public double getTotal_price() {
         return total_price;
     }
 

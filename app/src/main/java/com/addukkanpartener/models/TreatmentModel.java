@@ -127,7 +127,7 @@ public class TreatmentModel implements Serializable {
         private int product_id;
         private int product_set_id;
         private int vendor_id;
-        private int price;
+        private double price;
         private int stock;
         private String is_default;
         private String country_code;
@@ -148,7 +148,7 @@ public class TreatmentModel implements Serializable {
             return vendor_id;
         }
 
-        public int getPrice() {
+        public double getPrice() {
             return price;
         }
 

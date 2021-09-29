@@ -7,18 +7,34 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:792733659173:android:94151b5edc8afc0ac30fcc",
+        "mobilesdk_app_id": "1:792733659173:android:7b2990509f6f247ac30fcc",
         "android_client_info": {
-          "package_name": "com.addukkan"
+          "package_name": "com.addukkanapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "792733659173-08ukjuvlbfg27eiffjojii1mqkvdvt7q.apps.googleusercontent.com",
+          "client_id": "792733659173-ecnt50r6rt21l3cibad9s48qdop3ftks.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.addukkan",
-            "certificate_hash": "7b552dd45a17d41d57b3d3dedd9c4b6814f63960"
+            "package_name": "com.addukkanapp",
+            "certificate_hash": "d87bec293eb2e9788aa395b30912111ed09224c5"
+          }
+        },
+        {
+          "client_id": "792733659173-ih8ieb4t29bdlk69tks900e016u1gttt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.addukkanapp",
+            "certificate_hash": "cbed0537629bcbff873ba9602fa35e976bbb26b1"
+          }
+        },
+        {
+          "client_id": "792733659173-m16jauj4ite77mrdv6pt4qnsoi922jes.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.addukkanapp",
+            "certificate_hash": "0638bed917af861b6d9a337d59f04d49f165adbf"
           }
         },
         {
@@ -37,6 +53,13 @@
             {
               "client_id": "792733659173-bc5alg25ql7l63d8cm1vgm5lmcmlt7t0.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "792733659173-1ej8aj1b3kidk58rqqb05qqbofofv1g9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.endpoint.Dukkan-Partners"
+              }
             }
           ]
         }
@@ -90,6 +113,13 @@
             {
               "client_id": "792733659173-bc5alg25ql7l63d8cm1vgm5lmcmlt7t0.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "792733659173-1ej8aj1b3kidk58rqqb05qqbofofv1g9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.endpoint.Dukkan-Partners"
+              }
             }
           ]
         }

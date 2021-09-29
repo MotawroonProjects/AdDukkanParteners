@@ -57,6 +57,12 @@ public class FragmentMore extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        initView();
+        super.onResume();
+    }
+
     private void initView() {
         activity = (HomeActivity) getActivity();
         Paper.init(activity);
@@ -64,12 +70,13 @@ public class FragmentMore extends Fragment {
 
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(activity);
-        binding.setModel(userModel);
         getSetting();
+        getUser();
         binding.llChangeLanguage.setOnClickListener(v -> {
             Intent intent = new Intent(activity, LanguageActivity.class);
             startActivityForResult(intent, 100);
         });
+
 
         binding.llReport.setOnClickListener(v -> {
             if (settings != null) {

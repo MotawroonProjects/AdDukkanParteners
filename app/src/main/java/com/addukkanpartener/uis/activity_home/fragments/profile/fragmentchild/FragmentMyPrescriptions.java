@@ -70,6 +70,12 @@ public class FragmentMyPrescriptions extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        getPrescriptions();
+        super.onResume();
+    }
+
     private void getPrescriptions() {
         list.clear();
         binding.tvNoData.setVisibility(View.GONE);

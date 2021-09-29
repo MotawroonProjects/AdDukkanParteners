@@ -117,7 +117,7 @@ public class ChooseTreatmentActivity extends AppCompatActivity implements Listen
         if (call != null) {
             call.cancel();
         }
-
+Log.e("mmmmmmmm", userModel.getData().getCountry_code()+"");
         call = Api.getService(Tags.base_url)
                 .getTreatments(lang,query,userModel.getData().getCountry_code(),String.valueOf(company_id));
         call.enqueue(new Callback<TreatmentDataModel>() {
