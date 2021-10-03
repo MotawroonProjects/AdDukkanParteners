@@ -14,6 +14,7 @@
  import android.util.Log;
  import android.view.LayoutInflater;
  import android.view.View;
+ import android.webkit.DownloadListener;
  import android.webkit.ValueCallback;
  import android.webkit.WebChromeClient;
  import android.webkit.WebSettings;
@@ -95,7 +96,20 @@
                  binding.progBar.setVisibility(View.GONE);
              }
          });
+         binding.webView.setDownloadListener(new DownloadListener() {
+             public void onDownloadStart(String url, String userAgent,
+                                         String contentDisposition, String mimetype,
+                                         long contentLength) {
+                try {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }catch (Exception e){
 
+                }
+
+             }
+         });
          binding.webView.loadUrl(url);
 
 
