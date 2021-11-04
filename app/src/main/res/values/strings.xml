@@ -164,4 +164,6 @@
     <string name="new1">New</string>
     <string name="pending">Pending</string>
     <string name="my_pres">Prescriptions</string>
+    <string name="phone_begin5">5XX XXX XXX</string>
+    <string name="update2">تعديل بيانات المريض</string>
 </resources>

@@ -40,6 +40,8 @@ import com.addukkanpartener.models.AddPrescriptionModel;
 import com.addukkanpartener.models.AllUserModel;
 import com.addukkanpartener.models.CountryDataModel;
 import com.addukkanpartener.models.CountryModel;
+import com.addukkanpartener.models.DoctorTreatmentDataModel;
+import com.addukkanpartener.models.DoctorTreatmentModel;
 import com.addukkanpartener.models.SignUpModel;
 import com.addukkanpartener.models.SingleOrderDataModel;
 import com.addukkanpartener.models.TreatmentDataModel;
@@ -72,12 +74,12 @@ public class PrescriptionActivity extends AppCompatActivity {
     private ActivityPrescriptionBinding binding;
     private String lang = "ar";
     private int amount = 1;
-    private List<TreatmentModel> list;
+    private List<DoctorTreatmentModel> list;
     private Call<TreatmentDataModel> call;
     private UserModel userModel;
     private Preferences preferences;
     private PrescriptionAdapter prescriptionAdapter;
-    private TreatmentModel selectedTreatment;
+    private DoctorTreatmentModel selectedTreatment;
     private List<UserModel.User> clientList;
     private SpinnerClientAdapter spinnerClientAdapter;
     private List<CountryModel> countryModelList;
@@ -145,8 +147,8 @@ public class PrescriptionActivity extends AppCompatActivity {
             }
         });
         binding.tvAutoComplete.setOnItemClickListener((parent, view, position, id) -> {
-            selectedTreatment = (TreatmentModel) parent.getItemAtPosition(position);
-            binding.tvAutoComplete.setText(selectedTreatment.getProduct_trans_fk().getTitle());
+            selectedTreatment = (DoctorTreatmentModel) parent.getItemAtPosition(position);
+            binding.tvAutoComplete.setText(selectedTreatment.getProduct_data().getProduct_trans_fk().getTitle());
 
         });
 
@@ -193,7 +195,7 @@ public class PrescriptionActivity extends AppCompatActivity {
 
         binding.llAdd.setOnClickListener(v -> {
             if (selectedTreatment!=null){
-                AddPrescriptionModel.ItemModel itemModel = new AddPrescriptionModel.ItemModel(selectedTreatment.getId(),amount,selectedTreatment.getProduct_trans_fk().getTitle(),selectedTreatment.getProduct_default_price().getPrice());
+                AddPrescriptionModel.ItemModel itemModel = new AddPrescriptionModel.ItemModel(selectedTreatment.getId(),amount,selectedTreatment.getProduct_data().getProduct_trans_fk().getTitle(),selectedTreatment.getProduct_data().getProduct_default_price().getPrice());
                 addPrescriptionModel.addItem(itemModel);
                 prescriptionItemAdapter.notifyDataSetChanged();
                 binding.setTotal(addPrescriptionModel.getTotal());
@@ -413,71 +415,78 @@ public class PrescriptionActivity extends AppCompatActivity {
 
     }
 
+
+
+
+
     private void getTreatments(String query) {
 
         if (call != null) {
             call.cancel();
         }
 
-        call = Api.getService(Tags.base_url)
-                .getTreatments2(lang,query, userModel.getData().getCountry_code());
-        call.enqueue(new Callback<TreatmentDataModel>() {
-            @Override
-            public void onResponse(Call<TreatmentDataModel> call, Response<TreatmentDataModel> response) {
-                if (response.isSuccessful()) {
 
-                    if (response.body() != null && response.body().getStatus() == 200) {
-                        if (response.body().getData() != null) {
-                            if (response.body().getData().size() > 0) {
-                                list.clear();
-                                list.addAll(response.body().getData());
-                                runOnUiThread(() -> prescriptionAdapter.notifyDataSetChanged());
+        Api.getService(Tags.base_url)
+                .getMyTreatment("Bearer "+userModel.getData().getToken(),lang,userModel.getData().getId(),query)
+                .enqueue(new Callback<DoctorTreatmentDataModel>() {
+                    @Override
+                    public void onResponse(Call<DoctorTreatmentDataModel> call, Response<DoctorTreatmentDataModel> response) {
+                        if (response.isSuccessful()) {
+
+                            if (response.body() != null && response.body().getStatus() == 200) {
+                                if (response.body().getData() != null) {
+                                    if (response.body().getData().size() > 0) {
+                                        list.clear();
+                                        list.addAll(response.body().getData());
+                                        runOnUiThread(() -> prescriptionAdapter.notifyDataSetChanged());
+
+                                    }
+                                }
+                            } else {
+                                //    Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } else {
+
+                            switch (response.code()) {
+                                case 500:
+                                    //  Toast.makeText(CountryActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    // Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                            try {
+                                Log.e("error_code", response.code() + "_");
+                            } catch (NullPointerException e) {
+
                             }
                         }
-                    } else {
-                        //    Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
 
                     }
 
+                    @Override
+                    public void onFailure(Call<DoctorTreatmentDataModel> call, Throwable t) {
+                        try {
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage());
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    //Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                } else if (t.getMessage().toLowerCase().contains("socket") || t.getMessage().toLowerCase().contains("canceled")) {
+                                } else {
+                                    //Toast.makeText(CountryActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
 
-                } else {
+                        } catch (Exception e) {
 
-                    switch (response.code()) {
-                        case 500:
-                            //  Toast.makeText(CountryActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
-                            break;
-                        default:
-                            // Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                    try {
-                        Log.e("error_code", response.code() + "_");
-                    } catch (NullPointerException e) {
-
-                    }
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<TreatmentDataModel> call, Throwable t) {
-                try {
-                    if (t.getMessage() != null) {
-                        Log.e("error", t.getMessage());
-                        if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
-                            //Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
-                        } else if (t.getMessage().toLowerCase().contains("socket") || t.getMessage().toLowerCase().contains("canceled")) {
-                        } else {
-                            //Toast.makeText(CountryActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
+                });
 
-                } catch (Exception e) {
-
-                }
-            }
-        });
 
     }
 

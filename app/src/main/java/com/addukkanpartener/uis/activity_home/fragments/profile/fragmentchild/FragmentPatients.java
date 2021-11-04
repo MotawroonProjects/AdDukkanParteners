@@ -86,6 +86,12 @@ public class FragmentPatients extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        getPatinets();
+        super.onResume();
+    }
+
     private void getPatinets() {
         userList.clear();
         binding.tvNoData.setVisibility(View.GONE);

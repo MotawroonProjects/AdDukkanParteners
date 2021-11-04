@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <variable
+            name="amount"
+            type="String" />
         <variable
             name="model"
             type="com.addukkanpartener.models.AddPrescriptionModel.ItemModel" />
@@ -24,18 +28,51 @@
             android:maxLines="2"
             android:text="@{model.name}"
             />
-
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight=".2"
+            android:layout_weight=".3"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:gravity="center"
-            android:text='@{"x"+String.valueOf(model.amount)}'
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/imageIncrease"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/circle_gray"
+                android:src="@drawable/ic_plus"
+                app:tint="@color/white"
+                android:padding="5dp"
+                />
+
+
+            <TextView
+                android:id="@+id/tvAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:padding="2dp"
+                android:gravity="center"
+                android:text='@{"x"+String.valueOf(model.amount)}'
+                android:layout_gravity="center_vertical"/>
+            <ImageView
+                android:id="@+id/imageDecrease"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/circle_gray"
+                android:src="@drawable/ic_minus"
+                android:padding="5dp"
+                app:tint="@color/white"
+                />
+
+        </LinearLayout>
+
 
         <TextView
+            android:id="@+id/tvPrice"
             android:layout_width="0dp"
             android:layout_weight=".3"
             android:layout_height="wrap_content"

@@ -163,5 +163,7 @@
     <string name="new1">جديد</string>
     <string name="pending">قيد التنفيز</string>
     <string name="my_pres">وصفاتي</string>
+    <string name="phone_begin5">5XX XXX XXX</string>
+    <string name="update2">تعديل بيانات المريض</string>
 
 </resources>

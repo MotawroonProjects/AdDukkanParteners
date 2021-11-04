@@ -119,7 +119,7 @@ public class FragmentSelectedTreatments extends Fragment {
         binding.tvNoData.setVisibility(View.GONE);
 
         Api.getService(Tags.base_url)
-                .getMyTreatment("Bearer "+userModel.getData().getToken(),lang,userModel.getData().getId())
+                .getMyTreatment("Bearer "+userModel.getData().getToken(),lang,userModel.getData().getId(),"")
                 .enqueue(new Callback<DoctorTreatmentDataModel>() {
                     @Override
                     public void onResponse(Call<DoctorTreatmentDataModel> call, Response<DoctorTreatmentDataModel> response) {

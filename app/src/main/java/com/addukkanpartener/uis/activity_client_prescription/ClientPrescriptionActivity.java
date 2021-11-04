@@ -28,6 +28,7 @@ import com.addukkanpartener.models.UserModel;
 import com.addukkanpartener.preferences.Preferences;
 import com.addukkanpartener.remote.Api;
 import com.addukkanpartener.tags.Tags;
+import com.addukkanpartener.uis.activity_edit_patient.EditPatientActivity;
 import com.addukkanpartener.uis.activity_prescription_details1.PrescriptionDetails1Activity;
 
 import java.util.ArrayList;
@@ -81,6 +82,19 @@ public class ClientPrescriptionActivity extends AppCompatActivity {
         binding.recView.setAdapter(adapter);
         binding.llBack.setOnClickListener(v -> finish());
         getData();
+
+        binding.iconEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(this, EditPatientActivity.class);
+            intent.putExtra("data", client);
+            startActivity(intent);
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        getData();
+        super.onResume();
     }
 
     private void getData() {

@@ -12,17 +12,18 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import com.addukkanpartener.databinding.SpinnerRowBinding;
+import com.addukkanpartener.models.DoctorTreatmentModel;
 import com.addukkanpartener.models.TreatmentModel;
 
 import java.util.List;
 
-public class PrescriptionAdapter extends ArrayAdapter<TreatmentModel> {
-    private List<TreatmentModel> list;
+public class PrescriptionAdapter extends ArrayAdapter<DoctorTreatmentModel> {
+    private List<DoctorTreatmentModel> list;
     private Context context;
     private int layout_resource;
     private LayoutInflater inflater;
 
-    public PrescriptionAdapter(@NonNull Context context, int resource, @NonNull List<TreatmentModel> list) {
+    public PrescriptionAdapter(@NonNull Context context, int resource, @NonNull List<DoctorTreatmentModel> list) {
         super(context, resource, list);
         this.list = list;
         this.context = context;
@@ -37,7 +38,7 @@ public class PrescriptionAdapter extends ArrayAdapter<TreatmentModel> {
 
     @Nullable
     @Override
-    public TreatmentModel getItem(int position) {
+    public DoctorTreatmentModel getItem(int position) {
         return list.get(position);
     }
 
@@ -50,7 +51,7 @@ public class PrescriptionAdapter extends ArrayAdapter<TreatmentModel> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         @SuppressLint("ViewHolder") SpinnerRowBinding binding = DataBindingUtil.inflate(inflater,layout_resource,parent,false);
-        binding.setTitle(list.get(position).getProduct_trans_fk().getTitle());
+        binding.setTitle(list.get(position).getProduct_data().getProduct_trans_fk().getTitle());
         return binding.getRoot();
     }
 }

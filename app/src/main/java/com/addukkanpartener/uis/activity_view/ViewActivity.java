@@ -2,6 +2,7 @@
 
  import android.Manifest;
  import android.app.AlertDialog;
+ import android.app.DownloadManager;
  import android.content.Context;
  import android.content.Intent;
  import android.content.pm.PackageManager;
@@ -9,12 +10,15 @@
  import android.net.Uri;
  import android.os.Build;
  import android.os.Bundle;
+ import android.os.Environment;
  import android.os.Handler;
  import android.provider.MediaStore;
  import android.util.Log;
  import android.view.LayoutInflater;
  import android.view.View;
+ import android.webkit.CookieManager;
  import android.webkit.DownloadListener;
+ import android.webkit.URLUtil;
  import android.webkit.ValueCallback;
  import android.webkit.WebChromeClient;
  import android.webkit.WebSettings;
@@ -77,6 +81,7 @@
          binding.webView.getSettings().setJavaScriptEnabled(true);
          binding.webView.getSettings().setLoadWithOverviewMode(true);
          binding.webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+         binding.webView.getSettings().setDomStorageEnabled(true);
 
          binding.webView.setWebViewClient(new WebViewClient() {
              @Override
@@ -96,22 +101,51 @@
                  binding.progBar.setVisibility(View.GONE);
              }
          });
-         binding.webView.setDownloadListener(new DownloadListener() {
-             public void onDownloadStart(String url, String userAgent,
-                                         String contentDisposition, String mimetype,
-                                         long contentLength) {
-                try {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
-                }catch (Exception e){
 
-                }
-
-             }
-         });
          binding.webView.loadUrl(url);
+         binding.webView.setDownloadListener(new DownloadListener()
+         {
 
+             @Override
+             public void onDownloadStart(String url, String userAgent,
+                                         String contentDisposition, String mimeType,
+                                         long contentLength) {
+
+                 DownloadManager.Request request = new DownloadManager.Request(
+                         Uri.parse(url));
+
+
+                 request.setMimeType(mimeType);
+
+
+                 String cookies = CookieManager.getInstance().getCookie(url);
+
+
+                 request.addRequestHeader("cookie", cookies);
+
+
+                 request.addRequestHeader("User-Agent", userAgent);
+
+
+                 request.setDescription("Downloading file...");
+
+
+                 request.setTitle(URLUtil.guessFileName(url, contentDisposition,
+                         mimeType));
+
+
+                 request.allowScanningByMediaScanner();
+
+
+                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                 request.setDestinationInExternalPublicDir(
+                         Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(
+                                 url, contentDisposition, mimeType));
+                 DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                 dm.enqueue(request);
+                 Toast.makeText(getApplicationContext(), "Downloading File",
+                         Toast.LENGTH_LONG).show();
+             }});
 
 
          binding.llBack.setOnClickListener(v -> finish());

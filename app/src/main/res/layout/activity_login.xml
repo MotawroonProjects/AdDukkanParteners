@@ -79,7 +79,7 @@
                             android:layout_weight="1"
                             android:layout_height="match_parent"
                             android:background="@color/transparent"
-                            android:hint="@string/phone_number_or_email"
+                            android:hint="@string/phone_begin5"
                             android:inputType="textEmailAddress"
                             android:textColorHint="@color/gray9"
                             android:singleLine="true"

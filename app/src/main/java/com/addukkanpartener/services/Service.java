@@ -178,11 +178,7 @@ public interface Service {
                                            @Query("company_id") String company_id
     );
 
-    @GET("api/medicine")
-    Call<TreatmentDataModel> getTreatments2(@Header("lang") String lang,
-                                            @Query("search_name") String search_name,
-                                            @Query("country_code") String country_code
-    );
+
 
     @FormUrlEncoded
     @POST("api/add-medicine")
@@ -196,9 +192,16 @@ public interface Service {
     @GET("api/doctor-medicine")
     Call<DoctorTreatmentDataModel> getMyTreatment(@Header("Authorization") String user_token,
                                                   @Header("lang") String lang,
-                                                  @Query("doctor_id") int doctor_id
-    );
+                                                  @Query("doctor_id") int doctor_id,
+                                                  @Query("search_name") String search_name
 
+                                                  );
+    @GET("api/doctor-medicine")
+    Call<TreatmentDataModel> getTreatments2(@Header("lang") String lang,
+                                            @Header("Authorization") String user_token,
+                                            @Query("search_name") String search_name,
+                                            @Query("doctor_id") int doctor_id
+    );
     @FormUrlEncoded
     @POST("api/delete-medicine")
     Call<ResponseModel> deleteTreatment(@Header("Authorization") String user_token,
@@ -330,5 +333,18 @@ public interface Service {
 
     );
 
+    @FormUrlEncoded
+    @POST("api/edit-client")
+    Call<UserModel> editPatient(@Header("Authorization") String bearer_token,
+                                  @Field("client_id") int client_id,
+                                  @Field("name") String name,
+                                  @Field("email") String email,
+                                  @Field("phone_code") String phone_code,
+                                  @Field("phone") String phone,
+                                  @Field("password") String password,
+                                  @Field("software_type") String software_type,
+                                  @Field("country_code") String country_code,
+                                  @Field("doctor_id") int doctor_id
 
+                                );
 }

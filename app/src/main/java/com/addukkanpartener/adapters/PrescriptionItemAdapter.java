@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.addukkanpartener.R;
 import com.addukkanpartener.databinding.PrescriptionRowBinding;
 import com.addukkanpartener.models.AddPrescriptionModel;
+import com.addukkanpartener.models.DoctorTreatmentModel;
 import com.addukkanpartener.uis.activity_add_prescription.PrescriptionActivity;
 import com.addukkanpartener.uis.activity_print.PrintActivity;
 
@@ -47,7 +48,11 @@ public class PrescriptionItemAdapter extends RecyclerView.Adapter<RecyclerView.V
         myHolder.binding.setModel(list.get(position));
         if (activity instanceof PrescriptionActivity){
             PrescriptionActivity prescriptionActivity = (PrescriptionActivity) activity;
+
         }
+
+
+
     }
 
     @Override

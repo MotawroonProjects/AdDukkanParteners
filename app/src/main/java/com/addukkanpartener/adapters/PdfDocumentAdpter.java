@@ -30,41 +30,37 @@ public class PdfDocumentAdpter extends PrintDocumentAdapter {
 
     @Override
     public void onLayout(PrintAttributes oldAttributes, PrintAttributes newAttributes, CancellationSignal cancellationSignal, LayoutResultCallback callback, Bundle extras) {
-if(cancellationSignal.isCanceled()){
-    callback.onLayoutCancelled();
-}
-else {
-    PrintDocumentInfo.Builder builder=new PrintDocumentInfo.Builder("file name");
-    builder.setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT).setPageCount(PrintDocumentInfo.PAGE_COUNT_UNKNOWN).build();
-callback.onLayoutFinished(builder.build(),!newAttributes.equals(oldAttributes));
-}
+        if (cancellationSignal.isCanceled()) {
+            callback.onLayoutCancelled();
+        } else {
+            PrintDocumentInfo.Builder builder = new PrintDocumentInfo.Builder("file name");
+            builder.setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT).setPageCount(PrintDocumentInfo.PAGE_COUNT_UNKNOWN).build();
+            callback.onLayoutFinished(builder.build(), !newAttributes.equals(oldAttributes));
+        }
     }
 
     @Override
     public void onWrite(PageRange[] pages, ParcelFileDescriptor destination, CancellationSignal cancellationSignal, WriteResultCallback callback) {
         InputStream inputStream = null;
-        OutputStream outputStream=null;
+        OutputStream outputStream = null;
         try {
-            File file=new File(path);
-            inputStream=new FileInputStream(file);
-            outputStream=new FileOutputStream(destination.getFileDescriptor());
-            byte[]buff=new byte[16384];
+            File file = new File(path);
+            inputStream = new FileInputStream(file);
+            outputStream = new FileOutputStream(destination.getFileDescriptor());
+            byte[] buff = new byte[16384];
             int size;
-            while ((size=inputStream.read(buff))>=0&&!cancellationSignal.isCanceled()){
-                outputStream.write(buff,0,size);
+            while ((size = inputStream.read(buff)) >= 0 && !cancellationSignal.isCanceled()) {
+                outputStream.write(buff, 0, size);
             }
-            if(cancellationSignal.isCanceled()){
+            if (cancellationSignal.isCanceled()) {
                 callback.onWriteCancelled();
-            }
-            else {
+            } else {
                 callback.onWriteFinished(new PageRange[]{PageRange.ALL_PAGES});
             }
 
-        }
-        catch (Exception e){
-callback.onWriteFailed(e.toString());
-        }
-        finally {
+        } catch (Exception e) {
+            callback.onWriteFailed(e.toString());
+        } finally {
             try {
                 inputStream.close();
                 outputStream.close();
