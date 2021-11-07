@@ -51,8 +51,6 @@ public class PrescriptionItemAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         }
 
-
-
     }
 
     @Override
