@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Arb Develpor/StudioProjects/AdDukkanParteners/app/src/main/res/layout/activity_prescription.xml" value="0.22" />
+        <entry key="..\:/Users/Arb Develpor/StudioProjects/AdDukkanParteners/app/src/main/res/layout/client_row.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Arb Develpor/StudioProjects/AdDukkanParteners/app/src/main/res/layout/prescription_row.xml" value="0.4879518072289157" />
+        <entry key="..\:/Users/Arb Develpor/StudioProjects/AdDukkanParteners/app/src/main/res/layout/user_search_row.xml" value="0.20416666666666666" />
         <entry key="..\:/android/Projects/AdDukkanParteners/app/src/main/res/layout/activity_client_prescription.xml" value="0.19814814814814816" />
         <entry key="..\:/android/Projects/AdDukkanParteners/app/src/main/res/layout/activity_edit_patient.xml" value="0.25118483412322273" />
         <entry key="..\:/android/Projects/AdDukkanParteners/app/src/main/res/layout/activity_login.xml" value="0.20092592592592592" />
@@ -34,7 +38,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -128,44 +128,47 @@ public class FireBaseMessaging extends FirebaseMessagingService {
 
     private void updateToken(String token) {
         UserModel userModel = getUserData();
-        Api.getService(Tags.base_url)
-                .updateFirebaseToken("Bearer " + userModel.getData().getToken(), userModel.getData().getId(), token, "android")
-                .enqueue(new Callback<ResponseModel>() {
-                    @Override
-                    public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getStatus() == 200) {
-                            Log.e("data", "success");
+        if (userModel!=null){
+            Api.getService(Tags.base_url)
+                    .updateFirebaseToken("Bearer " + userModel.getData().getToken(), userModel.getData().getId(), token, "android")
+                    .enqueue(new Callback<ResponseModel>() {
+                        @Override
+                        public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                            if (response.isSuccessful() && response.body() != null && response.body().getStatus() == 200) {
+                                Log.e("data", "success");
 
-                            userModel.getData().setFirebase_token(token);
-                            preferences.create_update_userdata(FireBaseMessaging.this, userModel);
+                                userModel.getData().setFirebase_token(token);
+                                preferences.create_update_userdata(FireBaseMessaging.this, userModel);
 
-                        } else {
-                            try {
+                            } else {
+                                try {
 
-                                Log.e("errorToken", response.code() + "_" + response.errorBody().string());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseModel> call, Throwable t) {
-                        try {
-
-                            if (t.getMessage() != null) {
-                                Log.e("errorToken2", t.getMessage());
-                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
-                                    //Toast.makeText(HomeActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
-                                } else {
-                                    // Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.e("errorToken", response.code() + "_" + response.errorBody().string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
                             }
-
-                        } catch (Exception e) {
                         }
-                    }
-                });
+
+                        @Override
+                        public void onFailure(Call<ResponseModel> call, Throwable t) {
+                            try {
+
+                                if (t.getMessage() != null) {
+                                    Log.e("errorToken2", t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                        //Toast.makeText(HomeActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            } catch (Exception e) {
+                            }
+                        }
+                    });
+        }
+
     }
 
     @SuppressLint("NewApi")

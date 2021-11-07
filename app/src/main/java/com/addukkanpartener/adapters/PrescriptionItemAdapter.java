@@ -46,10 +46,41 @@ public class PrescriptionItemAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         MyHolder myHolder = (MyHolder) holder;
         myHolder.binding.setModel(list.get(position));
-        if (activity instanceof PrescriptionActivity){
-            PrescriptionActivity prescriptionActivity = (PrescriptionActivity) activity;
 
-        }
+        myHolder.binding.imageIncrease.setOnClickListener(v -> {
+            if (activity instanceof PrescriptionActivity){
+                PrescriptionActivity prescriptionActivity = (PrescriptionActivity) activity;
+                AddPrescriptionModel.ItemModel model = list.get(myHolder.getAdapterPosition());
+                int amount =model.getAmount();
+                amount +=1;
+                model.setAmount(amount);
+                list.set(myHolder.getAdapterPosition(),model);
+                notifyItemChanged(myHolder.getAdapterPosition());
+                prescriptionActivity.updateItem(myHolder.getAdapterPosition(),model);
+            }
+        });
+
+        myHolder.binding.imageDecrease.setOnClickListener(v -> {
+            if (activity instanceof PrescriptionActivity){
+                PrescriptionActivity prescriptionActivity = (PrescriptionActivity) activity;
+                AddPrescriptionModel.ItemModel model = list.get(myHolder.getAdapterPosition());
+                int amount =model.getAmount();
+                if (amount>1){
+                    amount -=1;
+                    model.setAmount(amount);
+                    list.set(myHolder.getAdapterPosition(),model);
+                    notifyItemChanged(myHolder.getAdapterPosition());
+
+                    prescriptionActivity.updateItem(myHolder.getAdapterPosition(),model);
+                }else {
+                    list.remove(myHolder.getAdapterPosition());
+                    notifyItemChanged(myHolder.getAdapterPosition());
+                    prescriptionActivity.deleteItem(model);
+                }
+
+            }
+        });
+
 
     }
 

@@ -29,6 +29,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.addukkanpartener.R;
+import com.addukkanpartener.adapters.ClientAdapter;
 import com.addukkanpartener.adapters.PrescriptionAdapter;
 import com.addukkanpartener.adapters.PrescriptionItemAdapter;
 import com.addukkanpartener.adapters.SpinnerClientAdapter;
@@ -81,15 +82,14 @@ public class PrescriptionActivity extends AppCompatActivity {
     private PrescriptionAdapter prescriptionAdapter;
     private DoctorTreatmentModel selectedTreatment;
     private List<UserModel.User> clientList;
-    private SpinnerClientAdapter spinnerClientAdapter;
     private List<CountryModel> countryModelList;
     private SpinnerCountryAdapter countriesAdapter;
     private AlertDialog dialog;
-    private SignUpModel signUpModel ;
+    private SignUpModel signUpModel;
     private PrescriptionItemAdapter prescriptionItemAdapter;
     private AddPrescriptionModel addPrescriptionModel;
-
-
+    private ClientAdapter clientAdapter;
+    private Call<AllUserModel> searchCall;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -108,7 +108,6 @@ public class PrescriptionActivity extends AppCompatActivity {
         countryModelList = new ArrayList<>();
         clientList = new ArrayList<>();
         list = new ArrayList<>();
-        Paper.init(this);
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);
         Paper.init(this);
@@ -117,11 +116,12 @@ public class PrescriptionActivity extends AppCompatActivity {
         binding.setAmount("1");
         addPrescriptionModel = new AddPrescriptionModel();
         binding.setModel(addPrescriptionModel);
-        signUpModel =  new SignUpModel();
+        signUpModel = new SignUpModel();
         CountryModel countryModel = new CountryModel();
         countryModel.setCountry_setting_trans_fk(new CountryModel.CountrySettingTransFk(getString(R.string.choose_country)));
         countryModelList.add(countryModel);
         prescriptionAdapter = new PrescriptionAdapter(this, R.layout.spinner_row, list);
+
         binding.tvAutoComplete.setAdapter(prescriptionAdapter);
         binding.tvAutoComplete.addTextChangedListener(new TextWatcher() {
             @Override
@@ -139,7 +139,7 @@ public class PrescriptionActivity extends AppCompatActivity {
                 if (!s.toString().isEmpty()) {
                     getTreatments(s.toString());
 
-                }else {
+                } else {
                     selectedTreatment = null;
                     amount = 1;
                     binding.setAmount(String.valueOf(amount));
@@ -152,29 +152,21 @@ public class PrescriptionActivity extends AppCompatActivity {
 
         });
 
-        spinnerClientAdapter = new SpinnerClientAdapter(clientList, this);
-        binding.spinner.setAdapter(spinnerClientAdapter);
+        clientAdapter = new ClientAdapter(this, clientList);
+        binding.recViewClient.setLayoutManager(new LinearLayoutManager(this));
+        binding.recViewClient.setAdapter(clientAdapter);
+        binding.tvClient.setText(getString(R.string.ch_client));
 
-        binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                addPrescriptionModel.setClient_id(clientList.get(position).getId());
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         binding.recView.setLayoutManager(new LinearLayoutManager(this));
-        prescriptionItemAdapter  = new PrescriptionItemAdapter(this,addPrescriptionModel.getProducts_list());
+        prescriptionItemAdapter = new PrescriptionItemAdapter(this, addPrescriptionModel.getProducts_list());
         binding.recView.setAdapter(prescriptionItemAdapter);
 
 
         binding.llBack.setOnClickListener(v -> finish());
 
         binding.imageIncrease.setOnClickListener(v -> {
-            if (selectedTreatment!=null){
+            if (selectedTreatment != null) {
                 amount += 1;
                 binding.setAmount(String.valueOf(amount));
             }
@@ -183,7 +175,7 @@ public class PrescriptionActivity extends AppCompatActivity {
 
         binding.imageDecrease.setOnClickListener(v -> {
 
-            if (selectedTreatment!=null){
+            if (selectedTreatment != null) {
                 if (amount > 1) {
                     amount -= 1;
                     binding.setAmount(String.valueOf(amount));
@@ -194,8 +186,8 @@ public class PrescriptionActivity extends AppCompatActivity {
         });
 
         binding.llAdd.setOnClickListener(v -> {
-            if (selectedTreatment!=null){
-                AddPrescriptionModel.ItemModel itemModel = new AddPrescriptionModel.ItemModel(selectedTreatment.getId(),amount,selectedTreatment.getProduct_data().getProduct_trans_fk().getTitle(),selectedTreatment.getProduct_data().getProduct_default_price().getPrice());
+            if (selectedTreatment != null) {
+                AddPrescriptionModel.ItemModel itemModel = new AddPrescriptionModel.ItemModel(selectedTreatment.getId(), amount, selectedTreatment.getProduct_data().getProduct_trans_fk().getTitle(), selectedTreatment.getProduct_data().getProduct_default_price().getPrice());
                 addPrescriptionModel.addItem(itemModel);
                 prescriptionItemAdapter.notifyDataSetChanged();
                 binding.setTotal(addPrescriptionModel.getTotal());
@@ -210,8 +202,12 @@ public class PrescriptionActivity extends AppCompatActivity {
 
         });
 
+        binding.tvClient.setOnClickListener(v -> {
+            binding.llSearch.setVisibility(View.VISIBLE);
+
+        });
         binding.btnConfirm.setOnClickListener(v -> {
-            if (addPrescriptionModel.isDataValid(this)){
+            if (addPrescriptionModel.isDataValid(this)) {
                 addPrescriptionModel.setDoctor_id(userModel.getData().getId());
                 addPrescriptionModel.setCountry_code(userModel.getData().getCountry_code());
                 addOrder();
@@ -219,13 +215,43 @@ public class PrescriptionActivity extends AppCompatActivity {
         });
 
 
+        binding.edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String query = "all";
+                if (!s.toString().isEmpty()) {
+                    binding.imageClear.setVisibility(View.VISIBLE);
+                    query = s.toString();
+                } else {
+                    binding.imageClear.setVisibility(View.GONE);
+
+                }
+
+                getPatients(query);
+
+            }
+        });
+        binding.imageClear.setOnClickListener(v -> {
+            binding.edtSearch.setText(null);
+        });
         binding.btnAddClient.setOnClickListener(v -> dialog.show());
         getCountries();
         getTreatments("all");
-        getPatients();
+        getPatients("all");
         createCountryDialogAlert();
 
     }
+
 
     private void addOrder() {
         ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
@@ -233,7 +259,7 @@ public class PrescriptionActivity extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         Api.getService(Tags.base_url)
-                .addOrder("Bearer " + userModel.getData().getToken(),addPrescriptionModel)
+                .addOrder("Bearer " + userModel.getData().getToken(), addPrescriptionModel)
                 .enqueue(new Callback<SingleOrderDataModel>() {
                     @Override
                     public void onResponse(Call<SingleOrderDataModel> call, Response<SingleOrderDataModel> response) {
@@ -298,7 +324,7 @@ public class PrescriptionActivity extends AppCompatActivity {
                                 if (response.body().getData() != null) {
                                     if (response.body().getData().size() > 0) {
                                         countryModelList.addAll(response.body().getData());
-                                        if (countriesAdapter!=null){
+                                        if (countriesAdapter != null) {
                                             runOnUiThread(() -> countriesAdapter.notifyDataSetChanged());
 
                                         }
@@ -344,79 +370,74 @@ public class PrescriptionActivity extends AppCompatActivity {
 
     }
 
-    private void getPatients() {
+    private void getPatients(String query) {
         clientList.clear();
-        clientList.add(new UserModel.User(0, getString(R.string.ch_client)));
-        spinnerClientAdapter.notifyDataSetChanged();
+        clientAdapter.notifyDataSetChanged();
 
-        Api.getService(Tags.base_url)
-                .getPatient("all",userModel.getData().getId()+"", "off")
-                .enqueue(new Callback<AllUserModel>() {
-                    @Override
-                    public void onResponse(Call<AllUserModel> call, Response<AllUserModel> response) {
-                        if (response.isSuccessful()) {
+        if (searchCall!=null){
+            searchCall.cancel();
+        }
+        searchCall = Api.getService(Tags.base_url).getPatient(query, userModel.getData().getId() + "", "off");
 
-                            if (response.body() != null && response.body().getStatus() == 200) {
-                                if (response.body().getData() != null) {
-                                    if (response.body().getData().size() > 0) {
-                                        clientList.addAll(response.body().getData());
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                spinnerClientAdapter.notifyDataSetChanged();
-                                            }
-                                        });
-                                    }
-                                }
-                            } else {
-                                //    Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+        searchCall.enqueue(new Callback<AllUserModel>() {
+            @Override
+            public void onResponse(Call<AllUserModel> call, Response<AllUserModel> response) {
+                if (response.isSuccessful()) {
+
+                    if (response.body() != null && response.body().getStatus() == 200) {
+                        if (response.body().getData() != null) {
+                            if (response.body().getData().size() > 0) {
+                                clientList.addAll(response.body().getData());
+                                clientAdapter.notifyDataSetChanged();
 
                             }
+                        }
+                    } else {
+                        //    Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                    }
 
 
+                } else {
+
+                    switch (response.code()) {
+                        case 500:
+                            //  Toast.makeText(CountryActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            // Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                    try {
+                        Log.e("error_code", response.code() + "_");
+                    } catch (NullPointerException e) {
+
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<AllUserModel> call, Throwable t) {
+                try {
+                    if (t.getMessage() != null) {
+                        Log.e("error", t.getMessage());
+                        if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                            //Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                        } else if (t.getMessage().toLowerCase().contains("socket") || t.getMessage().toLowerCase().contains("canceled")) {
                         } else {
-
-                            switch (response.code()) {
-                                case 500:
-                                    //  Toast.makeText(CountryActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
-                                    break;
-                                default:
-                                    // Toast.makeText(CountryActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
-                                    break;
-                            }
-                            try {
-                                Log.e("error_code", response.code() + "_");
-                            } catch (NullPointerException e) {
-
-                            }
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<AllUserModel> call, Throwable t) {
-                        try {
-                            if (t.getMessage() != null) {
-                                Log.e("error", t.getMessage());
-                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
-                                    //Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
-                                } else if (t.getMessage().toLowerCase().contains("socket") || t.getMessage().toLowerCase().contains("canceled")) {
-                                } else {
-                                    //Toast.makeText(CountryActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                        } catch (Exception e) {
-
+                            //Toast.makeText(CountryActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+
+                } catch (Exception e) {
+
+                }
+            }
+        });
 
     }
-
-
-
 
 
     private void getTreatments(String query) {
@@ -427,7 +448,7 @@ public class PrescriptionActivity extends AppCompatActivity {
 
 
         Api.getService(Tags.base_url)
-                .getMyTreatment("Bearer "+userModel.getData().getToken(),lang,userModel.getData().getId(),query)
+                .getMyTreatment("Bearer " + userModel.getData().getToken(), lang, userModel.getData().getId(), query)
                 .enqueue(new Callback<DoctorTreatmentDataModel>() {
                     @Override
                     public void onResponse(Call<DoctorTreatmentDataModel> call, Response<DoctorTreatmentDataModel> response) {
@@ -503,10 +524,10 @@ public class PrescriptionActivity extends AppCompatActivity {
         binding.spinnerCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               CountryModel countryModel = countryModelList.get(position);
-               signUpModel.setCountry_id(String.valueOf(countryModel.getCode()));
-               signUpModel.setPhone_code(countryModel.getPhone_code());
-               binding.setModel(signUpModel);
+                CountryModel countryModel = countryModelList.get(position);
+                signUpModel.setCountry_id(String.valueOf(countryModel.getCode()));
+                signUpModel.setPhone_code(countryModel.getPhone_code());
+                binding.setModel(signUpModel);
             }
 
             @Override
@@ -535,19 +556,21 @@ public class PrescriptionActivity extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         Api.getService(Tags.base_url)
-                .addClient("Bearer " + userModel.getData().getToken(),userModel.getData().getId()+"",model.getName(),model.getPhone_code(),model.getPhone(),password,model.getEmail(),model.getCountry_id())
+                .addClient("Bearer " + userModel.getData().getToken(), userModel.getData().getId() + "", model.getName(), model.getPhone_code(), model.getPhone(), password, model.getEmail(), model.getCountry_id())
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                         dialog.dismiss();
-                        Log.e("code", response.body().getStatus()+"__");
+                        Log.e("code", response.body().getStatus() + "__");
                         if (response.isSuccessful() && response.body() != null) {
                             if (response.body().getStatus() == 200) {
                                 binding.setModel(new SignUpModel());
-                                clientList.add(1, response.body().getData());
-                                runOnUiThread(() -> spinnerClientAdapter.notifyDataSetChanged());
-                            }else if (response.body().getStatus() == 409  ){
-                                Toast.makeText(PrescriptionActivity.this, R.string.ph_em_found, Toast.LENGTH_SHORT).show();
+                                clientList.add(0, response.body().getData());
+                                clientAdapter.notifyDataSetChanged();
+
+                            } else if (response.body().getStatus() == 409) {
+                                dialog.dismiss();
+                                getPatients("all");
                             }
                         } else {
                             dialog.dismiss();
@@ -591,15 +614,42 @@ public class PrescriptionActivity extends AppCompatActivity {
 
     }
 
-    private String getRandomPassword(int length){
+    private String getRandomPassword(int length) {
         String num = "0123456789";
         Random rnd = new Random();
         StringBuilder sb = new StringBuilder(length);
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
             sb.append(num.charAt(rnd.nextInt(num.length())));
         return sb.toString();
     }
 
 
+    public void updateItem(int adapterPosition, AddPrescriptionModel.ItemModel model) {
+        addPrescriptionModel.addItem(model);
+        binding.setTotal(addPrescriptionModel.getTotal());
+    }
 
+    public void deleteItem(AddPrescriptionModel.ItemModel model) {
+        addPrescriptionModel.deleteItem(model);
+        binding.setTotal(addPrescriptionModel.getTotal());
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (binding.llSearch.getVisibility() == View.VISIBLE) {
+            binding.llSearch.setVisibility(View.GONE);
+            binding.edtSearch.setText(null);
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+    public void setClientItem(UserModel.User user) {
+        binding.llSearch.setVisibility(View.GONE);
+        binding.tvClient.setText(user.getName());
+        addPrescriptionModel.setClient_id(user.getId());
+
+    }
 }

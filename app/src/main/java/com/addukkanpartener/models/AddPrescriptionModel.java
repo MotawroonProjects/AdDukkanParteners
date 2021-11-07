@@ -104,7 +104,13 @@ public class AddPrescriptionModel extends BaseObservable implements Serializable
 
         return products_list;
     }
+    public void  deleteItem(ItemModel itemModel){
+        int item_pos = getItemPos(itemModel.product_id);
+        if (item_pos!=-1){
+            products_list.remove(item_pos);
+        }
 
+    }
     private int getItemPos(int id){
         int pos = -1;
         for (int index=0;index<products_list.size();index++){
@@ -142,6 +148,10 @@ public class AddPrescriptionModel extends BaseObservable implements Serializable
 
         public String getName() {
             return name;
+        }
+
+        public void setAmount(int amount) {
+            this.amount = amount;
         }
     }
 }
