@@ -187,7 +187,7 @@ public class PrescriptionActivity extends AppCompatActivity {
 
         binding.llAdd.setOnClickListener(v -> {
             if (selectedTreatment != null) {
-                AddPrescriptionModel.ItemModel itemModel = new AddPrescriptionModel.ItemModel(selectedTreatment.getId(), amount, selectedTreatment.getProduct_data().getProduct_trans_fk().getTitle(), selectedTreatment.getProduct_data().getProduct_default_price().getPrice());
+                AddPrescriptionModel.ItemModel itemModel = new AddPrescriptionModel.ItemModel(selectedTreatment.getProduct_id(), amount, selectedTreatment.getProduct_data().getProduct_trans_fk().getTitle(), selectedTreatment.getProduct_data().getProduct_default_price().getPrice());
                 addPrescriptionModel.addItem(itemModel);
                 prescriptionItemAdapter.notifyDataSetChanged();
                 binding.setTotal(addPrescriptionModel.getTotal());
@@ -210,6 +210,7 @@ public class PrescriptionActivity extends AppCompatActivity {
             if (addPrescriptionModel.isDataValid(this)) {
                 addPrescriptionModel.setDoctor_id(userModel.getData().getId());
                 addPrescriptionModel.setCountry_code(userModel.getData().getCountry_code());
+
                 addOrder();
             }
         });
@@ -258,6 +259,7 @@ public class PrescriptionActivity extends AppCompatActivity {
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
+        Log.e("ccccccc", addPrescriptionModel.getProducts_list().get(0).getProduct_id()+"___");
         Api.getService(Tags.base_url)
                 .addOrder("Bearer " + userModel.getData().getToken(), addPrescriptionModel)
                 .enqueue(new Callback<SingleOrderDataModel>() {
