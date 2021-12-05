@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AdDukkan partener</string>
+    <string name="app_name">Ad-dukkan partener</string>
     <string name="map_api_key">AIzaSyAnjvMAJEmiAv3yeCDUXWv-PboXiT_uaoQ</string>
     <string name="search_key">AIzaSyAnjvMAJEmiAv3yeCDUXWv-PboXiT_uaoQ</string>
     <string name="open">open</string>
@@ -165,5 +165,5 @@
     <string name="pending">Pending</string>
     <string name="my_pres">Prescriptions</string>
     <string name="phone_begin5">5XX XXX XXX</string>
-    <string name="update2">تعديل بيانات المريض</string>
+    <string name="update2">Update</string>
 </resources>
