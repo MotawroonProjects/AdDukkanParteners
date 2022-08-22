@@ -1,64 +1,48 @@
 {
   "project_info": {
-    "project_number": "792733659173",
-    "project_id": "dukkanapp",
-    "storage_bucket": "dukkanapp.appspot.com"
+    "project_number": "2492388990",
+    "project_id": "dukkan-partner",
+    "storage_bucket": "dukkan-partner.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:792733659173:android:7b2990509f6f247ac30fcc",
+        "mobilesdk_app_id": "1:2492388990:android:4351c994ac64cc6b682a2f",
         "android_client_info": {
           "package_name": "com.addukkanapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "792733659173-ecnt50r6rt21l3cibad9s48qdop3ftks.apps.googleusercontent.com",
+          "client_id": "2492388990-pk7dbrc6gai6hhcoc2ivamn5ikpuc9q8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.addukkanapp",
-            "certificate_hash": "d87bec293eb2e9788aa395b30912111ed09224c5"
+            "certificate_hash": "6d39e57f3c880ad5ec12fe731d3e4a908fca8758"
           }
         },
         {
-          "client_id": "792733659173-ih8ieb4t29bdlk69tks900e016u1gttt.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.addukkanapp",
-            "certificate_hash": "cbed0537629bcbff873ba9602fa35e976bbb26b1"
-          }
-        },
-        {
-          "client_id": "792733659173-m16jauj4ite77mrdv6pt4qnsoi922jes.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.addukkanapp",
-            "certificate_hash": "0638bed917af861b6d9a337d59f04d49f165adbf"
-          }
-        },
-        {
-          "client_id": "792733659173-bc5alg25ql7l63d8cm1vgm5lmcmlt7t0.apps.googleusercontent.com",
+          "client_id": "2492388990-bq8ao3hhlol7m03v21eed55n70hnc0hu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCTBKS4opvJcZ6LvrZHEm1Vk9MtmrZnKgA"
+          "current_key": "AIzaSyAqdCa0mYgH5ImsGdEoWIdvgaaNTUxV9RM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "792733659173-bc5alg25ql7l63d8cm1vgm5lmcmlt7t0.apps.googleusercontent.com",
+              "client_id": "2492388990-bq8ao3hhlol7m03v21eed55n70hnc0hu.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "792733659173-1ej8aj1b3kidk58rqqb05qqbofofv1g9.apps.googleusercontent.com",
+              "client_id": "2492388990-5aca4h0saj8078f02adqp22p8sqeqfn9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.endpoint.Dukkan-Partners"
+                "bundle_id": "com.elmotaweron.Dukkan-Partner"
               }
             }
           ]
@@ -67,58 +51,42 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:792733659173:android:c54c0820b20dee86c30fcc",
+        "mobilesdk_app_id": "1:2492388990:android:097f9cc95e72328a682a2f",
         "android_client_info": {
           "package_name": "com.addukkanpartener"
         }
       },
       "oauth_client": [
         {
-          "client_id": "792733659173-6q9hbcplqohur74t4ptnso91s53pvbpl.apps.googleusercontent.com",
+          "client_id": "2492388990-81ej70fe30hivv4intnj0ahlis2d7cl2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.addukkanpartener",
-            "certificate_hash": "7b552dd45a17d41d57b3d3dedd9c4b6814f63960"
+            "certificate_hash": "6d39e57f3c880ad5ec12fe731d3e4a908fca8758"
           }
         },
         {
-          "client_id": "792733659173-d3np6dtt0ebsf40afjif49lgjd7qd12n.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.addukkanpartener",
-            "certificate_hash": "cbed0537629bcbff873ba9602fa35e976bbb26b1"
-          }
-        },
-        {
-          "client_id": "792733659173-dcgh135t52v2os2dvcieqoq27hku1tme.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.addukkanpartener",
-            "certificate_hash": "fe866aba8eb4de7e615df20d88645cbde0c8ab1d"
-          }
-        },
-        {
-          "client_id": "792733659173-bc5alg25ql7l63d8cm1vgm5lmcmlt7t0.apps.googleusercontent.com",
+          "client_id": "2492388990-bq8ao3hhlol7m03v21eed55n70hnc0hu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCTBKS4opvJcZ6LvrZHEm1Vk9MtmrZnKgA"
+          "current_key": "AIzaSyAqdCa0mYgH5ImsGdEoWIdvgaaNTUxV9RM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "792733659173-bc5alg25ql7l63d8cm1vgm5lmcmlt7t0.apps.googleusercontent.com",
+              "client_id": "2492388990-bq8ao3hhlol7m03v21eed55n70hnc0hu.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "792733659173-1ej8aj1b3kidk58rqqb05qqbofofv1g9.apps.googleusercontent.com",
+              "client_id": "2492388990-5aca4h0saj8078f02adqp22p8sqeqfn9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.endpoint.Dukkan-Partners"
+                "bundle_id": "com.elmotaweron.Dukkan-Partner"
               }
             }
           ]
